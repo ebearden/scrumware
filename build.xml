@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="SCRUMware" default="war" basedir=".">
+    <property file="build.properties" />
+    
+    <property name="war-file-name" value="${project-name}.war" />
+    <property name="source-directory" value="src" />
+    <property name="classes-directory" value="bin" />
+    <property name="web-directory" value="WebContent" />
+    <property name="web-xml-file" value="WebContent/WEB-INF/web.xml" />
+    <tstamp prefix="build-info">
+        <format property="current-date" pattern="d-MMMM-yyyy" locale="en" />
+        <format property="current-time" pattern="hh:mm:ss a z" locale="en" />
+        <format property="year-month-day" pattern="yyyy-MM-dd" locale="en" />
+    </tstamp>
+    <property name="build-directory" value="build" />
+
+    <property name="scp-remotedir" value="uploaded-wars/${project-name}/${build-info.year-month-day}" />
+
+    <taskdef name="start" classname="org.apache.catalina.ant.StartTask" />
+    <taskdef name="stop" classname="org.apache.catalina.ant.StopTask" />
+    <taskdef name="deploy" classname="org.apache.catalina.ant.DeployTask" />
+    <taskdef name="undeploy" classname="org.apache.catalina.ant.UndeployTask" />
+
+    <target name="stop" description="stop application in tomcat">
+        <stop url="${tomcat-manager-url}" username="${tomcat-manager-username}"
+            password="${tomcat-manager-password}" path="/${project-name}" />
+    </target>
+
+    <target name="start" description="start application in tomcat">
+        <start url="${tomcat-manager-url}" username="${tomcat-manager-username}"
+            password="${tomcat-manager-password}" path="/${project-name}" />
+    </target>
+    
+    <target name="undeploy" description="undeploy from tomcat">
+        <undeploy 
+            failonerror="no"
+            url="${tomcat-manager-url}"
+            username="${tomcat-manager-username}"
+            password="${tomcat-manager-password}"
+            path="/${project-name}"
+        />
+    </target>
+    
+    <target name="deploy" description="deploy to tomcat">
+        <echo>deploying from client</echo>
+        <deploy 
+            url="${tomcat-manager-url}"
+            username="${tomcat-manager-username}"
+            password="${tomcat-manager-password}"
+            path="/${project-name}"
+            war="file:/projects/workspace/${project-name}/${build-directory}/${war-file-name}"
+        />
+    </target>
+    
+    <target name="war" depends="">
+        <mkdir dir="${build-directory}" />
+        <delete file="${build-directory}/${war-file-name}" />
+        <war warfile="${build-directory}/${war-file-name}" webxml="${web-xml-file}">
+            <classes dir="${classes-directory}" />
+            <fileset dir="${web-directory}">
+                <!-- Need to exclude it since webxml is an attribute of the war tag above -->
+                <exclude name="WEB-INF/web.xml" />
+            </fileset>
+            <manifest>
+                <attribute name="Built-By" value="${builder}" />
+                <attribute name="Built-On" value="${build-info.current-date}" />
+                <attribute name="Built-At" value="${build-info.current-time}" />
+            </manifest>
+        </war>
+    </target>
+	
+	<target name="scp" depends="" description="upload war file to server">
+		<scp remoteTodir="${scp-userid}@${scp-server}:${scp-remotedir}"
+		keyfile="${scp-keyfile}"
+		  trust="yes"
+			sftp="true">
+		    <fileset dir="${build-directory}">
+		      <include name="**/${war-file-name}"/>
+		    </fileset>
+		</scp>
+	    </target>
+
+	<target name="build-and-scp" depends="war,scp" />
+    <target name="build-and-deploy" depends="war,undeploy,deploy" />
+    
+</project>
