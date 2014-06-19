@@ -127,6 +127,7 @@ create table if not exists Task (
     status varchar(40),
     work_notes text(1000),
     story_id int unsigned,
+    dependent_count int not null default 0,
     
     PRIMARY KEY (sys_id),
     FOREIGN KEY (created_by) REFERENCES Sys_User(sys_id),
@@ -142,7 +143,7 @@ create table if not exists Task_Dependencies (
     task_id int unsigned,
     depends_on int unsigned,
     
-    PRIMARY KEY (sys_id),
+    PRIMARY KEY (sys_id, task_id, depends_on),
     FOREIGN KEY (task_id) REFERENCES Task(sys_id),
     FOREIGN KEY (depends_on) REFERENCES Task(sys_id)
 );
@@ -216,4 +217,6 @@ values ("Task7", "Task Description", "In Progress", "Some work was done", 2, 5, 
 # Task Dependencies
 insert into Task_Dependencies (task_id, depends_on) values (2, 1);
 insert into Task_Dependencies (task_id, depends_on) values (3, 1);
-insert into Task_Dependencies (task_id, depends_on) values (1, 4);
+insert into Task_Dependencies (task_id, depends_on) values (4, 3);
+insert into Task_Dependencies (task_id, depends_on) values (4, 2);
+insert into Task_Dependencies (task_id, depends_on) values (5, 4);
