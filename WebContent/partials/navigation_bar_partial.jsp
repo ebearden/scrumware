@@ -1,5 +1,4 @@
-<html>
-<body>
+
 <!-- Fixed navbar -->
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
@@ -33,5 +32,3 @@
         </div><!--/.nav-collapse -->
       </div>
     </div>
-</body>
-</html>
