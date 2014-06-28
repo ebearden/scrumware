@@ -25,9 +25,23 @@ public class JDBCHelper {
 			envCtx = (Context) initCtx.lookup("java:comp/env");
 			ds = (DataSource) envCtx.lookup("jdbc/scrumwarestaging");
 			con = ds.getConnection();
-		} catch (Exception ex) {
-			ex.printStackTrace();
+		} catch (Exception e1) {
+			e1.printStackTrace();
 		}
 		return con;
 	}
+	
+	public static void freeConnection(Connection c)
+    {
+        try
+        {
+            c.close();
+        }
+        catch (SQLException sqle)
+        {
+            sqle.printStackTrace();
+            //return false;
+        }
+        //return true;
+    }
 }
