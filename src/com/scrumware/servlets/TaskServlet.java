@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.naming.Context;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
 
+import com.scrumware.config.Constants;
 import com.scrumware.helpers.FormatHelper;
 import com.scrumware.jdbc.JDBCHelper;
 import com.scrumware.jdbc.dto.Task;
@@ -35,8 +37,6 @@ public class TaskServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private final Integer TASK_LIMIT = 50;
-	private static final String USER_ID_PARAMETER = "user_id";
-	private static final String STORY_ID_PARAMETER = "story_id";
 	private static final String LIMIT_PARAMETER = "limit";
 	private static final String DATA_TYPE_PARAMETER = "data_type";
 	
@@ -56,8 +56,8 @@ public class TaskServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		con = JDBCHelper.getConnection();
-		String userId = request.getParameter(USER_ID_PARAMETER);
-		String storyId = request.getParameter(STORY_ID_PARAMETER);
+		String userId = request.getParameter(Constants.USER_ID);
+		String storyId = request.getParameter(Constants.STORY_ID);
 		String limit = request.getParameter(LIMIT_PARAMETER);
 		String dataType = request.getParameter(DATA_TYPE_PARAMETER);
 		
@@ -119,11 +119,7 @@ public class TaskServlet extends HttpServlet {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			JDBCHelper.freeConnection(con);
 		}
 		
 	}
@@ -132,24 +128,46 @@ public class TaskServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	}
+	
+	
+	
+	@Override
+	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		con = JDBCHelper.getConnection();
+		String userId = request.getParameter(Constants.USER_ID);
+		String sql;
+		if (userId == null) {
+			sql = "INSERT INTO Task " + 
+					"(task_name, description, status, work_notes, story_id, created_by, updated_by, assigned_to) " +
+					"VALUES (?, ?, ?, ?, " + 
+					"(SELECT story_id FROM Story WHERE story_name=?), ?, ?, " + 
+					"(SELECT user_id FROM Sys_User WHERE first_name=? AND last_name=?));";
+		} else {
+			sql = "UPDATE Task " + 
+					"SET (task_name=?, description=?, status=?, work_notes=?, " + 
+					"story_id=(SELECT story_id FROM Story WHERE name=?), updated_by=?, " + 
+					"assigned_to=(SELECT user_id FROM Sys_User WHERE first_name=? AND last_name=?));";
+			
+		}
 		
-		String sql = "INSERT INTO Task " + 
-				"(task_name, description, status, work_notes, story_id, created_by, updated_by, assigned_to) " +
-				"VALUES (?, ?, ?, ?, " + 
-				"(SELECT story_id FROM Story WHERE name=?), ?, ?, " + 
-				"(SELECT user_id FROM Sys_User WHERE first_name=? AND last_name=?));";
 		
 		try {
 			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setString(1, request.getParameter("name"));
-			stmt.setString(2, request.getParameter("description"));
-			stmt.setString(3, "Backlog");
-			stmt.setString(4, null);
-			stmt.setString(5, request.getParameter("story_id"));
+			stmt.setString(1, request.getParameter(Constants.TASK_NAME));
+			stmt.setString(2, request.getParameter(Constants.DESCRIPTION));
+			if (request.getParameter(Constants.STATUS_ID) != null) {
+				stmt.setInt(3, Integer.parseInt(request.getParameter(Constants.STATUS_ID)));				
+			} else {
+				// Default to 1, shouldn't get here 
+				// if front end validation does its job.
+				stmt.setInt(3, 1);  
+			}
+			stmt.setString(4, request.getParameter(Constants.WORK_NOTES));
+			stmt.setString(5, request.getParameter(Constants.STORY_NAME));
 			stmt.setInt(6, 1); //TODO: get the current user...
-			stmt.setInt(7, 1);
-			String[] s = request.getParameter("assigned_to").split("\\s");
+			stmt.setInt(7, 1); // TODO: get the current user...
+			String[] s = request.getParameter(Constants.ASSIGNED_TO).split("\\s");
 			stmt.setString(8, s[0]);
 			stmt.setString(9, s[1]);
 			
@@ -168,9 +186,13 @@ public class TaskServlet extends HttpServlet {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			JDBCHelper.freeConnection(con);
 		}
+
+		
 	}
-	
+
 	/**
 	 * Build a Query from the parameters sent to the servlet. 
 	 * @param params - sent params

@@ -18,10 +18,10 @@
       <div class="span12"><hr/></div>
       </p>
       <div class="col-md-5">
-        <form role="form" method="post" action="TaskServlet">
+        <form role="form" method="put" action="TaskServlet">
           <div class="form-group">
             <label for="name">Name</label> <input type="text"
-              class="form-control" name="name" placeholder="Task Name">
+              class="form-control" name="task_name" placeholder="Task Name">
           </div>
           <div class="form-group">
             <label for="name">Description</label>
@@ -44,7 +44,7 @@
           </div>
           <div class="form-group">
             <label for="name">Story</label> <select class="form-control"
-              name="story_id">
+              name="story_name">
               <%@ page import="com.scrumware.javabeans.StoryBean"%>
               <%StoryBean storyBean = new StoryBean();%>
               <%for (Integer i : storyBean.getItems().keySet()) {%>

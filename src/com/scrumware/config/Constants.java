@@ -30,6 +30,7 @@ public final class Constants {
 	
 	// Story Constants
 	public static final String STORY_ID = "story_id";
+	public static final String STORY_NAME = "story_name";
 	
 	// Status Constants 
 	public static final String STATUS_ID = "status_id";
