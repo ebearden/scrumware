@@ -3,6 +3,7 @@ use scrumwarestaging;
 #----------------------------------
 # Rebuild blank tables on localhost.
 #----------------------------------
+drop table if exists Project_Users;
 drop table if exists Task_Dependencies;
 drop table if exists Task;
 drop table if exists Story;
@@ -146,6 +147,7 @@ create table if not exists Task_Dependencies (
     updated datetime not null default '0000-00-00 00:00:00',
     task_id int unsigned,
     depends_on int unsigned,
+    active boolean default true, 
     
     PRIMARY KEY (dependency_id),
     FOREIGN KEY (task_id) REFERENCES Task(task_id),
