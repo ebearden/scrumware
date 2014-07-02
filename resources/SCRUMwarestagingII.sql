@@ -219,13 +219,21 @@ insert into Story (story_name, description, acceptance_criteria, status_id, proj
 values ("Story5", "Story Description", "Things should work", 4, 2, 4, 0, 1, 1);
 # Tasks
 insert into Task (task_name, description, status_id, work_notes, story_id, created_by, updated_by, assigned_to)
-values ("Task1", "Task1 depends on task 2", 2, "Some work was done", 1, 5, 5, 2);
+values ("Implement Task CRUD", "Need to be able to create, retrieve, update and delete tasks.", 2, "Some notes", 1, 5, 5, 3);
 insert into Task (task_name, description, status_id, work_notes, story_id, created_by, updated_by, assigned_to)
-values ("Task2", "Task1 depends on me", 2, "Some work was done", 1, 5, 5, 3);
+values ("Implement Project CRUD", "Need to be able to create, retrieve, update and delete projects.", 2, "Some notes", 1, 5, 5, 3);
 insert into Task (task_name, description, status_id, work_notes, story_id, created_by, updated_by, assigned_to)
-values ("Task3", "Task Description", 1, "Some work was done", 1, 5, 5, 3);
+values ("Implement Story CRUD", "Need to be able to create, retrieve, update and delete stories.", 1, "Some notes", 1, 5, 5, 3);
 insert into Task (task_name, description, status_id, work_notes, story_id, created_by, updated_by, assigned_to)
-values ("Task4", "Task Description", 4, "Some work was done", 1, 5, 5, 4);
+values ("Implement Sprint CRUD", "Need to be able to create, retrieve, update and delete sprint.", 3, "Some notes", 1, 5, 5, 3);
+insert into Task (task_name, description, status_id, work_notes, story_id, created_by, updated_by, assigned_to)
+values ("Implement Task Servlet", "Need to be able to create, retrieve, update and delete tasks using servlets.", 2, "Some notes", 1, 5, 5, 3);
+insert into Task (task_name, description, status_id, work_notes, story_id, created_by, updated_by, assigned_to)
+values ("Implement Project Servlet", "Need to be able to create, retrieve, update and delete projects using servlets.", 4, "Some notes", 1, 5, 5, 3);
+insert into Task (task_name, description, status_id, work_notes, story_id, created_by, updated_by, assigned_to)
+values ("Implement Story Servlet", "Need to be able to create, retrieve, update and delete stories using servlets.", 2, "Some notes", 1, 5, 5, 3);
+insert into Task (task_name, description, status_id, work_notes, story_id, created_by, updated_by, assigned_to)
+values ("Implement Sprint Servlet", "Need to be able to create, retrieve, update and delete sprint using servlets.", 4, "Some notes", 1, 5, 5, 3);
 insert into Task (task_name, description, status_id, work_notes, story_id, created_by, updated_by, assigned_to)
 values ("Task5", "Task Description", 1, "Some work was done", 1, 5, 5, 6);
 insert into Task (task_name, description, status_id, work_notes, story_id, created_by, updated_by, assigned_to)
