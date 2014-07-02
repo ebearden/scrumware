@@ -18,18 +18,18 @@
       <div class="span12"><hr/></div>
       </p>
       <div class="col-md-5">
-        <form role="form" method="put" action="TaskServlet">
+        <form role="form" method="POST" action="TaskServlet">
           <div class="form-group">
-            <label for="name">Name</label> <input type="text"
-              class="form-control" name="task_name" placeholder="Task Name">
+            <label for="task_name">Name</label> <input type="text"
+              class="form-control" name="task_name">
           </div>
           <div class="form-group">
-            <label for="name">Description</label>
+            <label for="description">Description</label>
             <textarea class="form-control" rows="3" name="description"></textarea>
           </div>
 
           <div class="form-group">
-            <label for="name">Assign To</label>
+            <label for="assigned_to">Assign To</label>
             <select class="form-control" name="assigned_to">
               <%@ page import="com.scrumware.javabeans.UserBean"%>
               <%
@@ -43,7 +43,7 @@
 
           </div>
           <div class="form-group">
-            <label for="name">Story</label> <select class="form-control"
+            <label for="story_name">Story</label> <select class="form-control"
               name="story_name">
               <%@ page import="com.scrumware.javabeans.StoryBean"%>
               <%StoryBean storyBean = new StoryBean();%>

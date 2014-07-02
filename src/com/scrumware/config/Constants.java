@@ -25,7 +25,7 @@ public final class Constants {
 	public static final String TASK_ID = "task_id";
 	public static final String ASSIGNED_TO = "assigned_to";
 	public static final String DEPENDS_ON = "depends_on";
-	public static final String TASK_NAME = "name";
+	public static final String TASK_NAME = "task_name";
 	public static final String WORK_NOTES = "work_notes";
 	
 	// Story Constants

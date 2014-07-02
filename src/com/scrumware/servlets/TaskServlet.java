@@ -18,9 +18,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.scrumware.config.Constants;
 import com.scrumware.helpers.FormatHelper;
+import com.scrumware.jdbc.TaskHelper;
 import com.scrumware.jdbc.JDBCHelper;
 import com.scrumware.jdbc.dto.Task;
 
@@ -106,16 +108,19 @@ public class TaskServlet extends HttpServlet {
 			
 			
 			if ("json".equals(dataType)) {
+				JSONObject jsonObject = new JSONObject();
 				JSONArray jsonArray = new JSONArray();
 				for (Task task : taskList) {
 					jsonArray.put(task.toJSON());
 				}
-				response.getWriter().println(jsonArray);
+				jsonObject.put("result", jsonArray);
+				response.addHeader("Content-Type", "application/json");
+				response.getWriter().println(jsonObject);
 			} else {
 				request.setAttribute("task_list", FormatHelper.taskListToHTMLTable(taskList, taskNames));
 				request.getRequestDispatcher("/task.jsp").forward(request, response);				
 			}
-			
+	
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -123,34 +128,37 @@ public class TaskServlet extends HttpServlet {
 		}
 		
 	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
+	@Override
+	protected void doDelete(HttpServletRequest request, HttpServletResponse respsonse) throws ServletException, IOException {
+		String taskId = request.getParameter(Constants.TASK_ID);
 	}
 	
 	
-	
 	@Override
-	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		con = JDBCHelper.getConnection();
-		String userId = request.getParameter(Constants.USER_ID);
+		String userId = null;
+		if (request.getParameterMap().containsKey(Constants.USER_ID)) {
+			userId = request.getParameter(Constants.USER_ID);
+		}
+		
 		String sql;
+
 		if (userId == null) {
 			sql = "INSERT INTO Task " + 
-					"(task_name, description, status, work_notes, story_id, created_by, updated_by, assigned_to) " +
+					"(task_name, description, status_id, work_notes, story_id, created_by, updated_by, assigned_to) " +
 					"VALUES (?, ?, ?, ?, " + 
 					"(SELECT story_id FROM Story WHERE story_name=?), ?, ?, " + 
 					"(SELECT user_id FROM Sys_User WHERE first_name=? AND last_name=?));";
 		} else {
 			sql = "UPDATE Task " + 
-					"SET (task_name=?, description=?, status=?, work_notes=?, " + 
+					"SET (task_name=?, description=?, status_id=?, work_notes=?, " + 
 					"story_id=(SELECT story_id FROM Story WHERE name=?), updated_by=?, " + 
-					"assigned_to=(SELECT user_id FROM Sys_User WHERE first_name=? AND last_name=?));";
+					"assigned_to=(SELECT user_id FROM Sys_User WHERE first_name=? AND last_name=?))"
+					+ "WHERE user_id=?;";
 			
 		}
-		
 		
 		try {
 			PreparedStatement stmt = con.prepareStatement(sql);
@@ -170,9 +178,9 @@ public class TaskServlet extends HttpServlet {
 			String[] s = request.getParameter(Constants.ASSIGNED_TO).split("\\s");
 			stmt.setString(8, s[0]);
 			stmt.setString(9, s[1]);
-			
-			
-			System.out.println(stmt.toString());
+			if (userId != null) {
+				stmt.setInt(10, Integer.parseInt(userId));
+			}
 			
 			int result = stmt.executeUpdate();
 			
@@ -181,6 +189,7 @@ public class TaskServlet extends HttpServlet {
 			} else {				
 				request.setAttribute("msg", "Failure!");
 			}
+
 			request.getRequestDispatcher("/task.jsp").forward(request, response);
 			
 			
