@@ -16,7 +16,7 @@ public class UserBean {
 		Connection con = JDBCHelper.getConnection();
 		try {
 			PreparedStatement stmt = con.prepareStatement(
-					"SELECT first_name, last_name FROM Sys_User;"
+					"SELECT first_name, last_name FROM Sys_User WHERE user_id <> 1;"
 					);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {

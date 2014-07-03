@@ -4,6 +4,19 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+<script type="text/javascript">
+function save() {
+	  $.ajax({
+	    type: 'POST',
+	  cache: false,
+	     url: 'TaskServlet',
+	    data: $('form[name="new_task"]').serialize(),
+	    complete: window.location.reload()
+	   });
+	  $('#newTaskModal').modal('hide');
+	  return false;
+}
+</script>
 <title>Tasks</title>
 <%@ include file="partials/include_bootstrap_partial.jsp"%>
 </head>
@@ -11,78 +24,14 @@
   <%@ include file="partials/navigation_bar_partial.jsp"%>
 
   <div class="container theme-showcase" role="main">
-      <br /> <br />
-        <div class="alert alert-success hidden">${msg}</div>
-      <p>
-      <h2>New Task</h2>
-      <div class="span12"><hr/></div>
-      </p>
-      <div class="col-md-5">
-        <form role="form" method="POST" action="TaskServlet">
-          <div class="form-group">
-            <label for="task_name">Name</label> <input type="text"
-              class="form-control" name="task_name">
-          </div>
-          <div class="form-group">
-            <label for="description">Description</label>
-            <textarea class="form-control" rows="3" name="description"></textarea>
-          </div>
+    <br /> <br />
+    <div class="alert alert-success hidden">${msg}</div>
+    <div class="span12"><hr /></div>
+    <button class="btn btn-default" data-toggle="modal" data-target="#newTaskModal">New task</button>
+    <div class="span12">${task_list}</div>
+  </div>
 
-          <div class="form-group">
-            <label for="assigned_to">Assign To</label>
-            <select class="form-control" name="assigned_to">
-              <%@ page import="com.scrumware.javabeans.UserBean"%>
-              <%
-              	UserBean userBean = new UserBean();
-              	userBean.getItems();
-              %>
-              <%for (String s : userBean.getItems()) {%>
-              <option><% out.print(s); %></option>
-              <%}%>
-            </select>
-
-          </div>
-          <div class="form-group">
-            <label for="story_name">Story</label> <select class="form-control"
-              name="story_name">
-              <%@ page import="com.scrumware.javabeans.StoryBean"%>
-              <%StoryBean storyBean = new StoryBean();%>
-              <%for (Integer i : storyBean.getItems().keySet()) {%>
-              <option><% out.print(storyBean.getItems().get(i)); }%></option>
-            </select>
-          </div>
-          <button type="submit" class="btn btn-default">Add Task</button>
-        </form>
-        <div class="span12"><hr/></div>
-        <button class="btn btn-default" data-toggle="modal" data-target="#dependencyModal">Add a Dependency</button>
-        <div class="modal fade" id="dependencyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="myModalLabel">Add Dependency</h4>
-              </div>
-              <div class="modal-body">
-              <%@ page import="com.scrumware.javabeans.TaskBean"%>
-              <%TaskBean taskBean = new TaskBean();%>
-              <%for (Integer i : taskBean.getItems().keySet()) {%>
-              <% out.print(taskBean.getItems().get(i)); }%>
-              
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>      
-      <div class="col-md-7">
-      ${task_list}
-      </div>
-    </div>
-
+  <%@ include file="partials/new_task_modal.jsp" %>
   <%@ include file="partials/include_bootstrap_javascript.jsp"%>
 </body>
 </html>

@@ -22,7 +22,6 @@ import org.json.JSONObject;
 
 import com.scrumware.config.Constants;
 import com.scrumware.helpers.FormatHelper;
-import com.scrumware.jdbc.TaskHelper;
 import com.scrumware.jdbc.JDBCHelper;
 import com.scrumware.jdbc.dto.Task;
 
@@ -57,6 +56,7 @@ public class TaskServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("doGet()");
 		con = JDBCHelper.getConnection();
 		String userId = request.getParameter(Constants.USER_ID);
 		String storyId = request.getParameter(Constants.STORY_ID);
@@ -65,7 +65,6 @@ public class TaskServlet extends HttpServlet {
 		
 	
 		try {
-			
 			// Retrieve Tasks
 			PreparedStatement stmt = buildQueryStatement(
 					Arrays.asList(userId, storyId, limit)
@@ -172,11 +171,14 @@ public class TaskServlet extends HttpServlet {
 				stmt.setInt(3, 1);  
 			}
 			stmt.setString(4, request.getParameter(Constants.WORK_NOTES));
-			stmt.setString(5, request.getParameter(Constants.STORY_NAME));
+			stmt.setString(5, request.getParameter(Constants.STORY_NAME).replaceAll("\\s{2}+", ""));
 			stmt.setInt(6, 1); //TODO: get the current user...
 			stmt.setInt(7, 1); // TODO: get the current user...
-			String[] s = request.getParameter(Constants.ASSIGNED_TO).split("\\s");
+			System.out.println(request.getParameter(Constants.ASSIGNED_TO));
+			String[] s = request.getParameter(Constants.ASSIGNED_TO).replaceAll("\\s{2}+", "").split("\\s");
 			stmt.setString(8, s[0]);
+			System.out.println(s[0]);
+			System.out.println(s[1]);
 			stmt.setString(9, s[1]);
 			if (userId != null) {
 				stmt.setInt(10, Integer.parseInt(userId));
@@ -190,7 +192,7 @@ public class TaskServlet extends HttpServlet {
 				request.setAttribute("msg", "Failure!");
 			}
 
-			request.getRequestDispatcher("/task.jsp").forward(request, response);
+//			request.getRequestDispatcher("/task.jsp").forward(request, response);
 			
 			
 		} catch (SQLException e) {
@@ -214,20 +216,23 @@ public class TaskServlet extends HttpServlet {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(
 				"SELECT task_id, task_name, description, assigned_to, work_notes, status_id " + 
-				"FROM Task " + 
-				"WHERE "
+				"FROM Task "
+				
 		);
-	 
-		if (params.get(0) != null) {
-			stringBuilder.append("assigned_to=? ");
-			userId = Integer.parseInt(params.get(0));
-		}
-		if (params.get(1) != null) {
+		
+		if (params.get(0) != null || params.get(1) != null) {
+			stringBuilder.append("WHERE ");
 			if (params.get(0) != null) {
-				stringBuilder.append(" AND ");
+				stringBuilder.append("assigned_to=? ");
+				userId = Integer.parseInt(params.get(0));
 			}
-			stringBuilder.append("story_id=? ");
-			storyId = Integer.parseInt(params.get(1));
+			if (params.get(1) != null) {
+				if (params.get(0) != null) {
+					stringBuilder.append(" AND ");
+				}
+				stringBuilder.append("story_id=? ");
+				storyId = Integer.parseInt(params.get(1));
+			}
 		}
 		if (params.get(2) != null) {
 			stringBuilder.append("LIMIT ?;");
@@ -250,6 +255,8 @@ public class TaskServlet extends HttpServlet {
 			} else if (userId == null && storyId != null) {
 				statement.setInt(1, storyId);
 				statement.setInt(2, limit);
+			} else {
+				statement.setInt(1, limit);
 			}
 
 		} catch (SQLException e) {
