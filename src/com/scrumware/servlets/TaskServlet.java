@@ -75,8 +75,8 @@ public class TaskServlet extends HttpServlet {
 			
 			
 			ArrayList<String> taskNames = new ArrayList<String>();
-			for (int i = 1; i < taskMetaData.getColumnCount(); i++) {
-				taskNames.add(taskMetaData.getColumnName(i));
+			for (int i = 1; i < taskMetaData.getColumnCount() + 1; i++) {
+				taskNames.add(taskMetaData.getColumnLabel(i));
 			}
 			
 			// Create Task objects from results.
@@ -215,7 +215,8 @@ public class TaskServlet extends HttpServlet {
 		Integer limit = null;
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(
-				"SELECT task_id, task_name, description, assigned_to, work_notes, status_id " + 
+				"SELECT task_id as ID, task_name as Name, description as Description, " +
+				"assigned_to as `Assigned To`, work_notes as `Work Notes`, status_id as Status " + 
 				"FROM Task "
 				
 		);

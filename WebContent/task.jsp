@@ -8,14 +8,20 @@
 function save() {
 	  $.ajax({
 	    type: 'POST',
-	  cache: false,
+	   cache: false,
 	     url: 'TaskServlet',
 	    data: $('form[name="new_task"]').serialize(),
-	    complete: window.location.reload()
+	    success: showSuccess()
 	   });
 	  $('#newTaskModal').modal('hide');
 	  return false;
 }
+
+function showSuccess() {
+	location.reload();
+	$('#success').html('<div class="alert alert-success fade in"><a class="close" data-dismiss="alert">&times;</a><span>Success!</span></div>');
+}
+
 </script>
 <title>Tasks</title>
 <%@ include file="partials/include_bootstrap_partial.jsp"%>
@@ -23,12 +29,15 @@ function save() {
 <body role="document">
   <%@ include file="partials/navigation_bar_partial.jsp"%>
 
-  <div class="container theme-showcase" role="main">
+  <div id="main" class="container theme-showcase" role="main">
     <br /> <br />
-    <div class="alert alert-success hidden">${msg}</div>
+    <div id="success"></div>
+    <p>
+    <br /> <br />
+    <button class="btn btn-primary" data-toggle="modal" data-target="#newTaskModal">New Task</button><br />
+    </p>
     <div class="span12"><hr /></div>
-    <button class="btn btn-default" data-toggle="modal" data-target="#newTaskModal">New task</button>
-    <div class="span12">${task_list}</div>
+    <div id="task-table" class="span12">${task_list}</div>
   </div>
 
   <%@ include file="partials/new_task_modal.jsp" %>
