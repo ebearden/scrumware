@@ -25,11 +25,10 @@
               <%@ page import="com.scrumware.javabeans.UserBean"%>
               <%
               	UserBean userBean = new UserBean();
-              	userBean.getItems();
               %>
-              <%for (String s : userBean.getItems()) {%>
-              <option>
-                <% out.print(s); %>
+              <%for (int i = 0; i < userBean.getItems().size(); i++) {%>
+              <option value="<%=i+2%>">
+                <% out.print(userBean.getItems().get(i)); %>
               </option>
               <%}%>
             </select>
@@ -37,11 +36,11 @@
           </div>
           <div class="form-group">
             <label for="story_name">Story</label> <select
-              class="form-control" name="story_name">
+              class="form-control" name="story_id">
               <%@ page import="com.scrumware.javabeans.StoryBean"%>
               <%StoryBean storyBean = new StoryBean();%>
               <%for (Integer i : storyBean.getItems().keySet()) {%>
-              <option>
+              <option value="<%=i%>">
                 <% out.print(storyBean.getItems().get(i)); }%>
               </option>
             </select>

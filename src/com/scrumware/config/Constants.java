@@ -35,4 +35,7 @@ public final class Constants {
 	// Status Constants 
 	public static final String STATUS_ID = "status_id";
 	
+	// Dependency Constants
+	public static final String DEPENDENCY_ID = "dependency_id";
+	
 }

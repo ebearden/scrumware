@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,7 @@ import org.json.JSONObject;
 import com.scrumware.config.Constants;
 import com.scrumware.helpers.FormatHelper;
 import com.scrumware.jdbc.JDBCHelper;
+import com.scrumware.jdbc.da.TaskDA;
 import com.scrumware.jdbc.dto.Task;
 
 /**
@@ -38,13 +40,11 @@ import com.scrumware.jdbc.dto.Task;
 @WebServlet({ "/TaskServlet", "/tasks" })
 public class TaskServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
-	private final Integer TASK_LIMIT = 50;
-	private static final String LIMIT_PARAMETER = "limit";
+
 	private static final String DATA_TYPE_PARAMETER = "data_type";
 	
-	private Connection con;
 	private ArrayList<Task> taskList;
+	private TaskDA taskDA;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -52,89 +52,52 @@ public class TaskServlet extends HttpServlet {
     public TaskServlet() {
         super();
         taskList = new ArrayList<Task>();
+        taskDA = new TaskDA();
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		con = JDBCHelper.getConnection();
-		String userId = request.getParameter(Constants.USER_ID);
-		String storyId = request.getParameter(Constants.STORY_ID);
-		String limit = request.getParameter(LIMIT_PARAMETER);
 		String dataType = request.getParameter(DATA_TYPE_PARAMETER);
 		String taskId = request.getParameter(Constants.TASK_ID);
+		String userId = request.getParameter(Constants.USER_ID);
 		String action = request.getParameter("action");
 		
 		if (action != null && action.equalsIgnoreCase("delete")) {
 			doDelete(request, response);
-		} else {
-			try {
-				
-				PreparedStatement stmt = buildQueryStatement(
-						Arrays.asList(userId, storyId, limit, taskId)
-						);
-				ResultSet taskResultSet = stmt.executeQuery();
-				ResultSetMetaData taskMetaData = taskResultSet.getMetaData();
-				
-				ArrayList<String> taskNames = new ArrayList<String>();
-				for (int i = 1; i < taskMetaData.getColumnCount() + 1; i++) {
-					taskNames.add(taskMetaData.getColumnLabel(i));
-				}
-				
-				// Create Task objects from results.
-				taskList.clear();
-				while (taskResultSet.next()) {
-					Task t = new Task();
-					t.setTaskId(taskResultSet.getInt(1));
-					t.setName(taskResultSet.getString(2));
-					t.setDescription(taskResultSet.getString(3));
-					t.setAssignedTo(taskResultSet.getInt(4));
-					t.setWorkNotes(taskResultSet.getString(5));
-					t.setStatusId(taskResultSet.getInt(6));
-					taskList.add(t);
-				}
-				
-				// Add Dependency Ids to tasks.
-				ResultSet dependencyResultSet = null;
-				ArrayList<Integer> dependencyList = new ArrayList<Integer>();
-				for (Task task : taskList) {
-					stmt = getDependencies(task.getTaskId());
-					dependencyResultSet = stmt.executeQuery();
-					while (dependencyResultSet.next()) {
-						dependencyList.add(dependencyResultSet.getInt(1));
-					}
-					task.setDependentTaskList(dependencyList);
-					dependencyList.clear();
-				}
-				
-				
-				if ("json".equals(dataType)) {
+		} 
+		else if (action != null && action.equalsIgnoreCase("edit")) {
+			Task task = taskDA.getTask(Integer.parseInt(taskId));
+			request.setAttribute(Constants.ASSIGNED_TO, task.getAssignedTo());
+			request.setAttribute(Constants.STORY_ID, task.getStoryId());
+			request.setAttribute("task", task);
+			request.getRequestDispatcher("/edit_task.jsp").forward(request, response);
+		}
+		else {
+			ArrayList<String> taskNames = new ArrayList<String>();
+
+
+			if ("json".equals(dataType)) {
+				if (userId != null) {
+					taskList.clear();
+					taskList.addAll(taskDA.getAllTasksForUserId(Integer.parseInt(userId)));
 					JSONObject jsonObject = createJSONObject();
 					response.addHeader("Content-Type", "application/json");
 					response.getWriter().println(jsonObject);
-				} else {
-					if (taskId != null) {
-						request.setAttribute(Constants.TASK_ID, taskList.get(0).getTaskId());
-						request.setAttribute(Constants.TASK_NAME, taskList.get(0).getName());
-						request.setAttribute(Constants.DESCRIPTION, taskList.get(0).getDescription());
-						request.getRequestDispatcher("/view_task.jsp").forward(request, response);
-					} else {
-						request.setAttribute("task_list", FormatHelper.taskListToHTMLTable(taskList, taskNames));
-						request.getRequestDispatcher("/task.jsp").forward(request, response);
-					}
 				}
-		
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				JDBCHelper.freeConnection(con);
+			} else {
+				if (taskId != null) {
+					request.setAttribute("task", taskDA.getTask(Integer.parseInt(taskId)));
+					request.getRequestDispatcher("/view_task.jsp").forward(request, response);
+				} else {
+					taskList.clear();
+					taskList.addAll(taskDA.getAllTasks());
+					request.setAttribute("task_list", FormatHelper.taskListToHTMLTable(taskList, taskNames));
+					request.getRequestDispatcher("/task.jsp").forward(request, response);
+				}
 			}
-			
 		}
-		
-	
-		
 	}
 	
 	@Override
@@ -142,183 +105,46 @@ public class TaskServlet extends HttpServlet {
 		System.out.println("In doDelete()");
 		String taskId = request.getParameter(Constants.TASK_ID);
 		if (taskId != null) {
-			con = JDBCHelper.getConnection();
-			PreparedStatement stmt = null;
-			String sql = "DELETE FROM Task WHERE task_id=?";
-			
-			try {
-				stmt = con.prepareStatement(sql);
-				stmt.setInt(1, Integer.parseInt(taskId));
-				stmt.executeUpdate();
-				request.getRequestDispatcher("/task.jsp").forward(request, response);
-//				doGet(request, response);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				JDBCHelper.freeConnection(con);
-			}
+			Task task = new Task();
+			task.setTaskId(Integer.parseInt(taskId));
+			taskDA.deleteTask(task);
+			request.getRequestDispatcher("/task.jsp").forward(request, response);
 		} 
 	}
 	
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		con = JDBCHelper.getConnection();
-		String taskId = null;
-			taskId = request.getParameter(Constants.TASK_ID);
+		String taskId = request.getParameter(Constants.TASK_ID);
+		String statusId = request.getParameter(Constants.STATUS_ID);
+		String storyId = request.getParameter(Constants.STORY_ID);
+		String assignedTo = request.getParameter(Constants.ASSIGNED_TO);
 		
-		String sql;
-
-		if (taskId == null) {
-			sql = "INSERT INTO Task " + 
-					"(task_name, description, status_id, work_notes, story_id, updated_by, assigned_to, created_by) " +
-					"VALUES (?, ?, ?, ?, " + 
-					"(SELECT story_id FROM Story WHERE story_name=?), ?, " + 
-					"(SELECT user_id FROM Sys_User WHERE first_name=? AND last_name=?), ?);";
-		} else {
-			sql = "UPDATE Task " + 
-					"SET task_name=?, description=?, status_id=?, work_notes=?, " + 
-					"story_id=(SELECT story_id FROM Story WHERE story_name=?), updated_by=?, " + 
-					"assigned_to=(SELECT user_id FROM Sys_User WHERE first_name=? AND last_name=?) "
-					+ "WHERE task_id=?;";
-			
-		}
+		Task task = new Task();
+		task.setTaskId(taskId != null ? Integer.parseInt(taskId) : null);
+		task.setStatusId(statusId != null ? Integer.parseInt(statusId) : 1);
+		task.setStoryId(storyId != null ? Integer.parseInt(storyId) : 1);
+		task.setAssignedTo(assignedTo != null ? Integer.parseInt(assignedTo) : 1);
 		
-		try {
-			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setString(1, request.getParameter(Constants.TASK_NAME));
-			stmt.setString(2, request.getParameter(Constants.DESCRIPTION));
-			if (request.getParameter(Constants.STATUS_ID) != null) {
-				stmt.setInt(3, Integer.parseInt(request.getParameter(Constants.STATUS_ID)));				
-			} else {
-				// Default to 1, shouldn't get here 
-				// if front end validation does its job.
-				stmt.setInt(3, 1);  
-			}
-			stmt.setString(4, request.getParameter(Constants.WORK_NOTES));
-			stmt.setString(5, request.getParameter(Constants.STORY_NAME).replaceAll("\\s{2}+", ""));
-			stmt.setInt(6, 1); //TODO: get the current user...
-			System.out.println(request.getParameter(Constants.ASSIGNED_TO));
-			String[] s = request.getParameter(Constants.ASSIGNED_TO).replaceAll("\\s{2}+", "").split("\\s");
-			stmt.setString(7, s[0]);
-			System.out.println(s[0]);
-			System.out.println(s[1]);
-			stmt.setString(8, s[1]);
-			
-			if (taskId != null) {
-				stmt.setInt(9, Integer.parseInt(taskId));
-			} else {
-				stmt.setInt(9, 1); // TODO: get the current user...
-			}
-			
-			System.out.println(stmt);
-			int result = stmt.executeUpdate();
-			
-			if (result == 1) {
-				request.setAttribute("msg", "Success!");				
-			} else {				
-				request.setAttribute("msg", "Failure!");
-			}
-
-			doGet(request, response);
-			
-//			request.getRequestDispatcher("/task.jsp").forward(request, response);
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			JDBCHelper.freeConnection(con);
-		}
-
+		task.setName(request.getParameter(Constants.TASK_NAME));
+		task.setDescription(request.getParameter(Constants.DESCRIPTION));
+		task.setWorkNotes(request.getParameter(Constants.WORK_NOTES));
 		
-	}
-
-	/**
-	 * Build a Query from the parameters sent to the servlet. 
-	 * @param params - sent params
-	 * @return PreparedStatement build from params.
-	 */
-	private PreparedStatement buildQueryStatement(List<String> params) {
-		Integer userId = null; 
-		Integer storyId = null;
-		Integer limit = null;
-		Integer taskId = null;
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append(
-				"SELECT task_id as ID, task_name as Name, description as Description, " +
-				"assigned_to as `Assigned To`, work_notes as `Work Notes`, status_id as Status " + 
-				"FROM Task "
-				
-		);
+		// This needs work...
+		task.setUpdatedBy(1);
+		task.setCreatedBy(1);
+//		ArrayList<Integer> list = new ArrayList<>();
+//		list.addAll(Arrays.asList(2, 1));
+//		Map<Integer, List<Integer>> map = new HashMap<Integer, List<Integer>>();
+//		map.put(null, list);
+//		// ------------------
+//		task.setDependentTaskMap(map);
+		taskDA.saveTask(task);
 		
-		if (params.get(3) != null) {
-			stringBuilder.append("WHERE task_id=?");
-			taskId = Integer.parseInt(params.get(3));
-		} else {
-			if (params.get(0) != null || params.get(1) != null) {
-				stringBuilder.append("WHERE ");
-				if (params.get(0) != null) {
-					stringBuilder.append("assigned_to=? ");
-					userId = Integer.parseInt(params.get(0));
-				}
-				if (params.get(1) != null) {
-					if (params.get(0) != null) {
-						stringBuilder.append(" AND ");
-					}
-					stringBuilder.append("story_id=? ");
-					storyId = Integer.parseInt(params.get(1));
-				}
-			}
-			if (params.get(2) != null) {
-				stringBuilder.append("LIMIT ?;");
-				limit = Integer.parseInt(params.get(2));
-			} else {
-				stringBuilder.append("LIMIT ?;");
-				limit = TASK_LIMIT;
-			}
-		}
-
-		PreparedStatement statement = null;
-		try {
-			statement = con.prepareStatement(stringBuilder.toString());
-			if (taskId != null) {
-				statement.setInt(1, taskId);
-			} else {
-				if (userId != null && storyId != null) {
-					statement.setInt(1, userId);
-					statement.setInt(2, storyId);
-					statement.setInt(3, limit);
-				} else if (userId != null && storyId == null) {
-					statement.setInt(1, userId);
-					statement.setInt(2, limit);
-				} else if (userId == null && storyId != null) {
-					statement.setInt(1, storyId);
-					statement.setInt(2, limit);
-				} else {
-					statement.setInt(1, limit);
-				}
-			}
-			
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return statement;
+		request.setAttribute("task", taskDA.getTask(Integer.parseInt(taskId)));
+		request.getRequestDispatcher("/view_task.jsp").forward(request, response);
 	}
 	
-	private PreparedStatement getDependencies(Integer taskId) {
-		PreparedStatement statement = null;
-		String sqlString = "SELECT depends_on FROM Task_Dependencies WHERE task_id=?";
-		try {
-			statement = con.prepareStatement(sqlString);
-			statement.setInt(1, taskId);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return statement;
-	}
 	
 	private JSONObject createJSONObject() {
 		JSONObject jsonObject = new JSONObject();

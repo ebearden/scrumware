@@ -34,7 +34,6 @@ function get() {
 
 function showSuccess() {
 	location.reload();
-	$('#success').html('<div class="alert alert-success fade in"><a class="close" data-dismiss="alert">&times;</a><span>Success!</span></div>');
 }
 
 </script>

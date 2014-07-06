@@ -1,39 +1,47 @@
 package com.scrumware.jdbc.dto;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
-import javax.naming.Context;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.scrumware.config.Constants;
+import com.scrumware.config.Status;
 
 public class Task implements IJsonObject, Serializable {
 
 	private static final long serialVersionUID = 5699379609889874177L;
 	
-	private int taskId;
+	private Integer taskId;
 	private int assignedTo;
 	private int storyId;
-	private ArrayList<Integer> dependentTaskList;
+	private Map<Integer, List<Integer>> dependentTaskMap;
 	
 	private String name;
 	private int statusId;
 	private String workNotes;
 	private String description;
-	private int createdOn;
-	private int updatedOn;
+	private Date createdOn;
+	private Date updatedOn;
 	private int createdBy;
 	private int updatedBy;
+	private int dependentCount;
 	
 	public Task() {
-		dependentTaskList = new ArrayList<Integer>();
+		dependentTaskMap = new HashMap<Integer, List<Integer>>();
 	}
 	
 	public Task(JSONObject json) {
-		dependentTaskList = new ArrayList<Integer>();
+		dependentTaskMap = new HashMap<Integer, List<Integer>>();
 		updateFromJSON(json);
 	}
 	
@@ -55,7 +63,7 @@ public class Task implements IJsonObject, Serializable {
 		taskId = json.getInt(Constants.USER_ID);
 		assignedTo = json.getInt(Constants.ASSIGNED_TO);
 		storyId = json.getInt(Constants.STORY_ID);
-		dependentTaskList = dependencyArray(json.getJSONArray(Constants.DEPENDS_ON));
+		dependentTaskMap = dependencyMap(json.getJSONArray(Constants.DEPENDS_ON));
 		name = json.getString(Constants.TASK_NAME);
 		statusId = json.getInt(Constants.STATUS_ID);
 		workNotes = json.getString(Constants.WORK_NOTES);
@@ -64,28 +72,38 @@ public class Task implements IJsonObject, Serializable {
 	
 	private JSONArray dependencyArray() {
 		JSONArray jsonArray = new JSONArray();
-		for (Integer id : dependentTaskList) {
+		for (Integer id : dependentTaskMap.keySet()) {
+			
 			JSONObject jsonObject = new JSONObject();
-			jsonObject.put(Constants.TASK_ID, id);
+			jsonObject.put(Constants.DEPENDENCY_ID, id);
+			jsonObject.put(Constants.TASK_ID, dependentTaskMap.get(id).get(0));
+			jsonObject.put(Constants.ACTIVE, dependentTaskMap.get(id).get(1));
 			jsonArray.put(jsonObject);
 		}
 		
 		return jsonArray;
 	}
 	
-	private ArrayList<Integer> dependencyArray(JSONArray jsonArray) {
-		ArrayList<Integer> taskList = new ArrayList<Integer>();
+	private Map<Integer, List<Integer>> dependencyMap(JSONArray jsonArray) {
+		Map<Integer, List<Integer>> map = new HashMap<Integer, List<Integer>>();
+		
 		for (int i = 0; i < jsonArray.length(); i++) {
-			taskList.add(jsonArray.getJSONObject(i).getInt(Constants.TASK_ID));
+			map.put(
+					jsonArray.getJSONObject(i).getInt(Constants.DEPENDENCY_ID), 
+					new ArrayList<Integer>(Arrays.asList(
+							jsonArray.getJSONObject(i).getInt(Constants.TASK_ID),
+							jsonArray.getJSONObject(i).getInt(Constants.ACTIVE)
+							)
+					));
 		}
-		return taskList;
+		return map;
 	}
 	
-	public int getTaskId() {
+	public Integer getTaskId() {
 		return taskId;
 	}
 	
-	public void setTaskId(int taskId) {
+	public void setTaskId(Integer taskId) {
 		this.taskId = taskId;
 	}
 
@@ -117,6 +135,10 @@ public class Task implements IJsonObject, Serializable {
 		return statusId;
 	}
 
+	public String getStatusAsString() {
+		return Status.values()[statusId - 1].getDescription();
+	}
+	
 	public void setStatusId(int statusId) {
 		this.statusId = statusId;
 	}
@@ -136,34 +158,37 @@ public class Task implements IJsonObject, Serializable {
 	public void setStoryId(int storyId) {
 		this.storyId = storyId;
 	}
-	
 
-	public ArrayList<Integer> getDependentTaskList() {
-		return dependentTaskList;
+	public Map<Integer, List<Integer>> getDependentTaskMap() {
+		return dependentTaskMap;
 	}
 
-	public void setDependentTaskList(ArrayList<Integer> dependentTaskList) {
-		this.dependentTaskList.clear();
-		this.dependentTaskList.addAll(dependentTaskList);
+	public void setDependentTaskMap(Map<Integer, List<Integer>> dependentTaskMap) {
+		this.dependentTaskMap.clear();
+		this.dependentTaskMap.putAll(dependentTaskMap);
 	}
 
-	public int getDependentCount() {
-		return dependentTaskList.size();
-	}
-	
-	public int getCreatedOn() {
+	public Date getCreatedOn() {
 		return createdOn;
 	}
+	
+	public String getCreatedOnDateAsString() {
+		return DateFormat.getDateTimeInstance().format(createdOn);
+	}
 
-	public void setCreatedOn(int createdOn) {
+	public void setCreatedOn(Date createdOn) {
 		this.createdOn = createdOn;
 	}
 
-	public int getUpdatedOn() {
+	public Date getUpdatedOn() {
 		return updatedOn;
 	}
+	
+	public String getUpdatedOnDateAsString() {
+		return DateFormat.getDateTimeInstance().format(updatedOn);
+	}
 
-	public void setUpdatedOn(int updatedOn) {
+	public void setUpdatedOn(Date updatedOn) {
 		this.updatedOn = updatedOn;
 	}
 
@@ -181,6 +206,14 @@ public class Task implements IJsonObject, Serializable {
 
 	public void setUpdatedBy(int updatedBy) {
 		this.updatedBy = updatedBy;
+	}
+
+	public int getDependentCount() {
+		return dependentCount;
+	}
+	
+	public void setDependentCount(int dependentCount) {
+		this.dependentCount = dependentCount;
 	}
 
 	public String toString() {

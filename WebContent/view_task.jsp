@@ -13,13 +13,17 @@
 
   <div id="main" class="container theme-showcase" role="main">
     <br /><br /> <br /><br />
-    <h2>#${task_id} - ${task_name}</h2>
-    <p><h3><small>Created on:test Created By:test Last Updated: test by test</small></h3></p>
-    <div class="span12"><hr /></div>
-    <div class="well"><p>${description}</p></div>
-    <p>Assigned to: </p>
-    <p>Story: </p>
-    <p>Work Notes:</p>
+    <h2>#${task.getTaskId()} - ${task.getName()}&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="tasks?action=edit&task_id=${task.getTaskId()}"><button class="btn btn-default">Edit</button></h2></a>
+    <p><h4><small>Created on: ${task.getCreatedOnDateAsString()} by: ${task.getCreatedBy()} <br/>
+    Last Updated: ${task.getUpdatedOnDateAsString()} by ${task.getUpdatedBy()}</small></h4></p>
+    <h3>${task.getStatusAsString()}</h3>
+    <div class="span12 "><hr /></div>
+    <div class="lead"><p>${task.getDescription()}</p></div>
+    <div class="span12 "><hr /></div>
+    <p class="lead">Assigned to: ${task.getAssignedTo()}</p>
+    <p class="lead">Story: ${task.getStoryId()}</p>
+    <p class="lead">Work Notes: <br/>${task.getWorkNotes()}</p>
 </div>
   <%@ include file="partials/include_bootstrap_javascript.jsp"%>
 </body>
