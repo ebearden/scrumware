@@ -23,6 +23,10 @@ public class Task implements IJsonObject, Serializable {
 	private int statusId;
 	private String workNotes;
 	private String description;
+	private int createdOn;
+	private int updatedOn;
+	private int createdBy;
+	private int updatedBy;
 	
 	public Task() {
 		dependentTaskList = new ArrayList<Integer>();
@@ -147,6 +151,38 @@ public class Task implements IJsonObject, Serializable {
 		return dependentTaskList.size();
 	}
 	
+	public int getCreatedOn() {
+		return createdOn;
+	}
+
+	public void setCreatedOn(int createdOn) {
+		this.createdOn = createdOn;
+	}
+
+	public int getUpdatedOn() {
+		return updatedOn;
+	}
+
+	public void setUpdatedOn(int updatedOn) {
+		this.updatedOn = updatedOn;
+	}
+
+	public int getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(int createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public int getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(int updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
 	public String toString() {
 		return "TaskID: " + taskId + " Name: " + name + " Description: " + description;
 	}

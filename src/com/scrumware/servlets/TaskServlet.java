@@ -8,7 +8,9 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 
 import javax.naming.Context;
 import javax.servlet.ServletException;
@@ -56,106 +58,129 @@ public class TaskServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("doGet()");
 		con = JDBCHelper.getConnection();
 		String userId = request.getParameter(Constants.USER_ID);
 		String storyId = request.getParameter(Constants.STORY_ID);
 		String limit = request.getParameter(LIMIT_PARAMETER);
 		String dataType = request.getParameter(DATA_TYPE_PARAMETER);
+		String taskId = request.getParameter(Constants.TASK_ID);
+		String action = request.getParameter("action");
+		
+		if (action != null && action.equalsIgnoreCase("delete")) {
+			doDelete(request, response);
+		} else {
+			try {
+				
+				PreparedStatement stmt = buildQueryStatement(
+						Arrays.asList(userId, storyId, limit, taskId)
+						);
+				ResultSet taskResultSet = stmt.executeQuery();
+				ResultSetMetaData taskMetaData = taskResultSet.getMetaData();
+				
+				ArrayList<String> taskNames = new ArrayList<String>();
+				for (int i = 1; i < taskMetaData.getColumnCount() + 1; i++) {
+					taskNames.add(taskMetaData.getColumnLabel(i));
+				}
+				
+				// Create Task objects from results.
+				taskList.clear();
+				while (taskResultSet.next()) {
+					Task t = new Task();
+					t.setTaskId(taskResultSet.getInt(1));
+					t.setName(taskResultSet.getString(2));
+					t.setDescription(taskResultSet.getString(3));
+					t.setAssignedTo(taskResultSet.getInt(4));
+					t.setWorkNotes(taskResultSet.getString(5));
+					t.setStatusId(taskResultSet.getInt(6));
+					taskList.add(t);
+				}
+				
+				// Add Dependency Ids to tasks.
+				ResultSet dependencyResultSet = null;
+				ArrayList<Integer> dependencyList = new ArrayList<Integer>();
+				for (Task task : taskList) {
+					stmt = getDependencies(task.getTaskId());
+					dependencyResultSet = stmt.executeQuery();
+					while (dependencyResultSet.next()) {
+						dependencyList.add(dependencyResultSet.getInt(1));
+					}
+					task.setDependentTaskList(dependencyList);
+					dependencyList.clear();
+				}
+				
+				
+				if ("json".equals(dataType)) {
+					JSONObject jsonObject = createJSONObject();
+					response.addHeader("Content-Type", "application/json");
+					response.getWriter().println(jsonObject);
+				} else {
+					if (taskId != null) {
+						request.setAttribute(Constants.TASK_ID, taskList.get(0).getTaskId());
+						request.setAttribute(Constants.TASK_NAME, taskList.get(0).getName());
+						request.setAttribute(Constants.DESCRIPTION, taskList.get(0).getDescription());
+						request.getRequestDispatcher("/view_task.jsp").forward(request, response);
+					} else {
+						request.setAttribute("task_list", FormatHelper.taskListToHTMLTable(taskList, taskNames));
+						request.getRequestDispatcher("/task.jsp").forward(request, response);
+					}
+				}
+		
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				JDBCHelper.freeConnection(con);
+			}
+			
+		}
 		
 	
-		try {
-			// Retrieve Tasks
-			PreparedStatement stmt = buildQueryStatement(
-					Arrays.asList(userId, storyId, limit)
-					);
-			ResultSet taskResultSet = stmt.executeQuery();
-			ResultSetMetaData taskMetaData = taskResultSet.getMetaData();
-			
-			
-			
-			ArrayList<String> taskNames = new ArrayList<String>();
-			for (int i = 1; i < taskMetaData.getColumnCount() + 1; i++) {
-				taskNames.add(taskMetaData.getColumnLabel(i));
-			}
-			
-			// Create Task objects from results.
-			taskList.clear();
-			while (taskResultSet.next()) {
-				Task t = new Task();
-				t.setTaskId(taskResultSet.getInt(1));
-				t.setName(taskResultSet.getString(2));
-				t.setDescription(taskResultSet.getString(3));
-				t.setAssignedTo(taskResultSet.getInt(4));
-				t.setWorkNotes(taskResultSet.getString(5));
-				t.setStatusId(taskResultSet.getInt(6));
-				taskList.add(t);
-			}
-			
-			// Add Dependency Ids to tasks.
-			ResultSet dependencyResultSet = null;
-			ArrayList<Integer> dependencyList = new ArrayList<Integer>();
-			for (Task task : taskList) {
-				stmt = getDependencies(task.getTaskId());
-				dependencyResultSet = stmt.executeQuery();
-				while (dependencyResultSet.next()) {
-					dependencyList.add(dependencyResultSet.getInt(1));
-				}
-				task.setDependentTaskList(dependencyList);
-				dependencyList.clear();
-			}
-			
-			
-			if ("json".equals(dataType)) {
-				JSONObject jsonObject = new JSONObject();
-				JSONArray jsonArray = new JSONArray();
-				for (Task task : taskList) {
-					jsonArray.put(task.toJSON());
-				}
-				jsonObject.put("result", jsonArray);
-				response.addHeader("Content-Type", "application/json");
-				response.getWriter().println(jsonObject);
-			} else {
-				request.setAttribute("task_list", FormatHelper.taskListToHTMLTable(taskList, taskNames));
-				request.getRequestDispatcher("/task.jsp").forward(request, response);				
-			}
-	
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			JDBCHelper.freeConnection(con);
-		}
 		
 	}
 	
 	@Override
-	protected void doDelete(HttpServletRequest request, HttpServletResponse respsonse) throws ServletException, IOException {
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("In doDelete()");
 		String taskId = request.getParameter(Constants.TASK_ID);
+		if (taskId != null) {
+			con = JDBCHelper.getConnection();
+			PreparedStatement stmt = null;
+			String sql = "DELETE FROM Task WHERE task_id=?";
+			
+			try {
+				stmt = con.prepareStatement(sql);
+				stmt.setInt(1, Integer.parseInt(taskId));
+				stmt.executeUpdate();
+				request.getRequestDispatcher("/task.jsp").forward(request, response);
+//				doGet(request, response);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				JDBCHelper.freeConnection(con);
+			}
+		} 
 	}
 	
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		con = JDBCHelper.getConnection();
-		String userId = null;
-		if (request.getParameterMap().containsKey(Constants.USER_ID)) {
-			userId = request.getParameter(Constants.USER_ID);
-		}
+		String taskId = null;
+			taskId = request.getParameter(Constants.TASK_ID);
 		
 		String sql;
 
-		if (userId == null) {
+		if (taskId == null) {
 			sql = "INSERT INTO Task " + 
-					"(task_name, description, status_id, work_notes, story_id, created_by, updated_by, assigned_to) " +
+					"(task_name, description, status_id, work_notes, story_id, updated_by, assigned_to, created_by) " +
 					"VALUES (?, ?, ?, ?, " + 
-					"(SELECT story_id FROM Story WHERE story_name=?), ?, ?, " + 
-					"(SELECT user_id FROM Sys_User WHERE first_name=? AND last_name=?));";
+					"(SELECT story_id FROM Story WHERE story_name=?), ?, " + 
+					"(SELECT user_id FROM Sys_User WHERE first_name=? AND last_name=?), ?);";
 		} else {
 			sql = "UPDATE Task " + 
-					"SET (task_name=?, description=?, status_id=?, work_notes=?, " + 
-					"story_id=(SELECT story_id FROM Story WHERE name=?), updated_by=?, " + 
-					"assigned_to=(SELECT user_id FROM Sys_User WHERE first_name=? AND last_name=?))"
-					+ "WHERE user_id=?;";
+					"SET task_name=?, description=?, status_id=?, work_notes=?, " + 
+					"story_id=(SELECT story_id FROM Story WHERE story_name=?), updated_by=?, " + 
+					"assigned_to=(SELECT user_id FROM Sys_User WHERE first_name=? AND last_name=?) "
+					+ "WHERE task_id=?;";
 			
 		}
 		
@@ -173,17 +198,20 @@ public class TaskServlet extends HttpServlet {
 			stmt.setString(4, request.getParameter(Constants.WORK_NOTES));
 			stmt.setString(5, request.getParameter(Constants.STORY_NAME).replaceAll("\\s{2}+", ""));
 			stmt.setInt(6, 1); //TODO: get the current user...
-			stmt.setInt(7, 1); // TODO: get the current user...
 			System.out.println(request.getParameter(Constants.ASSIGNED_TO));
 			String[] s = request.getParameter(Constants.ASSIGNED_TO).replaceAll("\\s{2}+", "").split("\\s");
-			stmt.setString(8, s[0]);
+			stmt.setString(7, s[0]);
 			System.out.println(s[0]);
 			System.out.println(s[1]);
-			stmt.setString(9, s[1]);
-			if (userId != null) {
-				stmt.setInt(10, Integer.parseInt(userId));
+			stmt.setString(8, s[1]);
+			
+			if (taskId != null) {
+				stmt.setInt(9, Integer.parseInt(taskId));
+			} else {
+				stmt.setInt(9, 1); // TODO: get the current user...
 			}
 			
+			System.out.println(stmt);
 			int result = stmt.executeUpdate();
 			
 			if (result == 1) {
@@ -192,8 +220,9 @@ public class TaskServlet extends HttpServlet {
 				request.setAttribute("msg", "Failure!");
 			}
 
-//			request.getRequestDispatcher("/task.jsp").forward(request, response);
+			doGet(request, response);
 			
+//			request.getRequestDispatcher("/task.jsp").forward(request, response);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -213,6 +242,7 @@ public class TaskServlet extends HttpServlet {
 		Integer userId = null; 
 		Integer storyId = null;
 		Integer limit = null;
+		Integer taskId = null;
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(
 				"SELECT task_id as ID, task_name as Name, description as Description, " +
@@ -221,44 +251,54 @@ public class TaskServlet extends HttpServlet {
 				
 		);
 		
-		if (params.get(0) != null || params.get(1) != null) {
-			stringBuilder.append("WHERE ");
-			if (params.get(0) != null) {
-				stringBuilder.append("assigned_to=? ");
-				userId = Integer.parseInt(params.get(0));
-			}
-			if (params.get(1) != null) {
-				if (params.get(0) != null) {
-					stringBuilder.append(" AND ");
-				}
-				stringBuilder.append("story_id=? ");
-				storyId = Integer.parseInt(params.get(1));
-			}
-		}
-		if (params.get(2) != null) {
-			stringBuilder.append("LIMIT ?;");
-			limit = Integer.parseInt(params.get(2));
+		if (params.get(3) != null) {
+			stringBuilder.append("WHERE task_id=?");
+			taskId = Integer.parseInt(params.get(3));
 		} else {
-			stringBuilder.append("LIMIT ?;");
-			limit = TASK_LIMIT;
+			if (params.get(0) != null || params.get(1) != null) {
+				stringBuilder.append("WHERE ");
+				if (params.get(0) != null) {
+					stringBuilder.append("assigned_to=? ");
+					userId = Integer.parseInt(params.get(0));
+				}
+				if (params.get(1) != null) {
+					if (params.get(0) != null) {
+						stringBuilder.append(" AND ");
+					}
+					stringBuilder.append("story_id=? ");
+					storyId = Integer.parseInt(params.get(1));
+				}
+			}
+			if (params.get(2) != null) {
+				stringBuilder.append("LIMIT ?;");
+				limit = Integer.parseInt(params.get(2));
+			} else {
+				stringBuilder.append("LIMIT ?;");
+				limit = TASK_LIMIT;
+			}
 		}
-		
+
 		PreparedStatement statement = null;
 		try {
 			statement = con.prepareStatement(stringBuilder.toString());
-			if (userId != null && storyId != null) {
-				statement.setInt(1, userId);
-				statement.setInt(2, storyId);
-				statement.setInt(3, limit);
-			} else if (userId != null && storyId == null) {
-				statement.setInt(1, userId);
-				statement.setInt(2, limit);
-			} else if (userId == null && storyId != null) {
-				statement.setInt(1, storyId);
-				statement.setInt(2, limit);
+			if (taskId != null) {
+				statement.setInt(1, taskId);
 			} else {
-				statement.setInt(1, limit);
+				if (userId != null && storyId != null) {
+					statement.setInt(1, userId);
+					statement.setInt(2, storyId);
+					statement.setInt(3, limit);
+				} else if (userId != null && storyId == null) {
+					statement.setInt(1, userId);
+					statement.setInt(2, limit);
+				} else if (userId == null && storyId != null) {
+					statement.setInt(1, storyId);
+					statement.setInt(2, limit);
+				} else {
+					statement.setInt(1, limit);
+				}
 			}
+			
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -278,6 +318,16 @@ public class TaskServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		return statement;
+	}
+	
+	private JSONObject createJSONObject() {
+		JSONObject jsonObject = new JSONObject();
+		JSONArray jsonArray = new JSONArray();
+		for (Task task : taskList) {
+			jsonArray.put(task.toJSON());
+		}
+		jsonObject.put("result", jsonArray);
+		return jsonObject;
 	}
 }
 

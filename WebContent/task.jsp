@@ -17,6 +17,21 @@ function save() {
 	  return false;
 }
 
+function get() {
+	$.ajax({
+        type: 'GET',
+       cache: false,
+         url: 'TaskServlet',
+        data: $('form[name="edit_task"]').serialize(),
+        success: function () {
+        	$('#newTaskModal').modal('show');
+        	
+        }
+       });
+	return false;
+}
+
+
 function showSuccess() {
 	location.reload();
 	$('#success').html('<div class="alert alert-success fade in"><a class="close" data-dismiss="alert">&times;</a><span>Success!</span></div>');
@@ -41,6 +56,7 @@ function showSuccess() {
   </div>
 
   <%@ include file="partials/new_task_modal.jsp" %>
+  <%@ include file="partials/confirm_delete_modal.jsp" %>
   <%@ include file="partials/include_bootstrap_javascript.jsp"%>
 </body>
 </html>
