@@ -12,6 +12,10 @@ public final class Constants {
 	public static final String ACTIVE = "active";
 	public static final String STATUS = "status";
 	public static final String DESCRIPTION = "description";
+	public static final String CREATED = "created";
+	public static final String UPDATED = "updated";
+	public static final String CREATED_BY = "created_by";
+	public static final String UPDATED_BY = "updated_by";
 	
 	// User Constants
 	public static final String USER_ID = "user_id";
@@ -38,4 +42,10 @@ public final class Constants {
 	// Dependency Constants
 	public static final String DEPENDENCY_ID = "dependency_id";
 	
+	//Project Constants
+	public static final String PROJECT_ID = "project_id";
+	public static final String PROJECT_NAME = "project_name";
+	public static final String PLANNED_START_DATE = "planned_start_date";
+	public static final String PLANNED_END_DATE = "planned_end_date";
+	public static final String PROJECT_MANAGER = "project_manager";
 }
