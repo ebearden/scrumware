@@ -5,31 +5,32 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.scrumware.jdbc.JDBCHelper;
 
 public class StoryBean {
-	private List<String> storyList;
+	private HashMap<Integer, String> storyMap;
 	
 	public StoryBean() {
-		storyList = new ArrayList<String>();
+		storyMap = new HashMap<Integer, String>();
 		Connection con = JDBCHelper.getConnection();
 		try {
 			PreparedStatement stmt = con.prepareStatement(
-					"SELECT name FROM Story;"
+					"SELECT story_id, story_name FROM Story;"
 					);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
-				storyList.add(rs.getString(1));
+				storyMap.put(rs.getInt(1), rs.getString(2));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public List<String> getItems() {
-		return storyList;
+	public HashMap<Integer, String> getItems() {
+		return storyMap;
 	}
 }
 

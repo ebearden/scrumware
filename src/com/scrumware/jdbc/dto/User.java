@@ -1,10 +1,12 @@
 package com.scrumware.jdbc.dto;
 
+import java.io.Serializable;
+
 import org.json.JSONObject;
 
 import com.scrumware.config.Constants;
 
-public class User implements IJsonObject {
+public class User implements IJsonObject, Serializable {
 	private int userId;
 	private String username;
 	private String password;
@@ -25,7 +27,7 @@ public class User implements IJsonObject {
 	@Override
 	public JSONObject toJSON() {
 		JSONObject json =  new JSONObject();
-		json.put(Constants.SYS_ID, userId);
+		json.put(Constants.USER_ID, userId);
 		json.put(Constants.USERNAME, username);
 		json.put(Constants.FIRST_NAME, firstName);
 		json.put(Constants.LAST_NAME, lastName);
@@ -38,7 +40,7 @@ public class User implements IJsonObject {
 
 	@Override
 	public void updateFromJSON(JSONObject json) {
-		userId = json.getInt(Constants.SYS_ID);
+		userId = json.getInt(Constants.USER_ID);
 		firstName = json.getString(Constants.USERNAME);
 		lastName = json.getString(Constants.LAST_NAME);
 		emailAddress = json.getString(Constants.EMAIL_ADDRESS);

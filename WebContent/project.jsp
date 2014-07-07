@@ -9,11 +9,11 @@ function save() {
 	  $.ajax({
 	    type: 'POST',
 	   cache: false,
-	     url: 'TaskServlet',
-	    data: $('form[name="new_task"]').serialize(),
+	     url: 'ProjectServlet',
+	    data: $('form[name="new_project"]').serialize(),
 	    success: showSuccess()
 	   });
-	  $('#newTaskModal').modal('hide');
+	  $('#newProjectModal').modal('hide');
 	  return false;
 }
 
@@ -21,10 +21,10 @@ function get() {
 	$.ajax({
         type: 'GET',
        cache: false,
-         url: 'TaskServlet',
-        data: $('form[name="edit_task"]').serialize(),
+         url: 'ProjectServlet',
+        data: $('form[name="edit_project"]').serialize(),
         success: function () {
-        	$('#newTaskModal').modal('show');
+        	$('#newProjectModal').modal('show');
         	
         }
        });

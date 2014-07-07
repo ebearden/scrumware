@@ -40,8 +40,8 @@ public class TestServlet extends HttpServlet {
 		con = JDBCHelper.getConnection();
 		try {
 			PreparedStatement stmt = con.prepareStatement(
-					"SELECT sys_id, first_name, last_name, " +
-					"email_address, role, active " +
+					"SELECT user_id, first_name, last_name, " +
+					"email_address, active " +
 					"FROM Sys_User;"
 					);
 			
@@ -54,8 +54,7 @@ public class TestServlet extends HttpServlet {
 				user.setFirstName(rs.getString(2));
 				user.setLastName(rs.getString(3));
 				user.setEmailAddress(rs.getString(4));
-				user.setRole(rs.getInt(5));
-				user.setActive(rs.getBoolean(6));
+				user.setActive(rs.getBoolean(5));
 				userList.add(user);
 			}
 			
