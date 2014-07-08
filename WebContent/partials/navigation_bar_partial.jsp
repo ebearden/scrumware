@@ -39,7 +39,7 @@
             <li class="dropdown">
               <a href="/SCRUMware/task.jsp" class="dropdown-toggle" data-toggle="dropdown">Task <b class="caret"></b></a>
               <ul class="dropdown-menu">
-              <li><a href="/SCRUMware/task.jsp">View Task</a></li>
+              <li><a href="/SCRUMware/tasks">View Task</a></li>
                 <li><a href="/SCRUMware/task.jsp">Add Task</a></li>
                 <li><a href="#">Update Task</a></li>
               </ul>
