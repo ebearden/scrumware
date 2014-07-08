@@ -18,7 +18,7 @@
             <li class="dropdown">
               <a href="/SCRUMware/project.jsp" class="dropdown-toggle" data-toggle="dropdown">Project <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="#">Add Project</a></li>
+                <li><a href="/SCRUMware/project.jsp">Add Project</a></li>
                 <li><a href="#">Update Project</a></li>
               </ul>
             </li>
@@ -32,13 +32,14 @@
             <li class="dropdown">
               <a href="/SCRUMware/story.jsp" class="dropdown-toggle" data-toggle="dropdown">Story <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="#">Add Story</a></li>
-                <li><a href="#">Update Story</a></li>
+                <li><a href="/SCRUMware/story.jsp">Add Story</a></li>
+                <li><a href="/SCRUMware/story.jsp">Update Story</a></li>
               </ul>
             </li>
             <li class="dropdown">
               <a href="/SCRUMware/task.jsp" class="dropdown-toggle" data-toggle="dropdown">Task <b class="caret"></b></a>
               <ul class="dropdown-menu">
+              <li><a href="/SCRUMware/task.jsp">View Task</a></li>
                 <li><a href="/SCRUMware/task.jsp">Add Task</a></li>
                 <li><a href="#">Update Task</a></li>
               </ul>
