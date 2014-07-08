@@ -16,8 +16,8 @@ drop table if exists User_Role;
 
 create table if not exists User_Role (
     role_id int unsigned not null auto_increment,
-    created datetime not null default '0000-00-00 00:00:00',
-    updated datetime not null default '0000-00-00 00:00:00',
+    created datetime not null default '0000-00-00 00:00:01',
+    updated datetime not null default '0000-00-00 00:00:01',
         
     active boolean DEFAULT true,
     role_name varchar(40),
@@ -28,8 +28,8 @@ create table if not exists User_Role (
 
 create table if not exists Status (
     status_id int unsigned not null auto_increment,
-    created datetime not null default '0000-00-00 00:00:00',
-    updated datetime not null default '0000-00-00 00:00:00',
+    created datetime not null default '0000-00-00 00:00:01',
+    updated datetime not null default '0000-00-00 00:00:01',
     
     status_name varchar(40),
     
@@ -38,8 +38,8 @@ create table if not exists Status (
 
 create table if not exists Sys_User (
     user_id int unsigned not null auto_increment,
-    created datetime not null default '0000-00-00 00:00:00',
-    updated datetime not null default '0000-00-00 00:00:00',
+    created datetime not null default '0000-00-00 00:00:01',
+    updated datetime not null default '0000-00-00 00:00:01',
     
     username varchar(40) not null,
     password varchar(40) not null,
@@ -55,9 +55,9 @@ create table if not exists Sys_User (
 
 create table if not exists Project (
     project_id int unsigned not null auto_increment,
-    created datetime not null default '0000-00-00 00:00:00',
+    created datetime not null default '0000-00-00 00:00:01',
     created_by int unsigned not null,
-    updated datetime not null default '0000-00-00 00:00:00',
+    updated datetime not null default '0000-00-00 00:00:01',
     updated_by int unsigned not null,
     
     project_name varchar(40),
@@ -76,9 +76,9 @@ create table if not exists Project (
 
 create table if not exists Sprint (
     sprint_id int unsigned not null auto_increment,
-    created datetime not null default '0000-00-00 00:00:00',
+    created datetime not null default '0000-00-00 00:00:01',
     created_by int unsigned not null,
-    updated datetime not null default '0000-00-00 00:00:00',
+    updated datetime not null default '0000-00-00 00:00:01',
     updated_by int unsigned not null,
     
     sprint_name varchar(40),
@@ -97,9 +97,9 @@ create table if not exists Sprint (
 
 create table if not exists Story (
     story_id int unsigned not null auto_increment,
-    created datetime not null default '0000-00-00 00:00:00',
+    created datetime not null default '0000-00-00 00:00:01',
     created_by int unsigned not null,
-    updated datetime not null default '0000-00-00 00:00:00',
+    updated datetime not null default '0000-00-00 00:00:01',
     updated_by int unsigned not null,
     
     story_name varchar(40),
@@ -120,9 +120,9 @@ create table if not exists Story (
 
 create table if not exists Task (
     task_id int unsigned not null auto_increment,
-    created datetime not null default '0000-00-00 00:00:00',
+    created datetime not null default '0000-00-00 00:00:01',
     created_by int unsigned not null,
-    updated datetime not null default '0000-00-00 00:00:00',
+    updated datetime not null default '0000-00-00 00:00:01',
     updated_by int unsigned not null,
     
     task_name char(40),
@@ -143,8 +143,8 @@ create table if not exists Task (
 
 create table if not exists Task_Dependencies (
     dependency_id int unsigned not null auto_increment,
-    created datetime not null default '0000-00-00 00:00:00',
-    updated datetime not null default '0000-00-00 00:00:00',
+    created datetime not null default '0000-00-00 00:00:01',
+    updated datetime not null default '0000-00-00 00:00:01',
     task_id int unsigned,
     depends_on int unsigned,
     active boolean default true, 
@@ -156,8 +156,8 @@ create table if not exists Task_Dependencies (
 
 create table if not exists Project_Users (
 	proj_users_id int unsigned not null auto_increment,
-    created datetime not null default '0000-00-00 00:00:00',
-    updated datetime not null default '0000-00-00 00:00:00',
+    created datetime not null default '0000-00-00 00:00:01',
+    updated datetime not null default '0000-00-00 00:00:01',
 	project_id int unsigned,
 	user_id int unsigned,
 	
