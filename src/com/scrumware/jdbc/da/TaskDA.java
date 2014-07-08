@@ -29,7 +29,7 @@ public class TaskDA {
 	}
 	
 	public List<Task> getAllTasksForUserId(int userId) {
-		return getTaskListForIdType(Constants.USER_ID, userId);
+		return getTaskListForIdType(Constants.ASSIGNED_TO, userId);
 	}
 	
 	public boolean saveTask(Task task) {
@@ -144,6 +144,7 @@ public class TaskDA {
 	private List<Task> getTaskListForIdType(String type, Integer id) {
 		Connection connection = JDBCHelper.getConnection();
 		List<Task> taskList = new ArrayList<Task>();
+
 		Task task = null;
 		String sql;
 		if (id == null) {
@@ -159,6 +160,7 @@ public class TaskDA {
 		
 		try {
 			PreparedStatement taskStatement = connection.prepareStatement(sql);
+			System.out.println(taskStatement);
 			
 			PreparedStatement dependencyStatement = connection.prepareStatement(
 					"SELECT dependency_id, depends_on, active FROM Task_Dependencies WHERE task_id=?;"
