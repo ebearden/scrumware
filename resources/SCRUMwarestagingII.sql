@@ -12,6 +12,7 @@ drop table if exists Project;
 drop table if exists Sys_User;
 drop table if exists Status;
 drop table if exists User_Role;
+drop table if exists Asset;
 #----------------------------------
 
 create table if not exists User_Role (
@@ -139,6 +140,20 @@ create table if not exists Task (
     FOREIGN KEY (status_id) REFERENCES Status(status_id),
     FOREIGN KEY (story_id) REFERENCES Story(story_id),
     FOREIGN KEY (assigned_to) REFERENCES Sys_User(user_id)
+) auto_increment=1;
+
+create table if not exists Asset (
+	asset_id int unsigned not null auto_increment,
+    created datetime not null default '0000-00-00 00:00:00',
+    created_by int unsigned not null,
+    updated datetime not null default '0000-00-00 00:00:00',
+    updated_by int unsigned not null,
+    
+    asset_name char(40),
+    description text(1000),
+    location char(80),
+    
+    PRIMARY KEY (asset_id)
 ) auto_increment=1;
 
 create table if not exists Task_Dependencies (

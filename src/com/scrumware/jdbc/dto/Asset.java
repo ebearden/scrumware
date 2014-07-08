@@ -6,48 +6,39 @@ import org.json.JSONObject;
 
 import com.scrumware.config.Constants;
 
-public class Project implements IJsonObject {
+public class Asset implements IJsonObject {
 	//Base Variables
-	private int projectId;
+	private int assetId;
 	private String name;
 	private String description;
-	private int projectManagerId;
-	private Date startDate;
-	private Date endDate;
-	private int statusId;
+	private String location;
 	private Date createdOn;
 	private Date updatedOn;
 	private int createdBy;
 	private int updatedBy;
 	
 	//Empty Constructor
-	public Project() {
+	public Asset() {
 		
 	}
 	
 	//JSON objects
 	public JSONObject toJSON() {
 		JSONObject json =  new JSONObject();
-		json.put(Constants.PROJECT_ID, this.projectId);
+		json.put(Constants.ASSET_ID, this.assetId);
 		json.put(Constants.UPDATED, this.updatedOn);
 		json.put(Constants.UPDATED_BY, this.updatedBy);
-		json.put(Constants.PROJECT_NAME, this.name);
+		json.put(Constants.ASSET_NAME, this.name);
 		json.put(Constants.DESCRIPTION, this.description);
-		json.put(Constants.PROJECT_MANAGER, this.projectManagerId);
-		json.put(Constants.PLANNED_START_DATE, this.startDate);
-		json.put(Constants.PLANNED_END_DATE, this.endDate);
-		json.put(Constants.STATUS, this.statusId);
+		json.put(Constants.LOCATION, this.location);
 		return json;
 	}
 
 	public void updateFromJSON(JSONObject json) {
-		projectId = json.getInt(Constants.PROJECT_ID);
-		name = json.getString(Constants.PROJECT_NAME);
+		assetId = json.getInt(Constants.ASSET_ID);
+		name = json.getString(Constants.ASSET_NAME);
 		description = json.getString(Constants.DESCRIPTION);
-		projectManagerId = json.getInt(Constants.PROJECT_MANAGER);
-		//startDate = json.;
-		//endDate = json.;
-		statusId = json.getInt(Constants.STATUS);
+		location = json.getString(Constants.LOCATION);
 		//createdOn = json.;
 		//updatedOn = json.;
 		createdBy = json.getInt(Constants.CREATED_BY);
@@ -55,8 +46,8 @@ public class Project implements IJsonObject {
 	}
 	
 	//Get Values
-	public int getProjectID() {
-		return this.projectId;
+	public int getAssetID() {
+		return this.assetId;
 	}
 	
 	public Date getCreated() {
@@ -83,25 +74,13 @@ public class Project implements IJsonObject {
 		return this.description;
 	}
 	
-	public int getPM() {
-		return this.projectManagerId;
-	}
-	
-	public Date getStartDate() {
-		return this.startDate;
-	}
-	
-	public Date getEndDate() {
-		return this.endDate;
-	}
-	
-	public int getStatus() {
-		return this.statusId;
+	public String getLocation() {
+		return this.location;
 	}
 	
 	//Set Values
-	public void setProjectID(int project) {
-		this.projectId = project;
+	public void setAssetID(int asset) {
+		this.assetId = asset;
 	}
 	
 	public void setCreated(Date create) {
@@ -120,28 +99,15 @@ public class Project implements IJsonObject {
 		this.updatedBy = updatedby;
 	}
 	
-	public void setName(String projName) {
-		this.name = projName;
+	public void setName(String assName) {
+		this.name = assName;
 	}
 	
 	public void setDescription(String desc) {
 		this.description = desc;
 	}
 	
-	public void setPM(int projMgr) {
-		this.projectManagerId = projMgr;
-	}
-	
-	public void setStartDate(Date start) {
-		this.startDate = start;
-	}
-	
-	public void setEndDate(Date end) {
-		this.endDate = end;
-	}
-	
-	public void setStatus(int status) {
-		this.statusId = status;
+	public void setLocation(String loc) {
+		this.location = loc;
 	}
 }
-
