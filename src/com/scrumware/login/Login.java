@@ -51,7 +51,7 @@ public class Login extends HttpServlet {
 	            	
 	            	/*if valid, create session
 	            	 * set max inactive interval to 30 mins
-	            	 * set role and id as session attributes
+	            	 * set role, id, and username as session attributes
 	            	 */
 	            	
 	            	if (a_login.isValid()) {
@@ -79,6 +79,7 @@ public class Login extends HttpServlet {
 	        		 * send user to home page
 	        		 */
 	        		
+	        		request.setAttribute("user_name",session.getAttribute("user_name"));
 	                getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);
 	        		
 	        	} else {

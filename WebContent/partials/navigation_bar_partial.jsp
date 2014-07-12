@@ -12,7 +12,7 @@
           <a class="navbar-brand" href="#">SCRUMware</a>
           <ul class="nav navbar-nav">
           <li class="active"><a href="/SCRUMware/login.jsp">Login</a></li>
-          <li class="active"><a href="/SCRUMware/logout.jsp">Logout</a></li>
+          <li class="active"><a href="/SCRUMware/Logout">Logout</a></li>
           </ul>
         </div>
         <div class="navbar-collapse collapse">

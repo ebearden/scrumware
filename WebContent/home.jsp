@@ -17,9 +17,8 @@
         <div class="jumbotron">
         	<br/><br/><br/>
         	<h1>SCRUMware Home</h1>
-        	<p>${errmsg}</p>
             <p>
-            Welcome to scrumware ${user_name}!
+            Welcome to SCRUMware ${user_name}!
             </p>
         </div>
         <%@ include file="partials/include_bootstrap_javascript.jsp" %>
