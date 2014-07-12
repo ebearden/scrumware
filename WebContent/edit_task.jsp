@@ -77,6 +77,33 @@ function startUp() {
           </div>
               <button type="submit" class="btn btn-primary">Save</button>
         </form>
+        <br />
+        <button class="btn btn-danger" data-toggle="modal" data-target="#confirmDeleteModal">Delete</button>
+        
+        <!--Confirm Deletion Modal-->
+        <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>Are you sure you want to delete this task?</p>
+                <h4 class="modal-title">Confirm Delete</h4>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                <a href="tasks?action=delete&task_id=${task.getTaskId()}">
+                    <button type="button" class="btn btn-primary">Delete</button>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <%@ include file="partials/include_bootstrap_javascript.jsp"%>
 </div>
 </body>
 </html>

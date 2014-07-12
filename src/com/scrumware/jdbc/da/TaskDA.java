@@ -21,6 +21,7 @@ public class TaskDA {
 	}
 	
 	public List<Task> getAllTasks() {
+		System.out.println("getAllTasks()");
 		return getTaskListForIdType(null, null);
 	}
 	
@@ -32,10 +33,10 @@ public class TaskDA {
 		return getTaskListForIdType(Constants.ASSIGNED_TO, userId);
 	}
 	
-	public boolean saveTask(Task task) {
+	public Task saveTask(Task task) {
 		Connection connection = JDBCHelper.getConnection();
 		String taskSQL;
-		boolean success = false, isUpdate = false;
+		boolean isUpdate = false;
 		
 		if (task.getTaskId() != null) {
 			isUpdate = true;
@@ -61,6 +62,7 @@ public class TaskDA {
 			taskStatement.setString(5, task.getWorkNotes());
 			taskStatement.setInt(6, task.getStoryId());
 			taskStatement.setInt(7, task.getDependentCount());
+			
 			if (isUpdate) {
 				taskStatement.setInt(8, task.getUpdatedBy());
 				taskStatement.setInt(9, task.getTaskId());
@@ -78,11 +80,9 @@ public class TaskDA {
 					System.out.println(generatedKey.getInt(1));
 					System.out.println(generatedKey.getLong(1));
 				}
-				success = true;
+
 				for (int i = 0; i < task.getDependentTaskMap().size(); i++) {
-					if (saveDependency(task.getDependentTaskMap(), task.getTaskId())) {
-						success = true;
-					}
+					saveDependency(task.getDependentTaskMap(), task.getTaskId());
 				}
 			}
 		} catch (SQLException e) {
@@ -90,15 +90,13 @@ public class TaskDA {
 		} finally {
 			JDBCHelper.freeConnection(connection);
 		}
-		return success;
+		return getTask(task.getTaskId());
 	}
 	
-	public boolean saveTasks(List<Task> taskList) {
-		boolean success = false;
+	public void saveTasks(List<Task> taskList) {
 		for (Task t : taskList) {
-			 success = saveTask(t);
+			 saveTask(t);
 		}
-		return success;
 	}
 	
 	private boolean saveDependency(Map<Integer, List<Integer>> map, Integer taskId) {

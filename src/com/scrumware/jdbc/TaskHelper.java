@@ -16,22 +16,7 @@ public class TaskHelper {
 	
 	public static final String DEPENDENT_ON = "dependent_on"; 
 	public static final String DEPENDED_ON = "depended_on";
-	
-//	public boolean create(Object o) {
-//		
-//	}
-//	
-//	public Task retrieve(int id) {
-//		
-//	}
-//	
-//	public update(Object o) {
-//		
-//	}
-//	
-//	public boolean delete(Object o) {
-//		
-//	}
+
 	
 	public static boolean deleteTaskWithDependencies(int taskId) {
 		//TODO: 

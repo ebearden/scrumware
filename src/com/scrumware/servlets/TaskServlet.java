@@ -108,7 +108,7 @@ public class TaskServlet extends HttpServlet {
 			Task task = new Task();
 			task.setTaskId(Integer.parseInt(taskId));
 			taskDA.deleteTask(task);
-			request.getRequestDispatcher("/task.jsp").forward(request, response);
+			response.sendRedirect("tasks");
 		} 
 	}
 	
@@ -139,9 +139,9 @@ public class TaskServlet extends HttpServlet {
 //		map.put(null, list);
 //		// ------------------
 //		task.setDependentTaskMap(map);
-		taskDA.saveTask(task);
+		Task savedTask = taskDA.saveTask(task);
 		
-		request.setAttribute("task", taskDA.getTask(Integer.parseInt(taskId)));
+		request.setAttribute("task", savedTask);
 		request.getRequestDispatcher("/view_task.jsp").forward(request, response);
 	}
 	

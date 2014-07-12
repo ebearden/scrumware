@@ -54,7 +54,6 @@ function showSuccess() {
     <div id="task-table" class="span12">${task_list}</div>
   </div>
 
-  <%@ include file="partials/new_task_modal.jsp" %>
   <%@ include file="partials/confirm_delete_modal.jsp" %>
   <%@ include file="partials/include_bootstrap_javascript.jsp"%>
 </body>

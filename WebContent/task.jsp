@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <script type="text/javascript">
-function save() {
+/* function save() {
 	  $.ajax({
 	    type: 'POST',
 	   cache: false,
@@ -29,13 +29,13 @@ function get() {
         }
        });
 	return false;
-}
+} */
 
-
+/* 
 function showSuccess() {
 	location.reload();
 }
-
+ */
 </script>
 <title>Tasks</title>
 <%@ include file="partials/include_bootstrap_partial.jsp"%>
@@ -48,14 +48,12 @@ function showSuccess() {
     <div id="success"></div>
     <p>
     <br /> <br />
-    <button class="btn btn-primary" data-toggle="modal" data-target="#newTaskModal">New Task</button><br />
+    <a href="new_task.jsp"><button class="btn btn-primary">New Task</button></a><br />
     </p>
     <div class="span12"><hr /></div>
     <div id="task-table" class="span12">${task_list}</div>
   </div>
 
-  <%@ include file="partials/new_task_modal.jsp" %>
-  <%@ include file="partials/confirm_delete_modal.jsp" %>
   <%@ include file="partials/include_bootstrap_javascript.jsp"%>
 </body>
 </html>

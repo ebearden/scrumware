@@ -15,8 +15,9 @@
 
         <!-- Main jumbotron for a primary marketing message or call to action -->
         <div class="jumbotron">
+        	<p>${msg}</p>
             <p>
-            <form name="login" action=Login method="POST">
+            <form name="login" action="Login" method="POST">
                 <div class="input-group">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span> 
                     <input type="text" name="user_name" class="form-control" placeholder="Username"/>
