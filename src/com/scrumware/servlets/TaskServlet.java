@@ -1,19 +1,8 @@
 package com.scrumware.servlets;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import javax.naming.Context;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,7 +14,6 @@ import org.json.JSONObject;
 
 import com.scrumware.config.Constants;
 import com.scrumware.helpers.FormatHelper;
-import com.scrumware.jdbc.JDBCHelper;
 import com.scrumware.jdbc.da.TaskDA;
 import com.scrumware.jdbc.dto.Task;
 

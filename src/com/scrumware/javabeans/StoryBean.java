@@ -8,14 +8,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.scrumware.jdbc.JDBCHelper;
+import com.scrumware.jdbc.ConnectionPool;
+
 
 public class StoryBean {
 	private HashMap<Integer, String> storyMap;
-	
+	private ConnectionPool pool;
 	public StoryBean() {
+		pool = ConnectionPool.getInstance();
 		storyMap = new HashMap<Integer, String>();
-		Connection con = JDBCHelper.getConnection();
+		Connection con = pool.getConnection();
 		try {
 			PreparedStatement stmt = con.prepareStatement(
 					"SELECT story_id, story_name FROM Story;"

@@ -40,11 +40,6 @@ public class FormatHelper {
 					"<button type=\"submit\" class=\"class btn btn-primary\">" + 
 					"View</button></form></td>"
 					);
-//			stringBuilder.append(
-//					"<td><a href=\"tasks?action=delete&task_id=" + task.getTaskId() +
-//					"\"><button type=\"submit\" class=\"class btn btn-danger\">" + 
-//					"Delete</button></a></td>"
-//					);
 			stringBuilder.append("</tr>");
 		}
 		stringBuilder.append("</table>");

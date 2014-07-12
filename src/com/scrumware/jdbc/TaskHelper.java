@@ -63,7 +63,7 @@ public class TaskHelper {
 	private static boolean removeDependencies(int taskId, int dependsOnId) {
 		String sql = "UPDATE Task_Dependencies SET active=0 WHERE task_id=? AND depends_on=?;";
 
-		Connection con = JDBCHelper.getConnection();
+		Connection con = ConnectionPool.getInstance().getConnection();
 		boolean success = false;
 		try {
 			PreparedStatement stmt = con.prepareStatement(sql);
@@ -79,7 +79,7 @@ public class TaskHelper {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			JDBCHelper.freeConnection(con);
+			ConnectionPool.getInstance().freeConnection(con);
 		}
 
 		return success;
@@ -88,7 +88,7 @@ public class TaskHelper {
 	private static boolean changeStatus(int taskId, Status status) {
 		String sql = "UPDATE Task SET status_id=? WHERE task_id=?;";
 		
-		Connection con = JDBCHelper.getConnection();
+		Connection con = ConnectionPool.getInstance().getConnection();
 		boolean success = false;
 		try {
 			PreparedStatement stmt = con.prepareStatement(sql);
@@ -103,7 +103,7 @@ public class TaskHelper {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			JDBCHelper.freeConnection(con);
+			ConnectionPool.getInstance().freeConnection(con);
 		}
 
 		return success;
@@ -118,7 +118,7 @@ public class TaskHelper {
 		
 		HashMap<String, Set<Integer>> map = new HashMap<String, Set<Integer>>();
 		
-		Connection con = JDBCHelper.getConnection();
+		Connection con = ConnectionPool.getInstance().getConnection();
 		try {
 			PreparedStatement stmt = con.prepareStatement(sql);
 			stmt.setInt(1, taskId);
@@ -140,7 +140,7 @@ public class TaskHelper {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			JDBCHelper.freeConnection(con);
+			ConnectionPool.getInstance().freeConnection(con);
 		}
 		System.out.println("Size " + map.size());
 		return map;

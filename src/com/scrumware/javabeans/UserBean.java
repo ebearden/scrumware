@@ -7,11 +7,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.scrumware.jdbc.JDBCHelper;
-import com.scrumware.jdbc.dto.User;
+import com.scrumware.jdbc.ConnectionPool;
 
 public class UserBean {
 	private List<String> userList;
+	private ConnectionPool pool;
 	
 	public UserBean() {
 		userList = getUsers(null);
@@ -23,7 +23,8 @@ public class UserBean {
 
 	private List<String> getUsers(Integer id) {
 		userList = new ArrayList<String>();
-		Connection con = JDBCHelper.getConnection();
+		pool = ConnectionPool.getInstance();
+		Connection con = pool.getConnection();
 		try {
 			PreparedStatement stmt = null;
 			if (id != null) {
@@ -45,7 +46,7 @@ public class UserBean {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			JDBCHelper.freeConnection(con);
+			pool.freeConnection(con);
 		}
 		
 		return userList;
