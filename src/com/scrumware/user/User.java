@@ -29,6 +29,7 @@ public class User implements Serializable
     private String name;
     private String email;
     private int id;
+    private int role;
     
     /**
      * This is the no arg constructor
@@ -38,17 +39,19 @@ public class User implements Serializable
         name = "";
         email = "";
         id = 0;
+        role = 0;
     }
     
     /**
      *
      * This constructor takes String args
      * 
-     * @param code string input from user
-     * @param desc string input from user
-     * @param sprice string input from user
+     * @param name string input from user
+     * @param email string input from user
+     * @param id string from user
+     * @param role string input from user
      */
-    public User(String name, String email, String id)
+    public User(String name, String email, String id, String role)
     {
         this.name = name;
         this.email = email;
@@ -57,12 +60,17 @@ public class User implements Serializable
         } else {
             this.id = 0;
         }
+        if (isNumeric(role)) {
+            this.id = Integer.parseInt(id);
+        } else {
+            this.id = 0;
+        }
     }
     
     /**
-     * This method sets Product.Code to the passed value
+     * This method sets User.Name to the passed value
      *
-     * @param code string input from user
+     * @param name string input from user
      */
     public void setName(String name)
     {
@@ -72,7 +80,7 @@ public class User implements Serializable
     /**
      * This method retrieves the User Name for a User Object
      *
-     * @return user_name String stored in Product object
+     * @return name String stored in User object
      */
     public String getName()
     {
@@ -80,9 +88,9 @@ public class User implements Serializable
     }
     
     /**
-     * This method sets Product.Description to the passed value
+     * This method sets User.Email to the passed value
      *
-     * @param description string input from user
+     * @param email string input from user
      */
     public void setEmail(String email)
     {
@@ -90,9 +98,9 @@ public class User implements Serializable
     }
 
     /**
-     * This method retrieves the Product.Description for an Product Object
+     * This method retrieves the User.Email for a User Object
      *
-     * @return description String stored in Product object
+     * @return email String stored in User object
      */
     public String getEmail()
     {
@@ -102,7 +110,7 @@ public class User implements Serializable
     /**
      * This method sets Product.Price to the passed value
      *
-     * @param price string input from user
+     * @param id int input from user
      */
     public void setId(int id)
     {
@@ -110,15 +118,35 @@ public class User implements Serializable
     }
 
     /**
-     * This method retrieves the Product.Price for an Product Object
+     * This method retrieves the User.Id for a User Object
      *
-     * @return price double stored in Product object
+     * @return id int stored in User object
      */
     public int getId()
     {
         return id; 
     }
     
+    
+    /**
+     * This method sets User.Role to the passed value
+     *
+     * @param role string input from user
+     */
+    public void setRole(int role)
+    {
+        this.role = role;
+    }
+
+    /**
+     * This method retrieves the User.Role for a User Object
+     *
+     * @return price double stored in User object
+     */
+    public int getRole()
+    {
+        return role; 
+    }
     
     /**
      * This method checks whether the passed value is numeric.

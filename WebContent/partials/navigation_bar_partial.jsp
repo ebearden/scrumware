@@ -10,10 +10,14 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="#">SCRUMware</a>
+          <ul class="nav navbar-nav">
+          <li class="active"><a href="/SCRUMware/login.jsp">Login</a></li>
+          <li class="active"><a href="/SCRUMware/logout.jsp">Logout</a></li>
+          </ul>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
+            <li class="active"><a href="/SCRUMware/home.jsp">Home</a></li>
  
             <li class="dropdown">
               <a href="/SCRUMware/project.jsp" class="dropdown-toggle" data-toggle="dropdown">Project <b class="caret"></b></a>
@@ -51,6 +55,7 @@
                 <li><a href="#">Update Task</a></li>
               </ul>
             </li>
+            
           </ul>
         </div><!--/.nav-collapse -->
       </div>

@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context>
+<Context antiJARLocking="true" path="/SCRUMware">
 	<Resource 
 	name="jdbc/scrumwarestaging"
 	auth="Container"
 	type="javax.sql.DataSource"
 	username="root"
-	password=""
+	password="root"
 	driverClassName="com.mysql.jdbc.Driver"
-	url="jdbc:mysql://localhost:3306/scrumwarestaging"
-	maxActive="15"
-	maxIdle="3"/>
+	url="jdbc:mysql://localhost:8889/scrumwarestaging"
+	logAbandoned="true" 
+	maxActive="100" 
+	maxIdle="30" 
+	maxWait="10000" 
+	removeAbandoned="true" 
+	removeAbondonedTimeout="60"/>
 </Context>

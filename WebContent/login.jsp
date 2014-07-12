@@ -9,15 +9,17 @@
 </head>
 <body role="document">
 
-    <%@ include file="partials/navigation_bar_partial.jsp" %>
+    
 
     <div class="container theme-showcase" role="main">
 
         <!-- Main jumbotron for a primary marketing message or call to action -->
         <div class="jumbotron">
-        	<p>${msg}</p>
+        	<h2>Welcome to SCRUMware</h2>
+        	<br/>
+        	<p>${errmsg}</p>
             <p>
-            <form name="login" action="Login" method="POST">
+            <form name="login" action="Login" method="post">
                 <div class="input-group">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span> 
                     <input type="text" name="user_name" class="form-control" placeholder="Username"/>

@@ -67,7 +67,7 @@ public class ViewUsers extends HttpServlet {
             request.setAttribute("users",users);
             
 /** 
- * The data is forwarded to ViewProducts.jsp
+ * The data is forwarded to ViewUsers.jsp
 */            
             
             getServletContext().getRequestDispatcher("/ViewUsers.jsp").forward(request, response);
