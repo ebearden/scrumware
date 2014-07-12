@@ -14,11 +14,19 @@ public class LoginDB {
 	private int role;
 	//private User user;
 	
+	/*no arg constructor
+	 *this does nothing and should not be used
+	 */
+	
 	public LoginDB() {
 		
 		this.user_name = "";
+		this.id = 0;
+		this.role = 0;
 		
 	}
+	
+	/*constructor with DB login*/
 	
 	public LoginDB(String name, String password) {
 		
@@ -69,6 +77,12 @@ public class LoginDB {
             e.printStackTrace();
         }
         
+        /*close the result set
+         * close the prepared statement
+         * free the pool connection
+         */
+        
+        
         finally
         {
         	DButil.closeResultSet(rs);
@@ -78,6 +92,8 @@ public class LoginDB {
         
 	}
 	
+	/*check to see if credentials matched DB*/
+	
 	public boolean isValid() {
 		if (this.role!=0 && this.id!=0) {
 			return true;
@@ -86,11 +102,15 @@ public class LoginDB {
 		}
 	}
 	
+	/*return user id for session variables*/
+	
 	public int getId() {
 		
 		return this.id;
 	
 	}
+	
+	/*return user role id for session variables*/
 	
 	public int getRole() {
 		

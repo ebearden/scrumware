@@ -23,29 +23,48 @@ public class Login extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
 
+        	/*check to see if there is an active session */
         	
         	if(request.getSession(false) != null) {
+  
+        		/*if there is an active session, redirect to home page*/
         		
         		getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);
         		
         	} else {
-        	
+  
+        		/*if there is no active session, do login logic*/
+        		
 	        	if (request.getParameter("user_name")==null || request.getParameter("password")==null) {
 	                
+	        		/*both username and password must be present,
+	        		 * otherwise set error message
+	        		 */
+	        		
 	        		errmsg = "You must enter both user name and password."; 
 	            
 	            } else {
 	            	
+	            	/*validate user credentials against DB*/
+	            	
 	            	a_login = new LoginDB(request.getParameter("user_name"),request.getParameter("password"));
+	            	
+	            	/*if valid, create session
+	            	 * set max inactive interval to 30 mins
+	            	 * set role and id as session attributes
+	            	 */
 	            	
 	            	if (a_login.isValid()) {
 	            		
 	            		session = request.getSession();
+	            		session.setMaxInactiveInterval(1800);
 	            		session.setAttribute("id", a_login.getId());
 	            		session.setAttribute("role", a_login.getRole());
 	            		session.setAttribute("user_name", request.getParameter("user_name"));
 	            		
 	            	} else {
+	            		
+	            		/*if not valid, set error message*/
 	            		
 	            		errmsg = "Sorry.  Something went wrong.  Please try again.";
 	            		
@@ -55,9 +74,19 @@ public class Login extends HttpServlet {
 	        	
 	        	if (errmsg.equalsIgnoreCase("") || errmsg.isEmpty()) {
 	        		
+	        		/*if there are no error messages,
+	        		 * session has been successfully created.
+	        		 * send user to home page
+	        		 */
+	        		
 	                getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);
 	        		
 	        	} else {
+	        		
+	        		/*if there are error messages,
+	        		 * login has failed.
+	        		 * send user back to login page to try again
+	        		 */
 	        		
 	        		request.setAttribute("errmsg", errmsg);
 	        		request.setAttribute("user_name", request.getParameter("user_name"));
@@ -65,6 +94,8 @@ public class Login extends HttpServlet {
 	                
 	        	}
         	}
+        	
+        	/*exit servlet*/
         	
         } finally {            
             out.close();
