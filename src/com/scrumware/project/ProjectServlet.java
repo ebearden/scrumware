@@ -1,4 +1,4 @@
-package com.scrumware.servlets;
+package com.scrumware.project;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -25,9 +25,6 @@ import org.json.JSONObject;
 
 import com.scrumware.config.Constants;
 import com.scrumware.helpers.FormatHelper;
-import com.scrumware.jdbc.JDBCHelper;
-import com.scrumware.jdbc.da.ProjectDA;
-import com.scrumware.jdbc.dto.Project;
 
 /**
  * Servlet implementation class ProjectServlet
@@ -92,7 +89,7 @@ public class ProjectServlet extends HttpServlet {
 				} else {
 					projectList.clear();
 					projectList.addAll(projectDA.getAllProjects());
-					request.setAttribute("project_list", FormatHelper.projectListToHTMLTable(projectList, projectNames));
+//					request.setAttribute("project_list", FormatHelper.projectListToHTMLTable(projectList, projectNames));
 					request.getRequestDispatcher("/task.jsp").forward(request, response);
 				}
 			}
@@ -112,14 +109,13 @@ public class ProjectServlet extends HttpServlet {
 	}
 	
 	
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
-		request.setAttribute("project", projectDA.getProject(Integer.parseInt(projectId)));
-		request.getRequestDispatcher("/view_project.jsp").forward(request, response);
-	}
-	
+//	@Override
+//	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//		
+//		request.setAttribute("project", projectDA.getProject(Integer.parseInt(projectId)));
+//		request.getRequestDispatcher("/view_project.jsp").forward(request, response);
+//	}
+//	
 	
 	private JSONObject createJSONObject() {
 		JSONObject jsonObject = new JSONObject();

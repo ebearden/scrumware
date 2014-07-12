@@ -1,10 +1,11 @@
-package com.scrumware.jdbc.dto;
+package com.scrumware.asset;
 
 import java.util.Date;
 
 import org.json.JSONObject;
 
 import com.scrumware.config.Constants;
+import com.scrumware.interfaces.IJsonObject;
 
 public class Asset implements IJsonObject {
 	//Base Variables

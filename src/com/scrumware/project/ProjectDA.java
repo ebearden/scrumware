@@ -1,4 +1,4 @@
-package com.scrumware.jdbc.da;
+package com.scrumware.project;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,7 +10,6 @@ import java.util.List;
 
 import com.scrumware.config.Constants;
 import com.scrumware.jdbc.ConnectionPool;
-import com.scrumware.jdbc.dto.Project;
 
 public class ProjectDA {
 	public Project getProject(int projectId) {

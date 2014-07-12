@@ -52,7 +52,7 @@ function startUp() {
             <label for="assigned_to">Assign To</label> 
             <select
               class="form-control" name="assigned_to">
-              <%@ page import="com.scrumware.javabeans.UserBean"%>
+              <%@ page import="com.scrumware.user.UserBean"%>
               <%
                 UserBean userBean = new UserBean();
               %>
@@ -67,7 +67,7 @@ function startUp() {
           <div class="form-group">
             <label for="story_name">Story</label> <select
               class="form-control" name="story_id">
-              <%@ page import="com.scrumware.javabeans.StoryBean"%>
+              <%@ page import="com.scrumware.story.StoryBean"%>
               <%StoryBean storyBean = new StoryBean();%>
               <%for (Integer i : storyBean.getItems().keySet()) {%>
               <option value="<%=i%>">

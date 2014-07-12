@@ -37,7 +37,7 @@ function showSuccess() {
 }
 
 </script>
-<title>Tasks</title>
+<title>Projects</title>
 <%@ include file="partials/include_bootstrap_partial.jsp"%>
 </head>
 <body role="document">
@@ -48,10 +48,10 @@ function showSuccess() {
     <div id="success"></div>
     <p>
     <br /> <br />
-    <button class="btn btn-primary" data-toggle="modal" data-target="#newTaskModal">New Task</button><br />
+    <button class="btn btn-primary" data-toggle="modal" data-target="#newProjectModal">New Project</button><br />
     </p>
     <div class="span12"><hr /></div>
-    <div id="task-table" class="span12">${task_list}</div>
+    <div id="project-table" class="span12">${project_list}</div>
   </div>
 
   <%@ include file="partials/confirm_delete_modal.jsp" %>

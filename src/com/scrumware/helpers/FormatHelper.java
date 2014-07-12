@@ -3,8 +3,8 @@ package com.scrumware.helpers;
 import java.util.List;
 
 import com.scrumware.config.Status;
-import com.scrumware.javabeans.UserBean;
-import com.scrumware.jdbc.dto.Task;
+import com.scrumware.task.Task;
+import com.scrumware.user.UserBean;
 
 public class FormatHelper {
 	

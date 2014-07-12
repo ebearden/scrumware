@@ -1,4 +1,4 @@
-package com.scrumware.servlets;
+package com.scrumware.login;
 
 import java.io.IOException;
 import javax.servlet.ServletException;

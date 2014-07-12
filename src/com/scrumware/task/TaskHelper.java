@@ -1,4 +1,4 @@
-package com.scrumware.jdbc;
+package com.scrumware.task;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.scrumware.config.Status;
-import com.scrumware.jdbc.dto.Task;
+import com.scrumware.jdbc.ConnectionPool;
 
 public class TaskHelper {
 	

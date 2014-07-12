@@ -1,4 +1,4 @@
-package com.scrumware.jdbc.dto;
+package com.scrumware.task;
 
 import java.io.Serializable;
 import java.sql.Date;
@@ -16,6 +16,7 @@ import org.json.JSONObject;
 
 import com.scrumware.config.Constants;
 import com.scrumware.config.Status;
+import com.scrumware.interfaces.IJsonObject;
 
 public class Task implements IJsonObject, Serializable {
 

@@ -1,4 +1,4 @@
-package com.scrumware.jdbc.da;
+package com.scrumware.task;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,7 +13,6 @@ import java.util.Map;
 
 import com.scrumware.config.Constants;
 import com.scrumware.jdbc.ConnectionPool;
-import com.scrumware.jdbc.dto.Task;
 
 /**
  * TaskDA -

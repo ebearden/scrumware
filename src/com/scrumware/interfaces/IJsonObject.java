@@ -1,4 +1,4 @@
-package com.scrumware.jdbc.dto;
+package com.scrumware.interfaces;
 
 import org.json.*;
 

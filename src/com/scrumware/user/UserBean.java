@@ -1,4 +1,4 @@
-package com.scrumware.javabeans;
+package com.scrumware.user;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

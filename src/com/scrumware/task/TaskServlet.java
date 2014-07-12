@@ -1,4 +1,4 @@
-package com.scrumware.servlets;
+package com.scrumware.task;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,8 +14,6 @@ import org.json.JSONObject;
 
 import com.scrumware.config.Constants;
 import com.scrumware.helpers.FormatHelper;
-import com.scrumware.jdbc.da.TaskDA;
-import com.scrumware.jdbc.dto.Task;
 
 /**
  * Servlet implementation class TaskServlet
