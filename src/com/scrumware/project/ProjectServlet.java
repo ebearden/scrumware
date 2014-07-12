@@ -1,19 +1,9 @@
 package com.scrumware.project;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import javax.naming.Context;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -89,7 +79,7 @@ public class ProjectServlet extends HttpServlet {
 				} else {
 					projectList.clear();
 					projectList.addAll(projectDA.getAllProjects());
-//					request.setAttribute("project_list", FormatHelper.projectListToHTMLTable(projectList, projectNames));
+					request.setAttribute("project_list", FormatHelper.projectListToHTMLTable(projectList, projectNames));
 					request.getRequestDispatcher("/task.jsp").forward(request, response);
 				}
 			}
@@ -109,13 +99,24 @@ public class ProjectServlet extends HttpServlet {
 	}
 	
 	
-//	@Override
-//	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		
-//		request.setAttribute("project", projectDA.getProject(Integer.parseInt(projectId)));
-//		request.getRequestDispatcher("/view_project.jsp").forward(request, response);
-//	}
-//	
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Project project = new Project();
+		project.setCreatedBy(Integer.parseInt(request.getParameter(Constants.CREATED_BY)));
+		project.setDescription(request.getParameter(Constants.DESCRIPTION));
+		project.setEndDate(Date.valueOf((request.getParameter(Constants.PLANNED_END_DATE))));
+		project.setName(request.getParameter(Constants.PROJECT_NAME));
+		project.setPM(Integer.parseInt(request.getParameter(Constants.PROJECT_MANAGER)));
+		project.setStartDate(Date.valueOf((request.getParameter(Constants.PLANNED_START_DATE))));
+		project.setStatus(Integer.parseInt(request.getParameter(Constants.STATUS)));
+		project.setUpdatedBy(Integer.parseInt(request.getParameter(Constants.UPDATED_BY)));
+		
+		Project savedProject = projectDA.saveProject(project);
+		
+		request.setAttribute("project", savedProject);
+		request.getRequestDispatcher("/view_project.jsp").forward(request, response);
+	}
+	
 	
 	private JSONObject createJSONObject() {
 		JSONObject jsonObject = new JSONObject();

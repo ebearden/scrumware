@@ -46,11 +46,9 @@ public class Project implements IJsonObject {
 		name = json.getString(Constants.PROJECT_NAME);
 		description = json.getString(Constants.DESCRIPTION);
 		projectManagerId = json.getInt(Constants.PROJECT_MANAGER);
-		//startDate = json.;
-		//endDate = json.;
+		startDate = Date.valueOf(json.getString(Constants.PLANNED_START_DATE));
+		endDate = Date.valueOf(json.getString(Constants.PLANNED_END_DATE));
 		statusId = json.getInt(Constants.STATUS);
-		//createdOn = json.;
-		//updatedOn = json.;
 		createdBy = json.getInt(Constants.CREATED_BY);
 		updatedBy = json.getInt(Constants.UPDATED_BY);
 	}

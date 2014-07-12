@@ -24,10 +24,10 @@ public class ProjectDA {
 		return getProjectListForIdType(Constants.ASSIGNED_TO, userId);
 	}
 	
-	public boolean saveProject(Project project) {
+	public Project saveProject(Project project) {
 		Connection connection = ConnectionPool.getInstance().getConnection();
 		String projectSQL;
-		boolean success = false, isUpdate = false;
+		boolean isUpdate = false;
 		
 		if ((Integer)(project.getProjectID()) != null) {
 			isUpdate = true;
@@ -68,20 +68,19 @@ public class ProjectDA {
 					System.out.println(generatedKey.getInt(1));
 					System.out.println(generatedKey.getLong(1));
 				}
-				success = true;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			ConnectionPool.getInstance().freeConnection(connection);
 		}
-		return success;
+		return getProject(project.getProjectID());
 	}
 	
 	public boolean saveProject(List<Project> projectList) {
 		boolean success = false;
 		for (Project p : projectList) {
-			 success = saveProject(p);
+			 saveProject(p);
 		}
 		return success;
 	}

@@ -3,6 +3,7 @@ package com.scrumware.helpers;
 import java.util.List;
 
 import com.scrumware.config.Status;
+import com.scrumware.project.Project;
 import com.scrumware.task.Task;
 import com.scrumware.user.UserBean;
 
@@ -37,6 +38,43 @@ public class FormatHelper {
 					"<td><form name=\"view_task\" action=\"TaskServlet\" method=\"get\">" +
 					"<input type=\"text\" name=\"task_id\" class=\"hidden\" value=\"" + 
 					task.getTaskId() + "\">" +
+					"<button type=\"submit\" class=\"class btn btn-primary\">" + 
+					"View</button></form></td>"
+					);
+			stringBuilder.append("</tr>");
+		}
+		stringBuilder.append("</table>");
+		
+		return stringBuilder.toString();
+	}
+	
+	public static String projectListToHTMLTable(List<Project> projectList, List<String> names) {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("<table id=\"project-table\" class=\"table table-condensed table-hover\">");
+		// Setup the table header
+		stringBuilder.append("<thead>");
+		for (String s : names) {
+			stringBuilder.append("<td>" + s + "</td>");
+		}
+		stringBuilder.append("<td></td>");
+		stringBuilder.append("</thead>");
+		
+		// Setup table rows.
+		for (Project project : projectList) {
+			UserBean userBean = new UserBean(project.getPM());
+			String status = Status.values()[project.getStatus() - 1].getDescription();
+			
+			stringBuilder.append("<tr>");
+			stringBuilder.append("<td>" + project.getProjectID() + "</td>");
+			stringBuilder.append("<td>" + project.getName() + "</td>");
+			stringBuilder.append("<td>" + project.getDescription() + "</td>");
+			stringBuilder.append("<td>" + userBean.getItems().get(0) + "</td>");
+			stringBuilder.append("<td>" + status + "</td>");
+			
+			stringBuilder.append(
+					"<td><form name=\"view_project\" action=\"ProjectServlet\" method=\"get\">" +
+					"<input type=\"text\" name=\"project_id\" class=\"hidden\" value=\"" + 
+					project.getProjectID() + "\">" +
 					"<button type=\"submit\" class=\"class btn btn-primary\">" + 
 					"View</button></form></td>"
 					);
