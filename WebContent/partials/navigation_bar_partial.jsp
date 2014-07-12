@@ -43,7 +43,13 @@
                 <li><a href="#">Update Task</a></li>
               </ul>
             </li>
-            
+            <li class="dropdown">
+              <a href="/SCRUMware/ViewUsers" class="dropdown-toggle" data-toggle="dropdown">User <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="/SCRUMware/ViewUsers">Add User</a></li>
+                <li><a href="#">Update Task</a></li>
+              </ul>
+            </li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
