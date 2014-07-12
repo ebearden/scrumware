@@ -35,6 +35,8 @@ public final class Constants {
 	// Story Constants
 	public static final String STORY_ID = "story_id";
 	public static final String STORY_NAME = "story_name";
+	public static final String TASK_COUNT = "task_count";
+	public static final String ACCEPTENCE_CRITERIA = "acceptence_criteria";
 	
 	// Status Constants 
 	public static final String STATUS_ID = "status_id";
@@ -53,4 +55,9 @@ public final class Constants {
 	public static final String ASSET_ID = "asset_id";
 	public static final String ASSET_NAME = "asset_name";
 	public static final String LOCATION = "location";
+	
+	
+	//Sprint Constants
+	public static final String SPRINT_ID = "sprint_id";
+
 }
