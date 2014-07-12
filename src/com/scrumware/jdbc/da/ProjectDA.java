@@ -6,15 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.scrumware.config.Constants;
-import com.scrumware.jdbc.JDBCHelper;
+import com.scrumware.jdbc.ConnectionPool;
 import com.scrumware.jdbc.dto.Project;
-import com.scrumware.jdbc.dto.Task;
 
 public class ProjectDA {
 	public Project getProject(int projectId) {
@@ -30,7 +26,7 @@ public class ProjectDA {
 	}
 	
 	public boolean saveProject(Project project) {
-		Connection connection = JDBCHelper.getConnection();
+		Connection connection = ConnectionPool.getInstance().getConnection();
 		String projectSQL;
 		boolean success = false, isUpdate = false;
 		
@@ -78,7 +74,7 @@ public class ProjectDA {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			JDBCHelper.freeConnection(connection);
+			ConnectionPool.getInstance().freeConnection(connection);
 		}
 		return success;
 	}
@@ -92,7 +88,7 @@ public class ProjectDA {
 	}
 	
 	private List<Project> getProjectListForIdType(String type, Integer id) {
-		Connection connection = JDBCHelper.getConnection();
+		Connection connection = ConnectionPool.getInstance().getConnection();
 		List<Project> projectList = new ArrayList<Project>();
 
 		Project project = null;
@@ -139,14 +135,14 @@ public class ProjectDA {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			JDBCHelper.freeConnection(connection);
+			ConnectionPool.getInstance().freeConnection(connection);
 		}
 
 		return projectList;
 	}
 	
 	public boolean deleteProject(Project project) {
-		Connection connection = JDBCHelper.getConnection();
+		Connection connection = ConnectionPool.getInstance().getConnection();
 		PreparedStatement statement = null;
 		String sql = "DELETE FROM Project WHERE project_id=?";
 		boolean success = false;
@@ -160,7 +156,7 @@ public class ProjectDA {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			JDBCHelper.freeConnection(connection);
+			ConnectionPool.getInstance().freeConnection(connection);
 		}
 		return success;
 	}
