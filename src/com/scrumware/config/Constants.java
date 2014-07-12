@@ -48,4 +48,9 @@ public final class Constants {
 	public static final String PLANNED_START_DATE = "planned_start_date";
 	public static final String PLANNED_END_DATE = "planned_end_date";
 	public static final String PROJECT_MANAGER = "project_manager";
+	
+	//Asset Constants
+	public static final String ASSET_ID = "asset_id";
+	public static final String ASSET_NAME = "asset_name";
+	public static final String LOCATION = "location";
 }
