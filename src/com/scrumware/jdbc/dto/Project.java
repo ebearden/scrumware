@@ -1,6 +1,6 @@
 package com.scrumware.jdbc.dto;
 
-import java.util.Date;
+import java.sql.Date;
 
 import org.json.JSONObject;
 
