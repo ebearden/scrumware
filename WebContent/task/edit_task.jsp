@@ -5,6 +5,19 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Edit Task</title>
+<script>
+function addDependency() {
+    var options = document.getElementsByName('story_id')[0];
+    for (var i in options) {
+        if (options[i].selected) {
+        	var location = 'dependencies?story_id=' + options[i].value;
+        	location = location + '&task_id=' + document.getElementsByName('task_id')[0].value;
+            window.location = location;
+        }
+    }
+    return false;
+}
+</script>
 
 <%@ include file="../partials/include_bootstrap_partial.jsp"%>
 </head>
@@ -55,14 +68,20 @@
             <%-- <c:forEach var="s" items="${stories}">
                 <option value="${s.id}">${s.name}</option>            
             </c:forEach> --%>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
           </select>
         </div>
         
-        <!-- Submit -->
+        <!-- Save -->
         <button type="submit" class="btn btn-primary">Save</button>
+        <!-- Add Dependency -->
         <!-- Delete -->
         <button onclick="return false;" class="btn btn-danger" data-toggle="modal" data-target="#confirmDeleteModal">Delete</button>
-    </form>
+    </form><br />
+        <button onclick="return addDependency();" class="btn btn-primary">Add a dependency</button>
     
     <!-- Confirm Delete Modal -->
     <div class="modal fade" id="confirmDeleteModal" tabindex="-1"

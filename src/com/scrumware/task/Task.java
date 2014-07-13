@@ -10,7 +10,6 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -27,7 +26,7 @@ public class Task implements IJsonObject, Serializable {
 	private Integer taskId;
 	private int assignedTo;
 	private int storyId;
-	private Map<Integer, List<Integer>> dependentTaskMap;
+	private Map<Integer, ArrayList<Integer>> dependentTaskMap;
 	
 	private String name;
 	private int statusId;
@@ -40,11 +39,11 @@ public class Task implements IJsonObject, Serializable {
 	private int dependentCount;
 	
 	public Task() {
-		dependentTaskMap = new HashMap<Integer, List<Integer>>();
+		dependentTaskMap = new HashMap<Integer, ArrayList<Integer>>();
 	}
 	
 	public Task(JSONObject json) {
-		dependentTaskMap = new HashMap<Integer, List<Integer>>();
+		dependentTaskMap = new HashMap<Integer, ArrayList<Integer>>();
 		updateFromJSON(json);
 	}
 	
@@ -86,8 +85,8 @@ public class Task implements IJsonObject, Serializable {
 		return jsonArray;
 	}
 	
-	private Map<Integer, List<Integer>> dependencyMap(JSONArray jsonArray) {
-		Map<Integer, List<Integer>> map = new HashMap<Integer, List<Integer>>();
+	private Map<Integer, ArrayList<Integer>> dependencyMap(JSONArray jsonArray) {
+		Map<Integer, ArrayList<Integer>> map = new HashMap<Integer, ArrayList<Integer>>();
 		
 		for (int i = 0; i < jsonArray.length(); i++) {
 			map.put(
@@ -161,11 +160,11 @@ public class Task implements IJsonObject, Serializable {
 		this.storyId = storyId;
 	}
 
-	public Map<Integer, List<Integer>> getDependentTaskMap() {
+	public Map<Integer, ArrayList<Integer>> getDependentTaskMap() {
 		return dependentTaskMap;
 	}
 
-	public void setDependentTaskMap(Map<Integer, List<Integer>> dependentTaskMap) {
+	public void setDependentTaskMap(Map<Integer, ArrayList<Integer>> dependentTaskMap) {
 		this.dependentTaskMap.clear();
 		this.dependentTaskMap.putAll(dependentTaskMap);
 	}

@@ -1,11 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=US-ASCII"
-    pageEncoding="US-ASCII"%>
+  pageEncoding="US-ASCII"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<title>Edit</title>
-
+<title>Tasks</title>
 <%@ include file="../partials/include_bootstrap_partial.jsp"%>
 </head>
 <body role="document">
@@ -13,21 +12,9 @@
   <%@ include file="../partials/navigation_bar_partial.jsp"%>
 
   <div id="main" class="container theme-showcase" role="main">
-    <br /><br /><br /><br />
-    <h2>#${task.taskId} - ${task.name}&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="edit?task_id=${task.taskId}"><button class="btn btn-default">Edit</button></h2></a>
-    <p><h4><small>Created on: ${task.createdOnDateAsString} by ${created_by.name} <br/>
-    Last Updated: ${task.updatedOnDateAsString} by ${updated_by.name}</small></h4></p>
-    <h3>${task.statusAsString}</h3>
-    <div class="span12 "><hr /></div>
-    <div class="lead"><p>${task.description}</p></div>
-    <div class="span12 "><hr /></div>
-    <p class="lead">Assigned to: ${assigned_to.name}</p>
-    <p class="lead">Story: ${task.storyId}</p>
-    <p class="lead">Work Notes: <br/>${task.workNotes}</p>
-    <p class="lead">Open Dependencies:</p>
-    
-    <div id="dependent-table" class="span12">
+    <br /> <br />
+    <br /> <br />
+    <div id="task-table" class="span12">
     <table id="task-table" class="table table-condensed table-hover">
       <thead>
       <tr>
@@ -39,7 +26,7 @@
         <th><!-- Button column --></th>
       <tr>
       </thead>
-      <c:forEach var="t" items="${dependencies}">
+      <c:forEach var="t" items="${task_list}">
         <tr>
           <td>${t.taskId}</td>          
           <td>${t.name}</td>          
@@ -47,17 +34,18 @@
           <td>${t.assignedToUser.name}</td>          
           <td>${t.status}</td>
           <td>
-            <a href="view?task_id=${t.taskId}">
-                <button class="btn btn-primary">View</button>
-            </a>
+          <form name="new_task" method="POST" action="dependencies">
+            <input type="text" name="dependent_task_id" value="${t.taskId}" class="hidden" />
+            <input type="text" name="task_id" value="${task_id}" class="hidden" />
+            <button class="btn btn-primary">Add dependency</button>
+            </form>
           </td>
         </tr>
       </c:forEach>
     </table>
     </div>
   </div>
-    
-</div>
+
   <%@ include file="../partials/include_bootstrap_javascript.jsp"%>
 </body>
 </html>

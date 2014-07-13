@@ -146,7 +146,7 @@ public class TaskDB {
 	 * @param taskId - The id for the task.
 	 * @return true if saved, else false.
 	 */
-	private static boolean saveDependency(Map<Integer, List<Integer>> map, Integer taskId) {
+	private static boolean saveDependency(Map<Integer, ArrayList<Integer>> map, Integer taskId) {
 		Connection connection = ConnectionPool.getInstance().getConnection();
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		//TODO: This seems a little risky.
@@ -219,7 +219,7 @@ public class TaskDB {
 		try {
 			taskStatement = connection.prepareStatement(sql);
 			dependencyStatement = connection.prepareStatement(
-					"SELECT dependency_id, depends_on, active FROM Task_Dependencies WHERE task_id=?;"
+					"SELECT dependency_id, depends_on, active FROM Task_Dependencies WHERE task_id=? AND active=1;"
 					);
 			
 			if (id != null) {
@@ -228,7 +228,7 @@ public class TaskDB {
 			taskResultSet = taskStatement.executeQuery();
 			
 			while (taskResultSet.next()) {
-				Map<Integer, List<Integer>> dependencyMap = new HashMap<Integer, List<Integer>>();
+				Map<Integer, ArrayList<Integer>> dependencyMap = new HashMap<Integer, ArrayList<Integer>>();
 				task = new Task();
 				task.setTaskId(taskResultSet.getInt(1));
 				task.setCreatedOn(taskResultSet.getDate(2));
