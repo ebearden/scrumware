@@ -17,6 +17,7 @@ import java.util.Map;
 
 import com.scrumware.config.Constants;
 import com.scrumware.jdbc.ConnectionPool;
+import com.scrumware.jdbc.DButil;
 
 /**
  * TaskDB -
@@ -40,7 +41,6 @@ public class TaskDB {
 	 * @return List of all Tasks.
 	 */
 	public static ArrayList<Task> getAllTasks() {
-		System.out.println("getAllTasks()");
 		return getTaskListForIdType(null, null);
 	}
 	
@@ -86,8 +86,11 @@ public class TaskDB {
 					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		}
 		
+		PreparedStatement taskStatement = null;
+		ResultSet generatedKeyResultSet = null;
+		
 		try {
-			PreparedStatement taskStatement = connection.prepareStatement(taskSQL, Statement.RETURN_GENERATED_KEYS);
+			taskStatement = connection.prepareStatement(taskSQL, Statement.RETURN_GENERATED_KEYS);
 			
 			taskStatement.setString(1, task.getName());
 			taskStatement.setString(2, task.getDescription());
@@ -108,11 +111,9 @@ public class TaskDB {
 			
 			int result = taskStatement.executeUpdate();
 			if (result == 1) {
-				ResultSet generatedKey = taskStatement.getGeneratedKeys();
-				if (generatedKey.next()) {
-					task.setTaskId(generatedKey.getInt(1));
-					System.out.println(generatedKey.getInt(1));
-					System.out.println(generatedKey.getLong(1));
+				generatedKeyResultSet = taskStatement.getGeneratedKeys();
+				if (generatedKeyResultSet.next()) {
+					task.setTaskId(generatedKeyResultSet.getInt(1));
 				}
 
 				for (int i = 0; i < task.getDependentTaskMap().size(); i++) {
@@ -123,6 +124,8 @@ public class TaskDB {
 			e.printStackTrace();
 		} finally {
 			ConnectionPool.getInstance().freeConnection(connection);
+			DButil.closeResultSet(generatedKeyResultSet);
+			DButil.closePreparedStatement(taskStatement);
 		}
 		return getTask(task.getTaskId());
 	}
@@ -163,8 +166,9 @@ public class TaskDB {
 					+ "VALUES(?, ?, ?);";
 		}
 		
+		PreparedStatement statement = null;
 		try {
-			PreparedStatement statement = connection.prepareStatement(sql);
+			statement = connection.prepareStatement(sql);
 			statement.setInt(1, taskId);
 			statement.setInt(2, list.get(0));
 			statement.setInt(3, list.get(1));
@@ -178,6 +182,7 @@ public class TaskDB {
 			e.printStackTrace();
 		} finally {
 			ConnectionPool.getInstance().freeConnection(connection);
+			DButil.closePreparedStatement(statement);
 		}
 		
 		return success;
@@ -206,19 +211,21 @@ public class TaskDB {
 					+ "FROM Task WHERE " + type + "=?;";
 		}
 		
+		PreparedStatement taskStatement = null;
+		PreparedStatement dependencyStatement = null;
+		ResultSet taskResultSet = null;
+		ResultSet dependencyResultSet = null;
+		
 		try {
-			PreparedStatement taskStatement = connection.prepareStatement(sql);
-			System.out.println(taskStatement);
-			
-			PreparedStatement dependencyStatement = connection.prepareStatement(
+			taskStatement = connection.prepareStatement(sql);
+			dependencyStatement = connection.prepareStatement(
 					"SELECT dependency_id, depends_on, active FROM Task_Dependencies WHERE task_id=?;"
 					);
 			
 			if (id != null) {
 				taskStatement.setInt(1, id);
 			}
-			ResultSet taskResultSet = taskStatement.executeQuery();
-			ResultSet dependencyResultSet;
+			taskResultSet = taskStatement.executeQuery();
 			
 			while (taskResultSet.next()) {
 				Map<Integer, List<Integer>> dependencyMap = new HashMap<Integer, List<Integer>>();
@@ -253,6 +260,11 @@ public class TaskDB {
 			e.printStackTrace();
 		} finally {
 			ConnectionPool.getInstance().freeConnection(connection);
+			DButil.closeResultSet(taskResultSet);
+			DButil.closeResultSet(dependencyResultSet);
+			DButil.closePreparedStatement(taskStatement);
+			DButil.closePreparedStatement(dependencyStatement);
+			
 		}
 
 		return taskList;
@@ -279,6 +291,7 @@ public class TaskDB {
 			e.printStackTrace();
 		} finally {
 			ConnectionPool.getInstance().freeConnection(connection);
+			DButil.closePreparedStatement(statement);
 		}
 		return success;
 	}
