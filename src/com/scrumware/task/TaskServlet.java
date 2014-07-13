@@ -13,24 +13,18 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.scrumware.config.Constants;
-import com.scrumware.helpers.FormatHelper;
 
 /**
  * Servlet implementation class TaskServlet
- * 
- * Parameter List:
- * user_id - Tasks assigned to a user.
- * story_id - Tasks that are a part of a story.
- * limit - Max amount to return, defaults to 50.
+ * @author Elvin Bearden
  */
-@WebServlet({ "/TaskServlet", "/tasks" })
+@WebServlet(name = "TaskServlet", urlPatterns = {"/TaskServlet", "/task/all"})
 public class TaskServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private static final String DATA_TYPE_PARAMETER = "data_type";
 	
 	private ArrayList<Task> taskList;
-	private TaskDA taskDA;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -38,7 +32,6 @@ public class TaskServlet extends HttpServlet {
     public TaskServlet() {
         super();
         taskList = new ArrayList<Task>();
-        taskDA = new TaskDA();
     }
 
 	/**
@@ -53,34 +46,25 @@ public class TaskServlet extends HttpServlet {
 		if (action != null && action.equalsIgnoreCase("delete")) {
 			doDelete(request, response);
 		} 
-		else if (action != null && action.equalsIgnoreCase("edit")) {
-			Task task = taskDA.getTask(Integer.parseInt(taskId));
-			request.setAttribute(Constants.ASSIGNED_TO, task.getAssignedTo());
-			request.setAttribute(Constants.STORY_ID, task.getStoryId());
-			request.setAttribute("task", task);
-			request.getRequestDispatcher("/edit_task.jsp").forward(request, response);
-		}
 		else {
-			ArrayList<String> taskNames = new ArrayList<String>();
-
 
 			if ("json".equals(dataType)) {
 				if (userId != null) {
 					taskList.clear();
-					taskList.addAll(taskDA.getAllTasksForUserId(Integer.parseInt(userId)));
+					taskList.addAll(TaskDB.getAllTasksForUserId(Integer.parseInt(userId)));
 					JSONObject jsonObject = createJSONObject();
 					response.addHeader("Content-Type", "application/json");
 					response.getWriter().println(jsonObject);
 				}
 			} else {
 				if (taskId != null) {
-					request.setAttribute("task", taskDA.getTask(Integer.parseInt(taskId)));
-					request.getRequestDispatcher("/view_task.jsp").forward(request, response);
+					request.setAttribute("task", TaskDB.getTask(Integer.parseInt(taskId)));
+					request.getRequestDispatcher("/task/view_task.jsp").forward(request, response);
 				} else {
 					taskList.clear();
-					taskList.addAll(taskDA.getAllTasks());
-					request.setAttribute("task_list", FormatHelper.taskListToHTMLTable(taskList, taskNames));
-					request.getRequestDispatcher("/task.jsp").forward(request, response);
+					taskList.addAll(TaskDB.getAllTasks());
+					request.setAttribute("task_list", taskList);
+					request.getRequestDispatcher("/task/tasks.jsp").forward(request, response);
 				}
 			}
 		}
@@ -93,44 +77,10 @@ public class TaskServlet extends HttpServlet {
 		if (taskId != null) {
 			Task task = new Task();
 			task.setTaskId(Integer.parseInt(taskId));
-			taskDA.deleteTask(task);
+			TaskDB.deleteTask(task);
 			response.sendRedirect("tasks");
 		} 
 	}
-	
-	
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String taskId = request.getParameter(Constants.TASK_ID);
-		String statusId = request.getParameter(Constants.STATUS_ID);
-		String storyId = request.getParameter(Constants.STORY_ID);
-		String assignedTo = request.getParameter(Constants.ASSIGNED_TO);
-		
-		Task task = new Task();
-		task.setTaskId(taskId != null ? Integer.parseInt(taskId) : null);
-		task.setStatusId(statusId != null ? Integer.parseInt(statusId) : 1);
-		task.setStoryId(storyId != null ? Integer.parseInt(storyId) : 1);
-		task.setAssignedTo(assignedTo != null ? Integer.parseInt(assignedTo) : 1);
-		
-		task.setName(request.getParameter(Constants.TASK_NAME));
-		task.setDescription(request.getParameter(Constants.DESCRIPTION));
-		task.setWorkNotes(request.getParameter(Constants.WORK_NOTES));
-		
-		// This needs work...
-		task.setUpdatedBy(1);
-		task.setCreatedBy(1);
-//		ArrayList<Integer> list = new ArrayList<>();
-//		list.addAll(Arrays.asList(2, 1));
-//		Map<Integer, List<Integer>> map = new HashMap<Integer, List<Integer>>();
-//		map.put(null, list);
-//		// ------------------
-//		task.setDependentTaskMap(map);
-		Task savedTask = taskDA.saveTask(task);
-		
-		request.setAttribute("task", savedTask);
-		request.getRequestDispatcher("/view_task.jsp").forward(request, response);
-	}
-	
 	
 	private JSONObject createJSONObject() {
 		JSONObject jsonObject = new JSONObject();

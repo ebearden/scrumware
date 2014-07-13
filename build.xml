@@ -73,7 +73,7 @@
 		<scp remoteTodir="${scp-userid}@${scp-server}:${scp-remotedir}"
 		keyfile="${scp-keyfile}"
 		  trust="yes"
-			sftp="true">
+			sftp="false">
 		    <fileset dir="${build-directory}">
 		      <include name="**/${war-file-name}"/>
 		    </fileset>

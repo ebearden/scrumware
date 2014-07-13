@@ -14,7 +14,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.scrumware.config.Constants;
-import com.scrumware.helpers.FormatHelper;
 
 /**
  * Servlet implementation class ProjectServlet
@@ -79,7 +78,7 @@ public class ProjectServlet extends HttpServlet {
 				} else {
 					projectList.clear();
 					projectList.addAll(projectDA.getAllProjects());
-					request.setAttribute("project_list", FormatHelper.projectListToHTMLTable(projectList, projectNames));
+//					request.setAttribute("project_list", FormatHelper.projectListToHTMLTable(projectList, projectNames));
 					request.getRequestDispatcher("/task.jsp").forward(request, response);
 				}
 			}

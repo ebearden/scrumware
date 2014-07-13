@@ -1,10 +1,12 @@
 package com.scrumware.task;
 
+/**
+ * Task Database Transfer Object
+ * @author Elvin Bearden
+ */
 import java.io.Serializable;
 import java.sql.Date;
 import java.text.DateFormat;
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -61,7 +63,6 @@ public class Task implements IJsonObject, Serializable {
 
 	@Override
 	public void updateFromJSON(JSONObject json) {
-		taskId = json.getInt(Constants.USER_ID);
 		assignedTo = json.getInt(Constants.ASSIGNED_TO);
 		storyId = json.getInt(Constants.STORY_ID);
 		dependentTaskMap = dependencyMap(json.getJSONArray(Constants.DEPENDS_ON));

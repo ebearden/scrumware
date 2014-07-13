@@ -38,12 +38,12 @@ public class TaskHelper {
 			//Can't close, dependent task not completed
 			System.out.println("Dependent on a task " + taskId);
 			return false;
-		} 
+		}
 		if (map.get(DEPENDENT_ON).size() == 0 && map.get(DEPENDED_ON).size() == 0) {
 			//Close task, isn't dependent on any tasks or depended on by any tasks.
 			System.out.println("Not dependent or depened on a task " + taskId);
 			return changeStatus(taskId, Status.DONE);
-		} 
+		}
 		if (map.get(DEPENDED_ON).size() > 0) {
 			System.out.println("dependend on");
 			// Inform tasks that depend on this task that it is closed. Then close task.

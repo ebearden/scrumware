@@ -1,5 +1,9 @@
 package com.scrumware.task;
 
+/**
+ * Task Database Access Object
+ * @author Elvin Bearden
+ */
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,19 +19,19 @@ import com.scrumware.config.Constants;
 import com.scrumware.jdbc.ConnectionPool;
 
 /**
- * TaskDA -
+ * TaskDB -
  * Class to access Retrieve, Insert, Update, and Delete from the Database.
  *  
  * @author Elvin Bearden
  *
  */
-public class TaskDA {
+public class TaskDB {
 	/**
 	 * Get a task by Id.
 	 * @param taskId - The tasks Id.
 	 * @return a new Task object.
 	 */
-	public Task getTask(int taskId) {
+	public static Task getTask(int taskId) {
 		return getTaskListForIdType(Constants.TASK_ID, taskId).get(0);
 	}
 	
@@ -35,7 +39,7 @@ public class TaskDA {
 	 * Get all tasks. Potentially way too many.
 	 * @return List of all Tasks.
 	 */
-	public List<Task> getAllTasks() {
+	public static ArrayList<Task> getAllTasks() {
 		System.out.println("getAllTasks()");
 		return getTaskListForIdType(null, null);
 	}
@@ -45,7 +49,7 @@ public class TaskDA {
 	 * @param storyId - The stories Id.
 	 * @return a list of new task objects for the story.
 	 */
-	public List<Task> getAllTasksForStory(int storyId) {
+	public static ArrayList<Task> getAllTasksForStory(int storyId) {
 		return getTaskListForIdType(Constants.STORY_ID, storyId);
 	}
 	
@@ -54,7 +58,7 @@ public class TaskDA {
 	 * @param userId - the Users Id.
 	 * @return List of tasks for the user.
 	 */
-	public List<Task> getAllTasksForUserId(int userId) {
+	public static ArrayList<Task> getAllTasksForUserId(int userId) {
 		return getTaskListForIdType(Constants.ASSIGNED_TO, userId);
 	}
 	
@@ -63,7 +67,7 @@ public class TaskDA {
 	 * @param task - the Task to save.
 	 * @return the saved Task. 
 	 */
-	public Task saveTask(Task task) {
+	public static Task saveTask(Task task) {
 		Connection connection = ConnectionPool.getInstance().getConnection();
 		String taskSQL;
 		boolean isUpdate = false;
@@ -79,7 +83,7 @@ public class TaskDA {
 		else {
 			taskSQL = "INSERT INTO Task(task_name, description, assigned_to, status_id, "
 					+ "work_notes, story_id, dependent_count, created_by, updated_by) "
-					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";	
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		}
 		
 		try {
@@ -127,7 +131,7 @@ public class TaskDA {
 	 * Save a list of tasks.
 	 * @param taskList - the list of tasks.
 	 */
-	public void saveTasks(List<Task> taskList) {
+	public static void saveTasks(List<Task> taskList) {
 		for (Task t : taskList) {
 			 saveTask(t);
 		}
@@ -139,7 +143,7 @@ public class TaskDA {
 	 * @param taskId - The id for the task.
 	 * @return true if saved, else false.
 	 */
-	private boolean saveDependency(Map<Integer, List<Integer>> map, Integer taskId) {
+	private static boolean saveDependency(Map<Integer, List<Integer>> map, Integer taskId) {
 		Connection connection = ConnectionPool.getInstance().getConnection();
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		//TODO: This seems a little risky.
@@ -185,9 +189,9 @@ public class TaskDA {
 	 * @param id - The user id.
 	 * @return A list of tasks.
 	 */
-	private List<Task> getTaskListForIdType(String type, Integer id) {
+	private static ArrayList<Task> getTaskListForIdType(String type, Integer id) {
 		Connection connection = ConnectionPool.getInstance().getConnection();
-		List<Task> taskList = new ArrayList<Task>();
+		ArrayList<Task> taskList = new ArrayList<Task>();
 
 		Task task = null;
 		String sql;
@@ -259,7 +263,7 @@ public class TaskDA {
 	 * @param task - The task to delete.
 	 * @return True if successful, else false.
 	 */
-	public boolean deleteTask(Task task) {
+	public static boolean deleteTask(Task task) {
 		Connection connection = ConnectionPool.getInstance().getConnection();
 		PreparedStatement statement = null;
 		String sql = "DELETE FROM Task WHERE task_id=?";
