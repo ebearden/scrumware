@@ -37,7 +37,7 @@
           <select class="form-control" name="assigned_to">
             <c:forEach var="u" items="${users}">
               <c:choose>
-                <c:when test="${u.id == task.taskId}">
+                <c:when test="${u.id == task.assignedTo}">
                   <option value="${u.id}" selected>${u.name}</option>
                 </c:when>
                 <c:otherwise>
@@ -59,8 +59,38 @@
         </div>
         
         <!-- Submit -->
-        <button type="submit" class="btn btn-primary">Add Task</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <!-- Delete -->
+        <button onclick="return false;" class="btn btn-danger" data-toggle="modal" data-target="#confirmDeleteModal">Delete</button>
     </form>
-</div>
+    
+    <!-- Confirm Delete Modal -->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1"
+      role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+              <span aria-hidden="true">&times;</span> <span
+                class="sr-only">Close</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel">Confirm Deletion</h4>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure you want to delete this task?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default"
+              data-dismiss="modal">No</button>
+            <a href="delete?task_id=${task.taskId}">
+              <button type="button" class="btn btn-primary">Delete</button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <%@ include file="../partials/include_bootstrap_javascript.jsp"%>
 </body>
 </html>

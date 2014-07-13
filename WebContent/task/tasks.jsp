@@ -16,7 +16,7 @@
     <div id="success"></div>
     <p>
     <br /> <br />
-    <a href="task/new"><button class="btn btn-primary">New Task</button></a><br />
+    <a href="new"><button class="btn btn-primary">New Task</button></a><br />
     </p>
     <div class="span12"><hr /></div>
     <div id="task-table" class="span12">
@@ -37,9 +37,9 @@
           <td>${t.taskId}</td>          
           <td>${t.name}</td>          
           <td>${t.description}</td>          
-          <td>${t.assignedTo}</td>          
-          <td>${t.storyId}</td>
-          <td>${t.statusAsString}</td>
+          <td>${t.assignedToUser.name}</td>          
+          <td>${t.story}</td>
+          <td>${t.status}</td>
           <td>
             <a href="view?task_id=${t.taskId}">
                 <button class="btn btn-primary">View</button>
