@@ -29,7 +29,7 @@ public class StoryDB {
 	 * Get all stories. Potentially way too many.
 	 * @return List of all stories.
 	 */
-	public ArrayList<Story> getAllStories() {
+	public static ArrayList<Story> getAllStories() {
 		System.out.println("getAllStories()");
 		return getStoryListForIdType(null, null);
 	}
