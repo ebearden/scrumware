@@ -11,20 +11,20 @@ import java.util.List;
 import com.scrumware.config.Constants;
 import com.scrumware.jdbc.ConnectionPool;
 
-public class ProjectDA {
-	public Project getProject(int projectId) {
+public class ProjectDB {
+	public static Project getProject(int projectId) {
 		return getProjectListForIdType(Constants.PROJECT_ID, projectId).get(0);
 	}
 	
-	public List<Project> getAllProjects() {
+	public static ArrayList<Project> getAllProjects() {
 		return getProjectListForIdType(null, null);
 	}
 	
-	public List<Project> getAllProjectsForUserId(int userId) {
-		return getProjectListForIdType(Constants.ASSIGNED_TO, userId);
+	public static ArrayList<Project> getAllProjectsForUserId(int userId) {
+		return getProjectListForIdType(Constants.PROJECT_MANAGER, userId);
 	}
 	
-	public Project saveProject(Project project) {
+	public static Project saveProject(Project project) {
 		Connection connection = ConnectionPool.getInstance().getConnection();
 		String projectSQL;
 		boolean isUpdate = false;
@@ -77,7 +77,7 @@ public class ProjectDA {
 		return getProject(project.getProjectID());
 	}
 	
-	public boolean saveProject(List<Project> projectList) {
+	public static boolean saveProject(List<Project> projectList) {
 		boolean success = false;
 		for (Project p : projectList) {
 			 saveProject(p);
@@ -85,9 +85,9 @@ public class ProjectDA {
 		return success;
 	}
 	
-	private List<Project> getProjectListForIdType(String type, Integer id) {
+	private static ArrayList<Project> getProjectListForIdType(String type, Integer id) {
 		Connection connection = ConnectionPool.getInstance().getConnection();
-		List<Project> projectList = new ArrayList<Project>();
+		ArrayList<Project> projectList = new ArrayList<Project>();
 
 		Project project = null;
 		String sql;
@@ -139,7 +139,7 @@ public class ProjectDA {
 		return projectList;
 	}
 	
-	public boolean deleteProject(Project project) {
+	public static boolean deleteProject(Project project) {
 		Connection connection = ConnectionPool.getInstance().getConnection();
 		PreparedStatement statement = null;
 		String sql = "DELETE FROM Project WHERE project_id=?";

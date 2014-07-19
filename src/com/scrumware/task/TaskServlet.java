@@ -72,6 +72,3 @@ public class TaskServlet extends HttpServlet {
 		return jsonObject;
 	}
 }
-
-
-
