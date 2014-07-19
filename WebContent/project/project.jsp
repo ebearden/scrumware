@@ -4,43 +4,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<script type="text/javascript">
-function save() {
-	  $.ajax({
-	    type: 'POST',
-	   cache: false,
-	     url: 'ProjectServlet',
-	    data: $('form[name="new_project"]').serialize(),
-	    success: showSuccess()
-	   });
-	  $('#newProjectModal').modal('hide');
-	  return false;
-}
-
-function get() {
-	$.ajax({
-        type: 'GET',
-       cache: false,
-         url: 'ProjectServlet',
-        data: $('form[name="edit_project"]').serialize(),
-        success: function () {
-        	$('#newProjectModal').modal('show');
-        	
-        }
-       });
-	return false;
-}
-
-
-function showSuccess() {
-	location.reload();
-}
-
-</script>
-<title>Projects</title>
+<title>Project</title>
 <%@ include file="../partials/include_bootstrap_partial.jsp"%>
 </head>
 <body role="document">
+  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
   <%@ include file="../partials/navigation_bar_partial.jsp"%>
 
   <div id="main" class="container theme-showcase" role="main">
@@ -48,13 +16,40 @@ function showSuccess() {
     <div id="success"></div>
     <p>
     <br /> <br />
-    <button class="btn btn-primary" data-toggle="modal" data-target="#newProjectModal">New Project</button><br />
+    <a href="new"><button class="btn btn-primary">New Project</button></a><br />
     </p>
     <div class="span12"><hr /></div>
-    <div id="project-table" class="span12">${project_list}</div>
+    <div id="project-table" class="span12">
+    <table id="project-table" class="table table-condensed table-hover">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Project Manager</th>
+        <th>Planned Start Date</th>
+        <th>Planned End Date</th>
+        <th>Status</th>
+        <th><!-- Button column --></th>
+      <tr>
+      </thead>
+      <c:forEach var="p" items="${project_list}">
+        <tr>
+          <td>${p.projectId}</td>          
+          <td>${p.name}</td>        
+          <td>${p.projectManager.name}</td>          
+          <td>${p.startdate}</td>
+          <td>${p.enddate}</td>
+          <td>
+            <a href="view?project_id=${p.projectId}">
+                <button class="btn btn-primary">View</button>
+            </a>
+          </td>
+        </tr>
+      </c:forEach>
+    </table>
+    </div>
   </div>
 
-  <%@ include file="../partials/confirm_delete_modal.jsp" %>
   <%@ include file="../partials/include_bootstrap_javascript.jsp"%>
 </body>
 </html>
