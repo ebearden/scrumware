@@ -43,7 +43,8 @@ private static ArrayList<User> users = null;
  */
     
         
-        String query = "SELECT user_id, username, email_address FROM Sys_User";
+        String query = "SELECT user_id, username, first_name, last_name, email_address,"
+        		+"user_role, active FROM Sys_User";
   
 /*
  * try the query, if it works process data and return products, otherwise
@@ -58,8 +59,12 @@ private static ArrayList<User> users = null;
             {
                 User u = new User();
                 u.setId(rs.getInt("user_id"));
-                u.setName(rs.getString("username"));
+                u.setUsername(rs.getString("username"));
+                u.setFirstname(rs.getString("first_name"));
+                u.setLastname(rs.getString("last_name"));
                 u.setEmail(rs.getString("email_address"));
+                u.setRole(rs.getInt("user_role"));
+                u.setActive(rs.getInt("active"));
                 users.add(u);
                 //System.out.println("user added");
             }
@@ -159,7 +164,7 @@ private static ArrayList<User> users = null;
         try
         {        
             ps = connection.prepareStatement(query);
-            ps.setString(1, u.getName());
+            ps.setString(1, u.getUsername());
             ps.setString(2, u.getEmail());
             return ps.executeUpdate();
         }
@@ -221,7 +226,7 @@ private static ArrayList<User> users = null;
         try
         {
             ps = connection.prepareStatement(query);
-            ps.setString(1, u.getName());
+            ps.setString(1, u.getUsername());
             ps.setString(2, u.getEmail());
             ps.setInt(3, u.getId());
 

@@ -26,20 +26,26 @@ import java.io.Serializable;
 public class User implements Serializable
 {
 	private static final long serialVersionUID = 1L;
-    private String name;
+    private String username;
+    private String firstname;
+    private String lastname;
     private String email;
     private int id;
     private int role;
+    private int active;
     
     /**
      * This is the no arg constructor
      */
     public User()
     {
-        name = "";
+        username = "";
+        firstname = "";
+        lastname = "";
         email = "";
         id = 0;
         role = 0;
+        active = 0;
     }
     
     /**
@@ -51,40 +57,80 @@ public class User implements Serializable
      * @param id string from user
      * @param role string input from user
      */
-    public User(String name, String email, String id, String role)
+    public User(String uname, String fname, String lname, String email, String id, int role, int active)
     {
-        this.name = name;
+        this.username = uname;
+        this.firstname = fname;
+        this.lastname = lname;
         this.email = email;
         if (isNumeric(id)) {
             this.id = Integer.parseInt(id);
         } else {
             this.id = 0;
         }
-        if (isNumeric(role)) {
-            this.id = Integer.parseInt(id);
-        } else {
-            this.id = 0;
-        }
+        this.role = role;
+        this.active = active;
     }
-    
+
     /**
-     * This method sets User.Name to the passed value
-     *
-     * @param name string input from user
-     */
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-    
-    /**
-     * This method retrieves the User Name for a User Object
+     * This method retrieves the User Username for a User Object
      *
      * @return name String stored in User object
      */
-    public String getName()
+    public String getUsername()
     {
-        return name; 
+        return username; 
+    }
+    
+    /**
+     * This method sets User.Username to the passed value
+     *
+     * @param name string input from user
+     */
+    public void setUsername(String uname)
+    {
+        this.username = uname;
+    }
+    
+    
+    /**
+     * This method retrieves the User Firstname for a User Object
+     *
+     * @return name String stored in User object
+     */
+    public String getFirstname()
+    {
+        return firstname; 
+    }
+    
+    /**
+     * This method sets User.Firstname to the passed value
+     *
+     * @param name string input from user
+     */
+    public void setFirstname(String fname)
+    {
+        this.firstname = fname;
+    }
+    
+    /**
+     * This method retrieves the User Firstname for a User Object
+     *
+     * @return name String stored in User object
+     */
+    public String getLastname()
+    {
+        return lastname; 
+    }
+    
+    /**
+     * This method sets User.Firstname to the passed value
+     *
+     * @param name string input from user
+     */
+    public void setLastname(String lname)
+    {
+        this.lastname = lname;
     }
     
     /**
@@ -96,7 +142,8 @@ public class User implements Serializable
     {
         this.email = email;
     }
-
+    
+    
     /**
      * This method retrieves the User.Email for a User Object
      *
@@ -146,6 +193,26 @@ public class User implements Serializable
     public int getRole()
     {
         return role; 
+    }
+    
+    /**
+     * This method sets User.Role to the passed value
+     *
+     * @param role string input from user
+     */
+    public void setActive(int active)
+    {
+        this.active = active;
+    }
+
+    /**
+     * This method retrieves the User.Role for a User Object
+     *
+     * @return price double stored in User object
+     */
+    public int getActive()
+    {
+        return active; 
     }
     
     /**
