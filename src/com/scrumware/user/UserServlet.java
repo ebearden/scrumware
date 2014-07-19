@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
  * 
  * @author eakubic
  */
-@WebServlet(name = "UserServlet", urlPatterns = {"/UserServlet", "user/users"})
+@WebServlet(name = "UserServlet", urlPatterns = {"/UserServlet", "/user/users"})
 public class UserServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
