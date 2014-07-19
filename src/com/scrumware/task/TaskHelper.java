@@ -11,6 +11,7 @@ import java.util.Set;
 
 import com.scrumware.config.Status;
 import com.scrumware.jdbc.ConnectionPool;
+import com.scrumware.jdbc.DButil;
 
 public class TaskHelper {
 	
@@ -21,40 +22,33 @@ public class TaskHelper {
 	public static boolean deleteTaskWithDependencies(int taskId) {
 		//TODO: 
 		// Get a list of the tasks that depend on this task.
+		Map<String, Set<Integer>> map = getDependencies(taskId);
+		
 		// See what dependencies need to be updated after deletion. 
 		// Delete task. 
 		// Check that dependencies make sense.
 		return false;
 	}
 	
-	
-	
 	public static boolean closeTask(int taskId) {
 		Map<String, Set<Integer>> map = getDependencies(taskId);
 		
-		System.out.println("Size " + map.size());
-		
 		if (map.get(DEPENDENT_ON).size() > 0) {
-			//Can't close, dependent task not completed
-			System.out.println("Dependent on a task " + taskId);
+			// Can't close the task, it has a dependent task not completed
 			return false;
 		}
 		if (map.get(DEPENDENT_ON).size() == 0 && map.get(DEPENDED_ON).size() == 0) {
-			//Close task, isn't dependent on any tasks or depended on by any tasks.
-			System.out.println("Not dependent or depened on a task " + taskId);
-			return changeStatus(taskId, Status.DONE);
+			// We can close the task, isn't dependent on any tasks or depended on by any tasks.
+			return true;
 		}
 		if (map.get(DEPENDED_ON).size() > 0) {
-			System.out.println("dependend on");
-			// Inform tasks that depend on this task that it is closed. Then close task.
+			// Remove dependencies for the task.
 			for (Integer id : map.get(DEPENDED_ON)) {
-			System.out.println("made it.");
 				if (!removeDependencies(id, taskId)) {
 					return false;
 				}
 			}
-			return changeStatus(taskId, Status.DONE);
-			
+			return true;
 		}
 		
 		return false;
@@ -64,22 +58,22 @@ public class TaskHelper {
 		String sql = "UPDATE Task_Dependencies SET active=0 WHERE task_id=? AND depends_on=?;";
 
 		Connection con = ConnectionPool.getInstance().getConnection();
+		PreparedStatement stmt = null;
 		boolean success = false;
+		
 		try {
-			PreparedStatement stmt = con.prepareStatement(sql);
-			System.out.println(stmt);
+			stmt = con.prepareStatement(sql);
 			stmt.setInt(1, taskId);
 			stmt.setInt(2, dependsOnId);
 			int result = stmt.executeUpdate();
 			if (result == 1) {
 				success = true;
-				
-				System.out.println("Dependency" + success);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			ConnectionPool.getInstance().freeConnection(con);
+			DButil.closePreparedStatement(stmt);
 		}
 
 		return success;
@@ -100,7 +94,6 @@ public class TaskHelper {
 				System.out.println("Status" + success);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			ConnectionPool.getInstance().freeConnection(con);
@@ -109,31 +102,46 @@ public class TaskHelper {
 		return success;
 	}
 	
+	/**
+	 * 
+	 * Return a map of surrounding dependencies for a task. 
+	 * @param taskId - the task id
+	 * @return dependency map.
+	 */
 	public static Map<String, Set<Integer>> getDependencies(int taskId) {
-		String sql = "SELECT o.depends_on as dependent_on, b.task_id as depended_on " +
-						"FROM (SELECT depends_on FROM Task_Dependencies " +
-						"WHERE task_id=?) as o, " +
-						"(SELECT task_id FROM Task_Dependencies " +
-						"WHERE depends_on=?) as b;";
+		String dependentOnSQL = "SELECT depends_on FROM Task_Dependencies WHERE task_id=? AND active=1";
+		String dependsOnSQL = "SELECT task_id FROM Task_Dependencies WHERE depends_on=? AND active=1";
 		
 		HashMap<String, Set<Integer>> map = new HashMap<String, Set<Integer>>();
 		
 		Connection con = ConnectionPool.getInstance().getConnection();
+		PreparedStatement dependentOnStatement = null;
+		PreparedStatement dependedOnStatement = null;
+		ResultSet dependentOnResultSet = null;
+		ResultSet dependedOnResultSet = null;
+		
 		try {
-			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setInt(1, taskId);
-			stmt.setInt(2, taskId);
+			dependentOnStatement = con.prepareStatement(dependentOnSQL);
+			dependentOnStatement.setInt(1, taskId);
 			
-			ResultSet rs = stmt.executeQuery();
+			dependentOnResultSet = dependentOnStatement.executeQuery();
 			
 			Set<Integer> dependentOnSet = new HashSet<Integer>();
 			Set<Integer> dependedOnSet = new HashSet<Integer>();
 			
-			while (rs.next()) {
-				dependentOnSet.add(rs.getInt(1));
-				dependedOnSet.add(rs.getInt(2));
+			while (dependentOnResultSet.next()) {
+				dependentOnSet.add(dependentOnResultSet.getInt(1));
 			}
 			map.put(DEPENDENT_ON, dependentOnSet);
+			
+			dependedOnStatement = con.prepareStatement(dependsOnSQL);
+			dependedOnStatement.setInt(1, taskId);
+			
+			dependedOnResultSet = dependedOnStatement.executeQuery();
+			
+			while (dependedOnResultSet.next()) {
+				dependedOnSet.add(dependedOnResultSet.getInt(1));
+			}
 			map.put(DEPENDED_ON, dependedOnSet);
 			
 			
@@ -141,8 +149,11 @@ public class TaskHelper {
 			e.printStackTrace();
 		} finally {
 			ConnectionPool.getInstance().freeConnection(con);
+			DButil.closePreparedStatement(dependentOnStatement);
+			DButil.closePreparedStatement(dependedOnStatement);
+			DButil.closeResultSet(dependentOnResultSet);
+			DButil.closeResultSet(dependedOnResultSet);
 		}
-		System.out.println("Size " + map.size());
 		return map;
 	}
 
