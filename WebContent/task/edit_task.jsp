@@ -75,6 +75,22 @@ function addDependency() {
           </select>
         </div>
         
+        <div class="form-group">
+          <label for="story_name">Status</label> 
+          <select class="form-control" name="status_id">
+            <c:forEach var="status" items="${status}">
+                <c:choose>
+                <c:when test="${status.code == task.statusId}">
+                  <option value="${status.code}" selected>${status.description}</option>
+                </c:when>
+                <c:otherwise>
+                   <option value="${status.code}">${status.description}</option>
+                </c:otherwise>
+              </c:choose>
+            </c:forEach>
+          </select>
+        </div>
+        
         <!-- Save -->
         <button type="submit" class="btn btn-primary">Save</button>
         <!-- Add Dependency -->

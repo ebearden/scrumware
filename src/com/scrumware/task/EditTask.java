@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.scrumware.config.Constants;
+import com.scrumware.config.Status;
 import com.scrumware.user.User;
 import com.scrumware.user.UserDB;
 
@@ -35,7 +36,8 @@ public class EditTask extends HttpServlet {
 		String taskId = request.getParameter(Constants.TASK_ID);
 		Task task = TaskDB.getTask(Integer.parseInt(taskId));
 		ArrayList<User> userList = UserDB.getUsers();
-		
+	
+		request.setAttribute(Constants.STATUS, Status.values());
 		request.setAttribute("users", userList);
 		request.setAttribute("task", task);
 		
@@ -52,8 +54,25 @@ public class EditTask extends HttpServlet {
 		String assignedTo = request.getParameter(Constants.ASSIGNED_TO);
 		
 		Task task = new Task();
-		task.setTaskId(taskId != null ? Integer.parseInt(taskId) : null);
-		task.setStatusId(statusId != null ? Integer.parseInt(statusId) : 1);
+		/*
+		 * Make sure the task doesn't have any open dependencies 
+		 * if its status is being changed to done. 
+		 * 
+		 * If it does have open dependencies just keep the status the same. 
+		 * 
+		*/
+		if (statusId != null && Integer.parseInt(statusId) == Status.DONE.getCode()) {
+			if (TaskHelper.closeTask(Integer.parseInt(taskId))) {
+				task.setStatusId(statusId != null ? Integer.parseInt(statusId) : 1);
+			} else {
+				int oldStatusId = TaskDB.getTask(Integer.parseInt(taskId)).getStatusId();
+				task.setStatusId(oldStatusId);
+			}
+		} else {
+			task.setStatusId(statusId != null ? Integer.parseInt(statusId) : 1);
+		}
+		
+		task.setTaskId(taskId != null ? Integer.parseInt(taskId) : null);			
 		task.setStoryId(storyId != null ? Integer.parseInt(storyId) : 1);
 		task.setAssignedTo(assignedTo != null ? Integer.parseInt(assignedTo) : 1);
 		
@@ -61,19 +80,14 @@ public class EditTask extends HttpServlet {
 		task.setDescription(request.getParameter(Constants.DESCRIPTION));
 		task.setWorkNotes(request.getParameter(Constants.WORK_NOTES));
 		
-		// This needs work...
+		// TODO: Get current user.
 		task.setUpdatedBy(1);
 		task.setCreatedBy(1);
-//		ArrayList<Integer> list = new ArrayList<>();
-//		list.addAll(Arrays.asList(2, 1));
-//		Map<Integer, List<Integer>> map = new HashMap<Integer, List<Integer>>();
-//		map.put(null, list);
-//		// ------------------
-//		task.setDependentTaskMap(map);
+		//-------------------
 		Task savedTask = TaskDB.saveTask(task);
 		
 		request.setAttribute("task", savedTask);
-		request.getRequestDispatcher("/task/view_task.jsp").forward(request, response);
+		request.getRequestDispatcher("/task/view").forward(request, response);
 	}
 
 }
