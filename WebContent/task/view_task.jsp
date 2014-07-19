@@ -16,13 +16,13 @@
     <br /><br /><br /><br />
     <h2>#${task.taskId} - ${task.name}&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="edit?task_id=${task.taskId}"><button class="btn btn-default">Edit</button></h2></a>
-    <p><h4><small>Created on: ${task.createdOnDateAsString} by ${created_by.name} <br/>
-    Last Updated: ${task.updatedOnDateAsString} by ${updated_by.name}</small></h4></p>
+    <p><h4><small>Created on: ${task.createdOnDateAsString} by ${created_by.username} <br/>
+    Last Updated: ${task.updatedOnDateAsString} by ${updated_by.username}</small></h4></p>
     <h3>${task.statusAsString}</h3>
     <div class="span12 "><hr /></div>
     <div class="lead"><p>${task.description}</p></div>
     <div class="span12 "><hr /></div>
-    <p class="lead">Assigned to: ${assigned_to.name}</p>
+    <p class="lead">Assigned to: ${assigned_to.username}</p>
     <p class="lead">Story: ${task.storyId}</p>
     <p class="lead">Work Notes: <br/>${task.workNotes}</p>
     <p class="lead">Open Dependencies:</p>

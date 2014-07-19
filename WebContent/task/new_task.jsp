@@ -34,7 +34,7 @@
           <label for="assigned_to">Assign To</label> 
           <select class="form-control" name="assigned_to">
             <c:forEach var="u" items="${users}">
-                <option value="${u.id}">${u.name}</option>            
+                <option value="${u.id}">${u.username}</option>            
             </c:forEach>
           </select>
         </div>

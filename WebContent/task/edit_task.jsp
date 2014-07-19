@@ -51,10 +51,10 @@ function addDependency() {
             <c:forEach var="u" items="${users}">
               <c:choose>
                 <c:when test="${u.id == task.assignedTo}">
-                  <option value="${u.id}" selected>${u.name}</option>
+                  <option value="${u.id}" selected>${u.username}</option>
                 </c:when>
                 <c:otherwise>
-                  <option value="${u.id}">${u.name}</option>
+                  <option value="${u.id}">${u.username}</option>
                 </c:otherwise>
               </c:choose>
             </c:forEach>
