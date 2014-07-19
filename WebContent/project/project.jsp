@@ -38,10 +38,10 @@ function showSuccess() {
 
 </script>
 <title>Projects</title>
-<%@ include file="partials/include_bootstrap_partial.jsp"%>
+<%@ include file="../partials/include_bootstrap_partial.jsp"%>
 </head>
 <body role="document">
-  <%@ include file="partials/navigation_bar_partial.jsp"%>
+  <%@ include file="../partials/navigation_bar_partial.jsp"%>
 
   <div id="main" class="container theme-showcase" role="main">
     <br /> <br />
@@ -54,7 +54,7 @@ function showSuccess() {
     <div id="project-table" class="span12">${project_list}</div>
   </div>
 
-  <%@ include file="partials/confirm_delete_modal.jsp" %>
-  <%@ include file="partials/include_bootstrap_javascript.jsp"%>
+  <%@ include file="../partials/confirm_delete_modal.jsp" %>
+  <%@ include file="../partials/include_bootstrap_javascript.jsp"%>
 </body>
 </html>
