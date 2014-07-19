@@ -1,6 +1,7 @@
 package com.scrumware.login;
 
-import java.io.IOException;
+
+import java.io.*;
 import java.io.PrintWriter;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.ServletException;
@@ -13,8 +14,7 @@ import javax.servlet.http.HttpSession;
 public class Login extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
-	private HttpSession session;
-	private LoginDB a_login;
+	private LoginDB a_login = null;
 	private String errmsg = "";
 
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -22,20 +22,26 @@ public class Login extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-
+        	
+        	errmsg = "";
+        	HttpSession sess = request.getSession(false);
+        	//System.out.println(sess.getMaxInactiveInterval());
+        	
         	/*check to see if there is an active session */
         	
-        	if(request.getSession(false) != null) {
+        	
+        	if(sess.getAttribute("role") != null) {
   
         		/*if there is an active session, redirect to home page*/
         		
         		getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);
         		
         	} else {
-  
+        	
+        		
         		/*if there is no active session, do login logic*/
         		
-	        	if (request.getParameter("user_name")==null || request.getParameter("password")==null) {
+	        	if (request.getParameter("user_name").isEmpty() || request.getParameter("password").isEmpty()) {
 	                
 	        		/*both username and password must be present,
 	        		 * otherwise set error message
@@ -56,11 +62,13 @@ public class Login extends HttpServlet {
 	            	
 	            	if (a_login.isValid()) {
 	            		
-	            		session = request.getSession();
-	            		session.setMaxInactiveInterval(1800);
-	            		session.setAttribute("id", a_login.getId());
-	            		session.setAttribute("role", a_login.getRole());
-	            		session.setAttribute("user_name", request.getParameter("user_name"));
+	            		sess = request.getSession(false);
+	            		//System.out.println(sess.getMaxInactiveInterval());
+	            		sess.setAttribute("id", a_login.getId());
+	            		sess.setAttribute("role", a_login.getRole());
+	            		sess.setAttribute("user_name", request.getParameter("user_name"));
+	            		request.setAttribute("user_name",request.getParameter("user_name"));
+	            		request.setAttribute("role", a_login.getRole());
 	            		
 	            	} else {
 	            		
@@ -79,7 +87,7 @@ public class Login extends HttpServlet {
 	        		 * send user to home page
 	        		 */
 	        		
-	        		request.setAttribute("user_name",session.getAttribute("user_name"));
+	        		//request.setAttribute("user_name",session.getAttribute("user_name"));
 	                getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);
 	        		
 	        	} else {
@@ -90,7 +98,7 @@ public class Login extends HttpServlet {
 	        		 */
 	        		
 	        		request.setAttribute("errmsg", errmsg);
-	        		request.setAttribute("user_name", request.getParameter("user_name"));
+	        		//request.setAttribute("user_name", request.getParameter("user_name"));
 	                getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
 	                
 	        	}

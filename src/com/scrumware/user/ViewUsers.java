@@ -54,8 +54,6 @@ public class ViewUsers extends HttpServlet {
             String title="View Users";
             request.setAttribute("title", title);
             
-            String msg="test";
-            request.setAttribute("msg", msg);
             
 /** 
  * A new arraylist is instantiated with the data returned from the db.  It is

@@ -29,15 +29,16 @@
   <div id="main" class="container theme-showcase" role="main">
   
   
-  
+  			<br/><br/><br/><br/><br/>
             <h1>User List</h1>
-            <p>${msg}</p>
             <table>
-                <tr><th>User Name</th><th>User Email</th><th>Functions</th></tr>
+                <tr><th>User Name</th><th>First Name</th><th>Last Name</th><th>User Email</th><th>Functions</th></tr>
                 <c:forEach var="u" items="${users}">
                     <tr>
                         
-                        <td>${u.name}</td>
+                        <td>${u.username}</td>
+                        <td>${u.firstname}</td>
+                        <td>${u.lastname}</td>
                         <td>${u.email}</td>
                         <td>
                             <a href="<c:url value='/EditUser?code=${u.id}'/>">Edit</a>

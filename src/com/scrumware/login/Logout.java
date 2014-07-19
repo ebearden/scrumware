@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 public class Logout extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
-	private HttpSession session;
+	private HttpSession session = null;
 	
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
