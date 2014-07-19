@@ -44,7 +44,7 @@
           <td>${t.taskId}</td>          
           <td>${t.name}</td>          
           <td>${t.description}</td>          
-          <td>${t.assignedToUser.name}</td>          
+          <td>${t.assignedToUser.username}</td>          
           <td>${t.status}</td>
           <td>
             <a href="view?task_id=${t.taskId}">
