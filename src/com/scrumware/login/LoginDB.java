@@ -67,7 +67,9 @@ public class LoginDB {
             while(rs.next()) {
             	if (password.matches(rs.getString("password"))) {
             		this.id = rs.getInt("user_id");
+            		//System.out.println("id: "+this.id);
             		this.role = rs.getInt("user_role");
+            		//System.out.println("role: "+this.id);
             	}
             } 
             
