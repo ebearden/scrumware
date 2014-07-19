@@ -4,8 +4,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<%@ include file="partials/include_bootstrap_partial.jsp"%>
-<%@ include file="css/global.css"%>
+<%@ include file="../partials/include_bootstrap_partial.jsp"%>
+<%@ include file="../css/global.css"%>
 <title>Users</title>
 </head>
 <body>
@@ -22,7 +22,7 @@
 --%>
 
 
-<%@ include file="partials/navigation_bar_partial.jsp"%>
+<%@ include file="../partials/navigation_bar_partial.jsp"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -31,7 +31,7 @@
   
   			<br/><br/><br/><br/><br/>
             <h1>User List</h1>
-            <table>
+            <table id="user-table" class="table table-condensed table-hover">
                 <tr><th>User Name</th><th>First Name</th><th>Last Name</th><th>User Email</th><th>Functions</th></tr>
                 <c:forEach var="u" items="${users}">
                     <tr>

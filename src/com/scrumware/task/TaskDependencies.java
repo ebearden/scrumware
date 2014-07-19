@@ -63,7 +63,7 @@ public class TaskDependencies extends HttpServlet {
 		
 		
 		Task taskToSave = TaskDB.getTask(Integer.parseInt(taskId));
-		ArrayList<Integer> list = new ArrayList<>();
+		ArrayList<Integer> list = new ArrayList<Integer>();
 		list.addAll(Arrays.asList(Integer.parseInt(dependencyId), 1));
 		Map<Integer, ArrayList<Integer>> map = new HashMap<Integer, ArrayList<Integer>>();
 		map.put(null, list);

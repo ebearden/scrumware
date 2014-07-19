@@ -25,8 +25,8 @@ import javax.servlet.http.HttpServletResponse;
  * 
  * @author eakubic
  */
-@WebServlet(name = "ViewUsers", urlPatterns = {"/ViewUsers"})
-public class ViewUsers extends HttpServlet {
+@WebServlet(name = "UserServlet", urlPatterns = {"/UserServlet", "user/users"})
+public class UserServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -68,7 +68,7 @@ public class ViewUsers extends HttpServlet {
  * The data is forwarded to ViewUsers.jsp
 */            
             
-            getServletContext().getRequestDispatcher("/ViewUsers.jsp").forward(request, response);
+            getServletContext().getRequestDispatcher("/user/users.jsp").forward(request, response);
             
  /** 
 * Processing is done, so exit script.
