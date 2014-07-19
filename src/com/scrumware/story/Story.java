@@ -1,7 +1,7 @@
 package com.scrumware.story;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 
 import org.json.JSONObject;
 
@@ -118,6 +118,26 @@ public class Story implements com.scrumware.interfaces.IJsonObject, Serializable
 	}
 	public void setAcceptenceCriteria(String criteria){
 		this.acceptence_criteria = criteria;
+	}
+
+	public void setStoryID(int id) {
+		this.story_id = id;
+		
+	}
+
+	public void setCreated(Date date) {
+		this.created = date;
+		
+	}
+
+	public void setCreatedBy(int createdBy) {
+		this.created_by = createdBy;
+		
+	}
+
+	public void setProjectId(int id) {
+		this.project_id = id;
+		
 	}
 	
 
