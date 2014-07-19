@@ -17,7 +17,7 @@ import com.scrumware.user.UserDB;
  * Servlet implementation class NewProjectServlet
  * @author Nick Zitzer
  */
-@WebServlet(name = "NewProject", urlPatterns = {"/NewProject", "/project/new"})
+@WebServlet(name = "NewProject", urlPatterns = {"/NewProject", "project/new"})
 public class NewProjectServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

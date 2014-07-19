@@ -23,7 +23,7 @@
               <a href="/SCRUMware/project/project.jsp" class="dropdown-toggle" data-toggle="dropdown">Project <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="/SCRUMware/project/new_project.jsp">New Project</a></li>
-                <li><a href="/SCRUMware/project/projects.jsp">View Projects</a></li>
+                <li><a href="/SCRUMware/project/project.jsp">View Projects</a></li>
               </ul>
             </li>
             <li class="dropdown">
