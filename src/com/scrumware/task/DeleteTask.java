@@ -33,7 +33,12 @@ public class DeleteTask extends HttpServlet {
 		if (taskId != null) {
 			Task task = new Task();
 			task.setTaskId(Integer.parseInt(taskId));
-			boolean result = TaskDB.deleteTask(task);
+			boolean result;
+			if (TaskHelper.reassignDependenciesForTask(task.getTaskId())) {
+				result = TaskDB.deleteTask(task);
+			} else {
+				result = false;
+			}
 			String message;
 			if (result) {
 				message = String.format("Task %s successfully deleted.", task.getTaskId());			

@@ -9,25 +9,79 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.print.attribute.Size2DSyntax;
+
 import com.scrumware.config.Status;
 import com.scrumware.jdbc.ConnectionPool;
 import com.scrumware.jdbc.DButil;
-
+/**
+ * 
+ * @author Elvin Bearden
+ *
+ */
 public class TaskHelper {
 	
 	public static final String DEPENDENT_ON = "dependent_on"; 
 	public static final String DEPENDED_ON = "depended_on";
 
 	
-	public static boolean deleteTaskWithDependencies(int taskId) {
-		//TODO: 
-		// Get a list of the tasks that depend on this task.
+	public static boolean reassignDependenciesForTask(int taskId) {
+		Connection con = ConnectionPool.getInstance().getConnection();
 		Map<String, Set<Integer>> map = getDependencies(taskId);
 		
-		// See what dependencies need to be updated after deletion. 
-		// Delete task. 
-		// Check that dependencies make sense.
-		return false;
+		
+		String insertSQL = "INSERT INTO Task_Dependencies (task_id, depends_on, active) "
+				+ "VALUES (?, ?, 1);";
+		String deleteSQL = "DELETE FROM Task_Dependencies WHERE task_id=? OR depends_on=?;";
+		
+		PreparedStatement reAssociateDependenciesStatement = null;
+		PreparedStatement deleteDependenciesStatement = null;
+		boolean success = false;
+		
+		try {
+			reAssociateDependenciesStatement = con.prepareStatement(insertSQL);
+			
+			con.setAutoCommit(false);
+			System.out.println("REASSIGN");
+			
+			int insertResult = 0;
+			if (map.get(DEPENDED_ON).size() > 0 && map.get(DEPENDENT_ON).size() > 0) { 
+				for (Integer dependedOn : map.get(DEPENDED_ON)) {
+					for (Integer dependentOn : map.get(DEPENDENT_ON)) {
+						reAssociateDependenciesStatement.setInt(1, dependedOn);
+						reAssociateDependenciesStatement.setInt(2, dependentOn);
+						insertResult = reAssociateDependenciesStatement.executeUpdate();
+					}
+					
+				}
+			}
+			
+			int deleteResult = 0;
+			if (insertResult != 0 || (map.get(DEPENDED_ON).size() == 0 || map.get(DEPENDENT_ON).size() == 0)) {
+				deleteDependenciesStatement = con.prepareStatement(deleteSQL);
+				deleteDependenciesStatement.setInt(1, taskId);
+				deleteDependenciesStatement.setInt(2, taskId);
+				deleteResult = deleteDependenciesStatement.executeUpdate();
+			}
+			
+			// If we don't get any deletions rollback.
+			if (deleteResult != 0) {
+				success = true;
+				con.commit();
+				con.setAutoCommit(true);
+			} else {
+				con.rollback();
+				con.setAutoCommit(true);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionPool.getInstance().freeConnection(con);
+			DButil.closePreparedStatement(reAssociateDependenciesStatement);
+			DButil.closePreparedStatement(deleteDependenciesStatement);
+		}
+
+		return success;
 	}
 	
 	public static boolean closeTask(int taskId) {
