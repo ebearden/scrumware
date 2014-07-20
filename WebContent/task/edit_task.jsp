@@ -28,7 +28,7 @@ function addDependency() {
   <div id="main" class="container theme-showcase" role="main">
   <br /><br /><br /><br />
   
-    <form role="form" name="edit_task" method="POST" action="edit">
+    <form role="form" id="taskForm" name="edit_task" method="POST" action="edit">
         <!-- Hidden Task ID -->
         <input type="text" class="hidden" name="task_id" value="${task.taskId}">
         
@@ -127,5 +127,11 @@ function addDependency() {
 
   </div>
   <%@ include file="../partials/include_bootstrap_javascript.jsp"%>
+  <script type="text/javascript" src="../js/formValidation.js"></script>
+  <script type="text/javascript">
+  $(document).ready(function() {
+	taskFormValidation();
+  });
+</script>
 </body>
 </html>

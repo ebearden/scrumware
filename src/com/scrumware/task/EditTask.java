@@ -85,9 +85,12 @@ public class EditTask extends HttpServlet {
 		task.setCreatedBy(1);
 		//-------------------
 		Task savedTask = TaskDB.saveTask(task);
-		
 		request.setAttribute("task", savedTask);
-		request.getRequestDispatcher("/task/view").forward(request, response);
+		if (taskId == null) {
+			request.getRequestDispatcher("/task/view?task_id=" + savedTask.getTaskId()).forward(request, response);
+		} else {
+			request.getRequestDispatcher("/task/view").forward(request, response);			
+		}
 	}
 
 }

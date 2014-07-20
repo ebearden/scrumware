@@ -16,7 +16,7 @@
   <div id="main" class="container theme-showcase" role="main">
   <br /><br /><br /><br />
   
-    <form role="form" name="new_task" method="POST" action="new">
+    <form role="form" id="taskForm" name="new_task" method="POST" action="new" class="form-horizontal">
         <!-- Name -->
         <div class="form-group">
           <label for="task_name">Name</label> <input type="text"
@@ -57,5 +57,12 @@
         <button type="submit" class="btn btn-primary">Add Task</button>
     </form>
 </div>
+<%@ include file="../partials/include_bootstrap_javascript.jsp"%>
+<script type="text/javascript" src="../js/formValidation.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    taskFormValidation();
+});
+</script>
 </body>
 </html>
