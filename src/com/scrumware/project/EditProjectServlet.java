@@ -13,10 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.scrumware.config.Constants;
 import com.scrumware.user.User;
 import com.scrumware.user.UserDB;
+import com.scrumware.config.Status;
 
 /**
  * Servlet implementation class EditProjectServlet
- * @author Elvin Bearden
+ * @author Nick Zitzer
  */
 @WebServlet(name = "EditProject", urlPatterns = {"/EditProject", "/project/edit"})
 public class EditProjectServlet extends HttpServlet {
@@ -37,6 +38,8 @@ public class EditProjectServlet extends HttpServlet {
 		Project project = ProjectDB.getProject(Integer.parseInt(projectId));
 		ArrayList<User> userList = UserDB.getUsers();
 		
+
+		request.setAttribute(Constants.STATUS, Status.values());
 		request.setAttribute("users", userList);
 		request.setAttribute("projects", project);
 		

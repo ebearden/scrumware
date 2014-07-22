@@ -46,12 +46,12 @@
     		</tr>
     		<tr>
     			<td style="padding-right:20px!important;">
-    				<div class="form-group">
+			        <div class="form-group">
 			          <label for="story_name">Status</label> 
 			          <select class="form-control" name="status_id">
 			            <c:forEach var="status" items="${status}">
 			                <c:choose>
-			                <c:when test="${status.code == task.statusId}">
+			                <c:when test="${status.code == project.statusId}">
 			                  <option value="${status.code}" selected>${status.description}</option>
 			                </c:when>
 			                <c:otherwise>
@@ -77,7 +77,7 @@
 			          <label for="project_manager">Project Manager</label> 
 			          <select class="form-control" name="project_manager">
 			            <c:forEach var="u" items="${users}">
-			                <option value="${u.id}">${u.name}</option>            
+			                <option value="${u.id}">${u.username}</option>            
 			            </c:forEach>
 			          </select>
 			        </div>

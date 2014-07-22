@@ -13,6 +13,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.scrumware.config.Constants;
+import com.scrumware.task.DetailedTask;
+import com.scrumware.task.Task;
+import com.scrumware.task.TaskDB;
 import com.scrumware.user.User;
 import com.scrumware.user.UserDB;
 
@@ -46,7 +49,11 @@ public class ProjectServlet extends HttpServlet {
 			JSONObject jsonObject = createJSONObject(projectList);
 			response.addHeader("Content-Type", "application/json");
 			response.getWriter().println(jsonObject);
-		} 
+		} else {
+			projectList = ProjectDB.getAllProjects();
+			request.setAttribute("project_list", projectList);
+			request.getRequestDispatcher("/project/project.jsp").forward(request, response);
+		}
 	}
 	
 	private JSONObject createJSONObject(ArrayList<Project> projectList) {

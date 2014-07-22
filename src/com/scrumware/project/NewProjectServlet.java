@@ -36,7 +36,7 @@ public class NewProjectServlet extends HttpServlet {
 		ArrayList<Project> projectList = ProjectDB.getAllProjects();
 		request.setAttribute("users", userList);
 		request.setAttribute("projects", projectList);
-		request.getRequestDispatcher("/task/new_project.jsp").forward(request, response);
+		request.getRequestDispatcher("/project/new_project.jsp").forward(request, response);
 	}
 
 	/**
