@@ -47,6 +47,11 @@ public class StoryServlet extends HttpServlet{
 			response.addHeader("Content-Type", "application/json");
 			response.getWriter().println(jsonObject);
 		} 
+		else{
+			storyList = StoryDB.getAllStories();
+			request.setAttribute("story_list", storyList);
+			request.getRequestDispatcher("/story/stories.jsp").forward(request, response);
+		}
 	}
 	private JSONObject createJSONObject(ArrayList<Story> storyList) {
 		JSONObject jsonObject = new JSONObject();

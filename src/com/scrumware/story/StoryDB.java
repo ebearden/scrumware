@@ -76,9 +76,9 @@ public class StoryDB {
 			
 			storyStatement.setString(1, story.getStoryName());
 			storyStatement.setString(2, story.getDescription());
-			storyStatement.setString(3, story.getAcceptenceCriteria());
-			storyStatement.setInt(4, story.getStatusId());
-			storyStatement.setInt(5, story.getSprintId());
+			storyStatement.setString(3, story.getAcceptanceCriteria());
+			storyStatement.setInt(4, story.getStatusID());
+			storyStatement.setInt(5, story.getSprintID());
 			storyStatement.setInt(6, story.getTaskCount());
 			if (isUpdate) {
 				storyStatement.setInt(8, story.getUpdatedBy());
@@ -123,12 +123,12 @@ public class StoryDB {
 		String sql;
 		if (id == null) {
 			sql = "SELECT story_id, created, created_by, updated, updated_by, story_name, description, "
-					+ "acceptence_criteria, status_id, project_id, sprint_id, task_count "
+					+ "acceptance_criteria, status_id, project_id, sprint_id, task_count "
 					+ "FROM Story;";
 		}
 		else {
 			sql = "SELECT story_id, created, created_by, updated, updated_by, story_name, description, "
-					+ "acceptence_criteria, status_id, project_id, sprint_id, task_count "
+					+ "acceptance_criteria, status_id, project_id, sprint_id, task_count "
 					+ "FROM Story WHERE " + type + "=?;";
 		}
 		
@@ -152,10 +152,10 @@ public class StoryDB {
 				story.setUpdatedBy(storyResultSet.getInt(5));
 				story.setStoryName(storyResultSet.getString(6));
 				story.setDescription(storyResultSet.getString(7));
-				story.setAcceptenceCriteria(storyResultSet.getString(8));
+				story.setAcceptanceCriteria(storyResultSet.getString(8));
 				story.setStatusId(storyResultSet.getInt(9));
-				story.setProjectId(storyResultSet.getInt(10));
-				story.setSprintId(storyResultSet.getInt(11));
+				story.setProjectID(storyResultSet.getInt(10));
+				story.setSprintID(storyResultSet.getInt(11));
 				story.setTaskCount(storyResultSet.getInt(12));
 				storyList.add(story);
 			}

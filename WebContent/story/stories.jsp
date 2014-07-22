@@ -32,16 +32,16 @@
         <th><!-- Button column --></th>
       <tr>
       </thead>
-      <c:forEach var="t" items="${task_list}">
+      <c:forEach var="s" items="${story_list}">
         <tr>
-          <td>${t.taskId}</td>          
-          <td>${t.name}</td>          
-          <td>${t.description}</td>          
-          <td>${t.assignedToUser.username}</td>          
-          <td>${t.story}</td>
-          <td>${t.status}</td>
+          <td>${s.storyID}</td>          
+          <td>${s.storyName}</td>          
+          <td>${s.description}</td>          
+          <td>${s.acceptanceCriteria}</td>          
+          <td>${s.sprintID}</td>
+          <td>${t.taskCount}</td>
           <td>
-            <a href="view?task_id=${t.taskId}">
+            <a href="view?task_id=${s.storyID}">
                 <button class="btn btn-primary">View</button>
             </a>
           </td>

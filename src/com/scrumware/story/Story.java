@@ -10,18 +10,18 @@ import com.scrumware.config.Constants;
 public class Story implements com.scrumware.interfaces.IJsonObject, Serializable{
 	
 	//base variables
-	private int story_id;
+	private int storyID;
 	private Date created;
-	private int created_by;
+	private int createdBy;
 	private Date updated;
-	private int updated_by;
-	private int status_id;
-	private int project_id;
-	private int sprint_id;
-	private int task_count;
-	private String story_name;
+	private int updatedBy;
+	private int statusID;
+	private int projectID;
+	private int sprintID;
+	private int taskCount;
+	private String storyName;
 	private String description;
-	private String acceptence_criteria;
+	private String acceptenceCriteria;
 
 	//contructor
 	public Story(){
@@ -32,64 +32,64 @@ public class Story implements com.scrumware.interfaces.IJsonObject, Serializable
 	@Override
 	public JSONObject toJSON() {
 		JSONObject json =  new JSONObject();
-		json.put(Constants.STORY_ID, this.story_id);
+		json.put(Constants.STORY_ID, this.storyID);
 		json.put(Constants.CREATED, this.created);
-		json.put(Constants.CREATED_BY, this.created_by);
+		json.put(Constants.CREATED_BY, this.createdBy);
 		json.put(Constants.UPDATED, this.updated);
-		json.put(Constants.UPDATED_BY, this.updated_by);
-		json.put(Constants.STATUS_ID, this.status_id);
-		json.put(Constants.PROJECT_ID, this.project_id);
-		json.put(Constants.SPRINT_ID, this.status_id);
-		json.put(Constants.TASK_COUNT, this.task_count);
-		json.put(Constants.STORY_NAME, this.story_name);
+		json.put(Constants.UPDATED_BY, this.updatedBy);
+		json.put(Constants.STATUS_ID, this.statusID);
+		json.put(Constants.PROJECT_ID, this.projectID);
+		json.put(Constants.SPRINT_ID, this.statusID);
+		json.put(Constants.TASK_COUNT, this.taskCount);
+		json.put(Constants.STORY_NAME, this.storyName);
 		json.put(Constants.DESCRIPTION, this.description);
-		json.put(Constants.ACCEPTENCE_CRITERIA, this.acceptence_criteria);
+		json.put(Constants.ACCEPTENCE_CRITERIA, this.acceptenceCriteria);
 		return json;
 	}
 	
 	public void updateFromJSON(JSONObject json) {
-		status_id = json.getInt(Constants.STATUS_ID);
-		task_count = json.getInt(Constants.TASK_COUNT);
-		story_name = json.getString(Constants.STORY_NAME);
+		statusID = json.getInt(Constants.STATUS_ID);
+		taskCount = json.getInt(Constants.TASK_COUNT);
+		storyName = json.getString(Constants.STORY_NAME);
 		description = json.getString(Constants.DESCRIPTION);
-		acceptence_criteria = json.getString(Constants.ACCEPTENCE_CRITERIA);
+		acceptenceCriteria = json.getString(Constants.ACCEPTENCE_CRITERIA);
 	}
 	//getters
 	public int getStoryID(){
-		return story_id;
+		return storyID;
 	}
 	public Date getCreated(){
 		return created;
 	}
 	public int getCreatedBy(){
-		return created_by;
+		return createdBy;
 	}
 	public Date getUpdated(){
 		return updated;
 	}
 	public int getUpdatedBy(){
-		return updated_by;
+		return updatedBy;
 	}
-	public int getStatusId(){
-		return status_id;
+	public int getStatusID(){
+		return statusID;
 	}
-	public int getProjectId(){
-		return project_id;
+	public int getProjectID(){
+		return projectID;
 	}
-	public int getSprintId(){
-		return sprint_id;
+	public int getSprintID(){
+		return sprintID;
 	}
 	public int getTaskCount(){
-		return task_count;
+		return taskCount;
 	}
 	public String getStoryName(){
-		return story_name;
+		return storyName;
 	}
 	public String getDescription(){
 		return description;
 	}
-	public String getAcceptenceCriteria(){
-		return acceptence_criteria;
+	public String getAcceptanceCriteria(){
+		return acceptenceCriteria;
 	}
 	
 	//setters
@@ -98,30 +98,30 @@ public class Story implements com.scrumware.interfaces.IJsonObject, Serializable
 		this.updated = date;
 	}
 	public void setUpdatedBy(int user){
-		this.updated_by = user;
+		this.updatedBy = user;
 	}
 	public void setStatusId(int status){
-		this.status_id = status;
+		this.statusID = status;
 	}
 
-	public void setSprintId(int sprint){
-		this.sprint_id = sprint;
+	public void setSprintID(int sprint){
+		this.sprintID = sprint;
 	}
 	public void setTaskCount(int tasks){
-		this.task_count = tasks;
+		this.taskCount = tasks;
 	}
 	public void setStoryName(String name){
-		this.story_name = name;
+		this.storyName = name;
 	}
 	public void setDescription(String description){
 		this.description = description;
 	}
-	public void setAcceptenceCriteria(String criteria){
-		this.acceptence_criteria = criteria;
+	public void setAcceptanceCriteria(String criteria){
+		this.acceptenceCriteria = criteria;
 	}
 
 	public void setStoryID(int id) {
-		this.story_id = id;
+		this.storyID = id;
 		
 	}
 
@@ -131,12 +131,12 @@ public class Story implements com.scrumware.interfaces.IJsonObject, Serializable
 	}
 
 	public void setCreatedBy(int createdBy) {
-		this.created_by = createdBy;
+		this.createdBy = createdBy;
 		
 	}
 
-	public void setProjectId(int id) {
-		this.project_id = id;
+	public void setProjectID(int id) {
+		this.projectID = id;
 		
 	}
 	
