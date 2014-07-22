@@ -29,7 +29,7 @@ public class ProjectDB {
 		String projectSQL;
 		boolean isUpdate = false;
 		
-		if ((Integer)(project.getProjectID()) != null) {
+		if ((Integer)(project.getProjectId()) != null) {
 			isUpdate = true;
 			projectSQL = "UPDATE Project SET project_name=?, description=?, project_manager=?, "
 					+ "planned_start_date=?, planned_end_date=?, status_id=?, "
@@ -48,10 +48,10 @@ public class ProjectDB {
 			
 			projectStatement.setString(1, project.getName());
 			projectStatement.setString(2, project.getDescription());
-			projectStatement.setInt(3, project.getPM());
+			projectStatement.setInt(3, project.getProjectManagerId());
 			projectStatement.setDate(4, project.getStartDate());
 			projectStatement.setDate(5, project.getEndDate());
-			projectStatement.setInt(6, project.getStatus());
+			projectStatement.setInt(6, project.getStatusId());
 			if (isUpdate) {
 				projectStatement.setInt(8, project.getUpdatedBy());
 			} else {
@@ -64,7 +64,7 @@ public class ProjectDB {
 			if (result == 1) {
 				ResultSet generatedKey = projectStatement.getGeneratedKeys();
 				if (generatedKey.next()) {
-					project.setProjectID(generatedKey.getInt(1));
+					project.setProjectId(generatedKey.getInt(1));
 					System.out.println(generatedKey.getInt(1));
 					System.out.println(generatedKey.getLong(1));
 				}
@@ -74,7 +74,7 @@ public class ProjectDB {
 		} finally {
 			ConnectionPool.getInstance().freeConnection(connection);
 		}
-		return getProject(project.getProjectID());
+		return getProject(project.getProjectId());
 	}
 	
 	public static boolean saveProject(List<Project> projectList) {
@@ -117,17 +117,17 @@ public class ProjectDB {
 			
 			while (projectResultSet.next()) {
 				project = new Project();
-				project.setProjectID(projectResultSet.getInt(1));
+				project.setProjectId(projectResultSet.getInt(1));
 				project.setCreated(projectResultSet.getDate(2));
 				project.setCreatedBy(projectResultSet.getInt(3));
 				project.setUpdated(projectResultSet.getDate(4));
 				project.setUpdatedBy(projectResultSet.getInt(5));
 				project.setName(projectResultSet.getString(6));
 				project.setDescription(projectResultSet.getString(7));
-				project.setPM(projectResultSet.getInt(8));
+				project.setProjectManagerId(projectResultSet.getInt(8));
 				project.setStartDate(projectResultSet.getDate(9));
 				project.setEndDate(projectResultSet.getDate(10));
-				project.setStatus(projectResultSet.getInt(11));
+				project.setStatusId(projectResultSet.getInt(11));
 				projectList.add(project);
 			}
 		} catch (SQLException e) {
@@ -147,7 +147,7 @@ public class ProjectDB {
 		
 		try {
 			statement = connection.prepareStatement(sql);
-			statement.setInt(1, project.getProjectID());
+			statement.setInt(1, project.getProjectId());
 			if (statement.executeUpdate() == 1) {
 				success = true;
 			}
