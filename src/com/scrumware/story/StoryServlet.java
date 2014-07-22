@@ -21,7 +21,7 @@ import com.scrumware.task.TaskDB;
 import com.scrumware.user.User;
 import com.scrumware.user.UserDB;
 
-@WebServlet(name = "StoryServlet", urlPatterns = {"/StoryServlet", "/story"})
+@WebServlet(name = "StoryServlet", urlPatterns = {"/StoryServlet", "/story/stories"})
 public class StoryServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 

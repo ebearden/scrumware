@@ -173,7 +173,7 @@ public class StoryDB {
 	 * @param story - The story to delete.
 	 * @return True if successful, else false.
 	 */
-	public boolean deleteProject(Story story) {
+	public static boolean deleteStory(Story story) {
 		Connection connection = ConnectionPool.getInstance().getConnection();
 		PreparedStatement statement = null;
 		String sql = "DELETE FROM Story WHERE story_id=?";
