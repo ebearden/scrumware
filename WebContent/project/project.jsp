@@ -32,11 +32,11 @@
       </thead>
       <c:forEach var="p" items="${project_list}">
         <tr>
-          <td>${p.projectId}</td>          
+          <td>${p.projectId}</td>         
           <td>${p.name}</td>        
-          <td>${p.projectManager.name}</td>          
-          <td>${p.startdate}</td>
-          <td>${p.enddate}</td>
+          <td>${p.projectManagerId}</td>          
+          <td>${p.startDate}</td>
+          <td>${p.endDate}</td>
           <td>
             <a href="view?project_id=${p.projectId}">
                 <button class="btn btn-primary">View</button>
