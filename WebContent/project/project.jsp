@@ -14,7 +14,7 @@
   <div id="main" class="container theme-showcase" role="main">
     <div id="success"></div>
     <p>
-    <a href="new"><button class="btn btn-primary">New Project</button></a><br />
+    <a href="project/new"><button class="btn btn-primary">New Project</button></a><br />
     </p>
     <div class="span12"><hr /></div>
     <div id="project-table" class="span12">

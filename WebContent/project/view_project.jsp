@@ -21,7 +21,7 @@
     <div class="span12 "><hr /></div>
     <div class="lead"><p>${project.description}</p></div>
     <div class="span12 "><hr /></div>
-    <p class="lead">Project Manager: ${project.project_manager.name}</p>
+    <p class="lead">Project Manager: ${project.project_manager}</p>
     <p class="lead">Planned Start Date: ${project.planned_start_date}</p>
     <p class="lead">Planned End Date: ${project.planned_end_date}</p>
     <p class="lead"></p>

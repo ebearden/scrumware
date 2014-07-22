@@ -32,11 +32,11 @@ public class DeleteProjectServlet extends HttpServlet {
 		String projectId = request.getParameter(Constants.PROJECT_ID);
 		if (projectId != null) {
 			Project project = new Project();
-			project.setProjectID(Integer.parseInt(projectId));
+			project.setProjectId(Integer.parseInt(projectId));
 			boolean result = ProjectDB.deleteProject(project);
 			String message;
 			if (result) {
-				message = String.format("Project %s successfully deleted.", project.getProjectID());			
+				message = String.format("Project %s successfully deleted.", project.getProjectId());			
 			} else {
 				message = "Failed to delete the project.";
 			}

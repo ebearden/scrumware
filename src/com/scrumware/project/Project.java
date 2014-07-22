@@ -54,7 +54,7 @@ public class Project implements IJsonObject {
 	}
 	
 	//Get Values
-	public int getProjectID() {
+	public int getProjectId() {
 		return this.projectId;
 	}
 	
@@ -82,7 +82,7 @@ public class Project implements IJsonObject {
 		return this.description;
 	}
 	
-	public int getPM() {
+	public int getProjectManagerId() {
 		return this.projectManagerId;
 	}
 	
@@ -94,12 +94,13 @@ public class Project implements IJsonObject {
 		return this.endDate;
 	}
 	
-	public int getStatus() {
+	public int getStatusId() {
+		System.out.println(this.statusId);
 		return this.statusId;
 	}
 	
 	//Set Values
-	public void setProjectID(int project) {
+	public void setProjectId(int project) {
 		this.projectId = project;
 	}
 	
@@ -127,7 +128,7 @@ public class Project implements IJsonObject {
 		this.description = desc;
 	}
 	
-	public void setPM(int projMgr) {
+	public void setProjectManagerId(int projMgr) {
 		this.projectManagerId = projMgr;
 	}
 	
@@ -139,7 +140,7 @@ public class Project implements IJsonObject {
 		this.endDate = end;
 	}
 	
-	public void setStatus(int status) {
+	public void setStatusId(int status) {
 		this.statusId = status;
 	}
 }

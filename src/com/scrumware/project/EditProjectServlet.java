@@ -55,9 +55,9 @@ public class EditProjectServlet extends HttpServlet {
 		String projectMgr = request.getParameter(Constants.PROJECT_MANAGER);
 		
 		Project project = new Project();
-		project.setProjectID(projectId != null ? Integer.parseInt(projectId) : null);
-		project.setStatus(statusId != null ? Integer.parseInt(statusId) : 1);
-		project.setPM(projectMgr != null ? Integer.parseInt(projectMgr) : null);
+		project.setProjectId(projectId != null ? Integer.parseInt(projectId) : null);
+		project.setStatusId(statusId != null ? Integer.parseInt(statusId) : 1);
+		project.setProjectManagerId(projectMgr != null ? Integer.parseInt(projectMgr) : null);
 		
 		project.setName(request.getParameter(Constants.PROJECT_NAME));
 		project.setDescription(request.getParameter(Constants.DESCRIPTION));
