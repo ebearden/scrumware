@@ -19,13 +19,16 @@
     <p><h4><small>Created on: ${task.createdOnDateAsString} by ${created_by.username} <br/>
     Last Updated: ${task.updatedOnDateAsString} by ${updated_by.username}</small></h4></p>
     <h3>${task.statusAsString}</h3>
+    <c:if test="${err_msg != null}">
+      <p class="alert alert-danger">${err_msg}</p>
+    </c:if>
     <div class="span12 "><hr /></div>
     <div class="lead"><p>${task.description}</p></div>
     <div class="span12 "><hr /></div>
-    <p class="lead">Assigned to: ${assigned_to.username}</p>
+    <p class="lead">Assigned to: ${assigned_to.firstname} ${assigned_to.lastname}</p>
     <p class="lead">Story: ${task.storyId}</p>
     <p class="lead">Work Notes: <br/>${task.workNotes}</p>
-    <p class="lead">Open Dependencies:</p>
+    <p class="lead">Depends On:</p>
     
     <div id="dependent-table" class="span12">
     <table id="task-table" class="table table-condensed table-hover">
@@ -49,6 +52,9 @@
           <td>
             <a href="view?task_id=${t.taskId}">
                 <button class="btn btn-primary">View</button>
+            </a>
+            <a href="dependencies?action=delete&task_id=${task.taskId}&depends_on=${t.taskId}">
+                <button class="btn btn-danger">Delete</button>
             </a>
           </td>
         </tr>

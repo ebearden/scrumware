@@ -67,6 +67,7 @@ public class EditTask extends HttpServlet {
 			} else {
 				int oldStatusId = TaskDB.getTask(Integer.parseInt(taskId)).getStatusId();
 				task.setStatusId(oldStatusId);
+				request.setAttribute("err_msg", "Can't close a task with open dependencies.");
 			}
 		} else {
 			task.setStatusId(statusId != null ? Integer.parseInt(statusId) : 1);

@@ -295,5 +295,27 @@ public class TaskDB {
 		}
 		return success;
 	}
+	
+	public static boolean deleteDependency(int taskId, int dependsOn) {
+		Connection connection = ConnectionPool.getInstance().getConnection();
+		PreparedStatement statement = null;
+		String sql = "DELETE FROM Task_Dependencies WHERE task_id=? AND depends_on=?;";
+		boolean success = false;
+		
+		try {
+			statement = connection.prepareStatement(sql);
+			statement.setInt(1, taskId);
+			statement.setInt(2, dependsOn);
+			if (statement.executeUpdate() == 1) {
+				success = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			ConnectionPool.getInstance().freeConnection(connection);
+			DButil.closePreparedStatement(statement);
+		}
+		return success;
+	}
 
 }

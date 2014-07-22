@@ -34,6 +34,19 @@ public class TaskDependencies extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String action = request.getParameter("action");
+		
+		if (action != null && action.equals("delete")) {
+			String taskIdString = request.getParameter("task_id");
+			String dependsOnIdString = request.getParameter("depends_on"); 
+			int taskId = Integer.parseInt(taskIdString);
+			int dependsOnId = Integer.parseInt(dependsOnIdString);
+			TaskDB.deleteDependency(taskId, dependsOnId);
+			
+			response.sendRedirect("view?task_id=" + taskId);
+			return;
+		}
+		
 		String storyId = request.getParameter(Constants.STORY_ID);
 		String taskId = request.getParameter(Constants.TASK_ID);
 		ArrayList<Task> taskList = TaskDB.getAllTasksForStory(Integer.parseInt(storyId));
@@ -60,7 +73,6 @@ public class TaskDependencies extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String taskId = request.getParameter(Constants.TASK_ID);
 		String dependencyId = request.getParameter("dependent_task_id");
-		
 		
 		Task taskToSave = TaskDB.getTask(Integer.parseInt(taskId));
 		ArrayList<Integer> list = new ArrayList<Integer>();
