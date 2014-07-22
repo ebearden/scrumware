@@ -14,7 +14,7 @@
       <ul class="nav navbar-nav">
         <li><a href="/SCRUMware/project/projects">Projects</a>
         <li><a href="/SCRUMware/sprints">Sprints</a>
-        <li><a href="/SCRUMware/story">Stories</a>
+        <li><a href="/SCRUMware/story/stories">Stories</a>
         <li><a href="/SCRUMware/task/tasks">Tasks</a>
         <li><a href="/SCRUMware/user/users">Users</a>
       </ul>
