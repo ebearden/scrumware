@@ -12,8 +12,6 @@
   <%@ include file="../partials/navigation_bar_partial.jsp"%>
 
   <div id="main" class="container theme-showcase" role="main">
-    <br /> <br />
-    <br /> <br />
     <div id="task-table" class="span12">
     <table id="task-table" class="table table-condensed table-hover">
       <thead>

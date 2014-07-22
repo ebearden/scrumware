@@ -24,7 +24,6 @@
   <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
   <%@ include file="../partials/navigation_bar_partial.jsp"%>
   <div id="main" class="container theme-showcase" role="main">
-  <br /><br /><br /><br />
   <script>
   </script>
     <form role="form" name="new_project" method="POST" action="new">

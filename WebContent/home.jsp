@@ -15,7 +15,6 @@
 
         <!-- Main jumbotron for a primary marketing message or call to action -->
         <div class="jumbotron">
-        	<br/><br/><br/>
         	<h1>SCRUMware Home</h1>
             <p>
             Welcome to SCRUMware ${user_name}!

@@ -1,61 +1,26 @@
-
-<!-- Fixed navbar -->
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">SCRUMware</a>
-          <ul class="nav navbar-nav">
-          <li class="active"><a href="/SCRUMware/login.jsp">Login</a></li>
-          <li class="active"><a href="/SCRUMware/Logout">Logout</a></li>
-          </ul>
-        </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="/SCRUMware/home.jsp">Home</a></li>
- 
-            <li class="dropdown">
-              <a href="/SCRUMware/project/project.jsp" class="dropdown-toggle" data-toggle="dropdown">Project <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="/SCRUMware/project/new_project.jsp">New Project</a></li>
-                <li><a href="/SCRUMware/project/project.jsp">View Projects</a></li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a href="/SCRUMware/sprint.jsp" class="dropdown-toggle" data-toggle="dropdown">Sprint <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Add Sprint</a></li>
-                <li><a href="#">Update Sprint</a></li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a href="/SCRUMware/story.jsp" class="dropdown-toggle" data-toggle="dropdown">Story <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="/SCRUMware/story.jsp">Add Story</a></li>
-                <li><a href="/SCRUMware/story.jsp">Update Story</a></li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a href="/SCRUMware/task/tasks" class="dropdown-toggle" data-toggle="dropdown">Task <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-              <li><a href="/SCRUMware/task/tasks">View Tasks</a></li>
-                <li><a href="/SCRUMware/task/new">New Task</a></li>
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a href="/SCRUMware/ViewUsers" class="dropdown-toggle" data-toggle="dropdown">User <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="/SCRUMware/ViewUsers">View Users</a></li>
-                <li><a href="/SCRUMware/ViewUsers">Add User</a></li>
-              </ul>
-            </li>
-            
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/SCRUMware/home.jsp">SCRUMware</a>
     </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="/SCRUMware/project/projects">Projects</a>
+        <li><a href="/SCRUMware/sprints">Sprints</a>
+        <li><a href="/SCRUMware/story">Stories</a>
+        <li><a href="/SCRUMware/task/tasks">Tasks</a>
+        <li><a href="/SCRUMware/user/users">Users</a>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/SCRUMware/Logout">Logout</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>

@@ -26,7 +26,6 @@ function addDependency() {
   <%@ include file="../partials/navigation_bar_partial.jsp"%>
   
   <div id="main" class="container theme-showcase" role="main">
-  <br /><br /><br /><br />
   
     <form role="form" id="taskForm" name="edit_task" method="POST" action="edit">
         <!-- Hidden Task ID -->

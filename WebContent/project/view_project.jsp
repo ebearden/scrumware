@@ -13,7 +13,6 @@
   <%@ include file="../partials/navigation_bar_partial.jsp"%>
 
   <div id="main" class="container theme-showcase" role="main">
-    <br /><br /><br /><br />
     <h2>#${project.projectId} - ${project.name}&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="edit?project_id=${project.projectId}"><button class="btn btn-default">Edit</button></h2></a>
     <p><h4><small>Created on: ${project.createdOnDateAsString} by ${created_by.name} <br/>

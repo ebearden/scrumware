@@ -12,7 +12,6 @@
   <%@ include file="../partials/navigation_bar_partial.jsp"%>
   
   <div id="main" class="container theme-showcase" role="main">
-  <br /><br /><br /><br />
   <h2>${message}</h2>
   <a href="tasks"><button class="btn btn-primary">Return to tasks</button></a>
   </div>

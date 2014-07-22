@@ -11,10 +11,8 @@
   <%@ include file="partials/navigation_bar_partial.jsp"%>
 
   <div id="main" class="container theme-showcase" role="main">
-    <br /> <br />
     <div id="success"></div>
     <p>
-    <br /> <br />
     <button class="btn btn-primary" data-toggle="modal" data-target="#newTaskModal">New Story</button><br />
     </p>
     <div class="span12"><hr /></div>

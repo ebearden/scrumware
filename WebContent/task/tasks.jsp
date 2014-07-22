@@ -12,10 +12,8 @@
   <%@ include file="../partials/navigation_bar_partial.jsp"%>
 
   <div id="main" class="container theme-showcase" role="main">
-    <br /> <br />
     <div id="success"></div>
     <p>
-    <br /> <br />
     <a href="new"><button class="btn btn-primary">New Task</button></a><br />
     </p>
     <div class="span12"><hr /></div>
