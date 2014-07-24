@@ -25,7 +25,7 @@
     <div class="lead"><p>${task.description}</p></div>
     <div class="span12 "><hr /></div>
     <p class="lead">Assigned to: ${assigned_to.firstname} ${assigned_to.lastname}</p>
-    <p class="lead">Story: ${task.storyId}</p>
+    <p class="lead">Story: ${story.storyName}</p>
     <p class="lead">Work Notes: <br/>${task.workNotes}</p>
     <p class="lead">Depends On:</p>
     

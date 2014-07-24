@@ -15,6 +15,8 @@ import org.json.JSONObject;
 import org.omg.CORBA.Request;
 
 import com.scrumware.config.Constants;
+import com.scrumware.story.Story;
+import com.scrumware.story.StoryDB;
 import com.scrumware.user.User;
 import com.scrumware.user.UserDB;
 
@@ -59,8 +61,10 @@ public class TaskServlet extends HttpServlet {
 			
 			for (Task task : taskList) {
 				User user = UserDB.getUser(task.getAssignedTo());
+				Story story = StoryDB.getStory(task.getStoryId());
 				DetailedTask detailedTask = new DetailedTask(task);
 				detailedTask.setAssignedTo(user);
+				detailedTask.setStory(story);
 				taskDetailList.add(detailedTask);
 			}
 			

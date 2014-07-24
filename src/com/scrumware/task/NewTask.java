@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.scrumware.config.Constants;
+import com.scrumware.story.Story;
+import com.scrumware.story.StoryDB;
 import com.scrumware.user.User;
 import com.scrumware.user.UserDB;
 
@@ -34,8 +36,10 @@ public class NewTask extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ArrayList<User> userList = UserDB.getUsers();
 		ArrayList<Task> taskList = TaskDB.getAllTasks();
+		ArrayList<Story> storyList = StoryDB.getAllStories();
 		request.setAttribute("users", userList);
 		request.setAttribute("tasks", taskList);
+		request.setAttribute("stories", storyList);
 		request.getRequestDispatcher("/task/new_task.jsp").forward(request, response);
 	}
 

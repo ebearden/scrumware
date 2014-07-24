@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.scrumware.config.Constants;
+import com.scrumware.story.Story;
+import com.scrumware.story.StoryDB;
 import com.scrumware.user.User;
 import com.scrumware.user.UserDB;
 
@@ -38,6 +40,7 @@ public class ViewTask extends HttpServlet {
 		User assignedToUser = UserDB.getUser(task.getAssignedTo());
 		User createdByUser = UserDB.getUser(task.getCreatedBy());
 		User updatedByUser = UserDB.getUser(task.getUpdatedBy());
+		Story story = StoryDB.getStory(task.getStoryId());
 		
 		ArrayList<DetailedTask> taskDependencyList = new ArrayList<DetailedTask>();
 		
@@ -57,6 +60,7 @@ public class ViewTask extends HttpServlet {
 		request.setAttribute(Constants.ASSIGNED_TO, assignedToUser);
 		request.setAttribute(Constants.CREATED_BY, createdByUser);
 		request.setAttribute(Constants.UPDATED_BY, updatedByUser);
+		request.setAttribute("story", story);
 
 		request.getRequestDispatcher("/task/view_task.jsp").forward(request, response);
 	}

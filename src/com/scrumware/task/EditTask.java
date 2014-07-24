@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.scrumware.config.Constants;
 import com.scrumware.config.Status;
+import com.scrumware.story.Story;
+import com.scrumware.story.StoryDB;
 import com.scrumware.user.User;
 import com.scrumware.user.UserDB;
 
@@ -36,11 +38,12 @@ public class EditTask extends HttpServlet {
 		String taskId = request.getParameter(Constants.TASK_ID);
 		Task task = TaskDB.getTask(Integer.parseInt(taskId));
 		ArrayList<User> userList = UserDB.getUsers();
+		ArrayList<Story> storyList = StoryDB.getAllStories();
 	
 		request.setAttribute(Constants.STATUS, Status.values());
 		request.setAttribute("users", userList);
 		request.setAttribute("task", task);
-		
+		request.setAttribute("stories", storyList);
 		request.getRequestDispatcher("/task/edit_task.jsp").forward(request, response);
 	}
 
