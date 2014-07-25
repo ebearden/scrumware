@@ -44,7 +44,7 @@
                     </tr>
                 </c:forEach>
             </table>
-            <div><h3><a href="AddUser">Add a user</a></h3></div>
+            <div><h3><a href="../user/adduser">Add a user</a></h3></div>
 </div>
 </body>
 </html>

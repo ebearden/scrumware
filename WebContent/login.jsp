@@ -8,7 +8,7 @@
 <title>SCRUMware | Login</title>
 </head>
 <body role="document">
-
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     
 
     <div class="container theme-showcase" role="main">
@@ -17,7 +17,9 @@
         <div class="jumbotron">
         	<h2>Welcome to SCRUMware</h2>
         	<br/>
-        	<p>${errmsg}</p>
+        	<c:if test="${errmsg != null}">
+      			<p class="alert alert-danger">${errmsg}</p>
+    		</c:if>
             <p>
             <form name="login" action="Login" method="post">
                 <div class="input-group">

@@ -15,7 +15,7 @@ public class Login extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	private LoginDB a_login = null;
-	private String errmsg = "";
+	private String errmsg = null;
 
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -23,7 +23,7 @@ public class Login extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
         	
-        	errmsg = "";
+        	errmsg = null;
         	HttpSession sess = request.getSession(false);
         	//System.out.println(sess.getMaxInactiveInterval());
         	
@@ -80,7 +80,7 @@ public class Login extends HttpServlet {
 	            	
 	            }
 	        	
-	        	if (errmsg.equalsIgnoreCase("") || errmsg.isEmpty()) {
+	        	if (errmsg == null || errmsg.equalsIgnoreCase("") || errmsg.isEmpty()) {
 	        		
 	        		/*if there are no error messages,
 	        		 * session has been successfully created.

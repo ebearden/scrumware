@@ -14,7 +14,6 @@
   <%@ include file="../partials/navigation_bar_partial.jsp"%>
   
   <div id="main" class="container theme-showcase" role="main">
-  
     <form role="form" id="taskForm" name="new_task" method="POST" action="new" class="form-horizontal">
         <!-- Name -->
         <div class="form-group">
