@@ -40,12 +40,11 @@ public class ProjectDB {
 		else {
 			projectSQL = "INSERT INTO Project(project_name, description, project_manager, planned_start_date, "
 					+ "planned_end_date, status_id, created_by, updated_by) "
-					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";	
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";	
 		}
 		
 		try {
 			PreparedStatement projectStatement = connection.prepareStatement(projectSQL, Statement.RETURN_GENERATED_KEYS);
-			
 			projectStatement.setString(1, project.getName());
 			projectStatement.setString(2, project.getDescription());
 			projectStatement.setInt(3, project.getProjectManagerId());
@@ -54,10 +53,12 @@ public class ProjectDB {
 			projectStatement.setInt(6, project.getStatusId());
 			if (isUpdate) {
 				projectStatement.setInt(7, project.getUpdatedBy());
+				projectStatement.setInt(8, project.getProjectId());
 			} else {
-				projectStatement.setInt(8, project.getCreatedBy());
-				projectStatement.setInt(9, project.getUpdatedBy());
+				projectStatement.setInt(7, project.getCreatedBy());
+				projectStatement.setInt(8, project.getUpdatedBy());
 			}
+			System.out.println(projectStatement);
 
 			
 			int result = projectStatement.executeUpdate();
@@ -105,10 +106,6 @@ public class ProjectDB {
 		try {
 			PreparedStatement projectStatement = connection.prepareStatement(sql);
 			System.out.println(projectStatement);
-			
-			PreparedStatement dependencyStatement = connection.prepareStatement(
-					"SELECT dependency_id, depends_on, active FROM Task_Dependencies WHERE task_id=?;"
-					);
 			
 			if (id != null) {
 				projectStatement.setInt(1, id);

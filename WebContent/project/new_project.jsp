@@ -7,17 +7,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>New Project</title>
 <%@ include file="../partials/include_bootstrap_partial.jsp"%>
-<!-- Below Added for Datepicker Fields -->
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
-  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-  <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
-  <link rel="stylesheet" href="/resources/demos/style.css">
-  <script>
-  $(function() {
-    $( "#start_date" ).datepicker();
-    $( "#end_date").datepicker();
-  });
-  </script>
 </head>
 
 <body role="document">
@@ -33,7 +22,7 @@
 					<!-- Name -->
 	        		<div class="form-group">
 	          			<label for="project_name">Name</label>
-	          			<input type="text" class="form-control" name="task_name">
+	          			<input type="text" class="form-control" name="project_name">
 	       			 </div>
     			</td>
     			<td>
@@ -95,5 +84,16 @@
         <button type="submit" class="btn btn-primary">Add Project</button>
     </form>
 </div>
+<!-- Below Added for Datepicker Fields -->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script>
+  $(function() {
+    $( "#start_date" ).datepicker({ dateFormat: 'yy-mm-dd'});
+    $( "#end_date").datepicker({ dateFormat: 'yy-mm-dd'});
+  });
+  </script>
 </body>
 </html>

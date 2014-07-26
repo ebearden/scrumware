@@ -7,17 +7,6 @@
 <title>Edit Project</title>
 
 <%@ include file="../partials/include_bootstrap_partial.jsp"%>
-<!-- Below Added for Datepicker Fields -->
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
-  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-  <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
-  <link rel="stylesheet" href="/resources/demos/style.css">
-  <script>
-  $(function() {
-    $( "#start_date" ).datepicker();
-    $( "#end_date").datepicker();
-  });
-  </script>
 </head>
 <body role="document">
   <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -133,5 +122,16 @@
 
   </div>
   <%@ include file="../partials/include_bootstrap_javascript.jsp"%>
+  <!-- Below Added for Datepicker Fields -->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script>
+  $(function() {
+    $( "#start_date" ).datepicker({ dateFormat: 'yy-mm-dd'});
+    $( "#end_date").datepicker({ dateFormat: 'yy-mm-dd'});
+  });
+  </script>
 </body>
 </html>
