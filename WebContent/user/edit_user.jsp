@@ -1,9 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=US-ASCII"
-    pageEncoding="US-ASCII"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Edit User</title>
+</head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>New User</title>
 <%@ include file="../partials/include_bootstrap_partial.jsp"%>
@@ -15,14 +17,15 @@
   
   <div id="main" class="container theme-showcase" role="main">
   
-  	<div><h3>Add User</h3></div>
-  
+  	<h1>Edit User Profile</h1>
+  	
 	<c:if test="${errmsg != null}">
       	<p class="alert alert-danger">${errmsg}</p>
 	</c:if>
   
-    <form role="form" id="userForm" name="new_user" method="POST" action="adduser" class="form-horizontal">
-        <!-- User Name -->
+    <form role="form" id="userForm" name="new_user" method="POST" action="edituser?id=${id}" class="form-horizontal">
+    	
+       <!-- User Name -->
         <div class="form-group">
           <label for="user_name">User Name</label>
           <input type="text" class="form-control" name="user_name" value="${username}"></input>
@@ -44,18 +47,6 @@
         <div class="form-group">
           <label for="email">Email</label>
           <input type="email" class="form-control" rows="3" name="email" value="${email}"></input>
-        </div>
-        
-        <!-- Password -->
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" class="form-control" rows="3" name="password"></input>
-        </div>
-        
-        <!-- Confirm Password -->
-        <div class="form-group">
-          <label for="confirm_pass">Confirm Password</label>
-          <input type="password" class="form-control" rows="3" name="confirm_pass"></input>
         </div>
 
         <!-- Role -->
@@ -94,7 +85,7 @@
         
         
         <!-- Submit -->
-        <button type="submit" class="btn btn-primary">Add User</button>
+        <button type="submit" class="btn btn-primary">Update User</button>
     </form>
 </div>
 <%@ include file="../partials/include_bootstrap_javascript.jsp"%>

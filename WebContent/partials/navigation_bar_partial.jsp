@@ -19,6 +19,7 @@
         <li><a href="/SCRUMware/user/users">Users</a>
       </ul>
       <ul class="nav navbar-nav navbar-right">
+        <li><a href="/SCRUMware/user/reset_pass.jsp">Reset Password</a>
         <li><a href="/SCRUMware/Logout">Logout</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->

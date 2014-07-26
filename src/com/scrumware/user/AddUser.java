@@ -52,8 +52,13 @@ public class AddUser extends HttpServlet {
 	        	int active = Integer.parseInt(request.getParameter("active"));
 	        	String errmsg ="";
 	        	
+	        	if (username==null || firstname==null || lastname==null ||
+	        		password==null || email==null || role==-1 || active==-1) {
+            		errmsg = "You may not leave any field blank.\n";
+            	}
+	        	
 	        	if (!request.getParameter("password").equals(request.getParameter("confirm_pass"))) {
-	        		errmsg = "Password and confirmation must match.\n";
+	        		errmsg = errmsg + "Password and confirmation must match.\n";
 	        	}
 	        	
 	        	//ArrayList<User> users = UserDB.getUsers();
@@ -94,6 +99,8 @@ public class AddUser extends HttpServlet {
 	        		request.setAttribute("firstname", firstname);
 	        		request.setAttribute("lastname", lastname);
 	        		request.setAttribute("email", email);
+	        		request.setAttribute("role", role);
+	        		request.setAttribute("active", active);
 	        		getServletContext().getRequestDispatcher("/user/new_user.jsp").forward(request, response);
 	        		
 	        	}
