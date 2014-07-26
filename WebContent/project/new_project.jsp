@@ -45,13 +45,13 @@
     			</td>
     		</tr>
     		<tr>
-    			<td style="padding-right:20px!important;">
+    			<td>
 			        <div class="form-group">
 			          <label for="story_name">Status</label> 
 			          <select class="form-control" name="status_id">
 			            <c:forEach var="status" items="${status}">
 			                <c:choose>
-			                <c:when test="${status.code == project.statusId}">
+			                <c:when test="${status.code == task.statusId}">
 			                  <option value="${status.code}" selected>${status.description}</option>
 			                </c:when>
 			                <c:otherwise>
@@ -61,7 +61,7 @@
 			            </c:forEach>
 			          </select>
 			        </div>
-    			</td>
+			    </td>
     			<td>
     				<!-- Planned End Date -->
 	        		<div class="form-group">

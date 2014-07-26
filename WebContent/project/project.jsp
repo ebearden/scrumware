@@ -14,7 +14,7 @@
   <div id="main" class="container theme-showcase" role="main">
     <div id="success"></div>
     <p>
-    <a href="project/new"><button class="btn btn-primary">New Project</button></a><br />
+    <a href="new"><button class="btn btn-primary">New Project</button></a><br />
     </p>
     <div class="span12"><hr /></div>
     <div id="project-table" class="span12">
@@ -37,6 +37,7 @@
           <td>${p.projectManagerId}</td>          
           <td>${p.startDate}</td>
           <td>${p.endDate}</td>
+          <td>${p.statusAsString}</td>
           <td>
             <a href="view?project_id=${p.projectId}">
                 <button class="btn btn-primary">View</button>

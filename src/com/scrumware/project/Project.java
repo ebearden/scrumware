@@ -1,10 +1,12 @@
 package com.scrumware.project;
 
 import java.sql.Date;
+import java.text.DateFormat;
 
 import org.json.JSONObject;
 
 import com.scrumware.config.Constants;
+import com.scrumware.config.Status;
 import com.scrumware.interfaces.IJsonObject;
 
 public class Project implements IJsonObject {
@@ -97,6 +99,18 @@ public class Project implements IJsonObject {
 	public int getStatusId() {
 		System.out.println(this.statusId);
 		return this.statusId;
+	}
+	
+	public String getStatusAsString() {
+		return Status.values()[statusId - 1].getDescription();
+	}
+	
+	public String getCreatedOnDateAsString() {
+		return DateFormat.getDateTimeInstance().format(createdOn);
+	}
+	
+	public String getUpdatedOnDateAsString() {
+		return DateFormat.getDateTimeInstance().format(updatedOn);
 	}
 	
 	//Set Values

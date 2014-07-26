@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.scrumware.config.Constants;
+import com.scrumware.config.Status;
 import com.scrumware.user.User;
 import com.scrumware.user.UserDB;
 
