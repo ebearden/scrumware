@@ -6,6 +6,7 @@ import java.sql.Date;
 import org.json.JSONObject;
 
 import com.scrumware.config.Constants;
+import com.scrumware.config.Status;
 
 public class Story implements com.scrumware.interfaces.IJsonObject, Serializable{
 	
@@ -90,6 +91,9 @@ public class Story implements com.scrumware.interfaces.IJsonObject, Serializable
 	}
 	public String getAcceptanceCriteria(){
 		return acceptenceCriteria;
+	}
+	public String getStatusAsString() {
+		return Status.values()[statusID - 1].getDescription();
 	}
 	
 	//setters

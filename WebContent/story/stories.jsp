@@ -29,6 +29,7 @@
         <th>Acceptance Criteria</th>
         <th>Sprint</th>
         <th>Task Count</th>
+        <th>Status</th>
         <th><!-- Button column --></th>
       <tr>
       </thead>
@@ -39,9 +40,10 @@
           <td>${s.description}</td>          
           <td>${s.acceptanceCriteria}</td>          
           <td>${s.sprintID}</td>
-          <td>${t.taskCount}</td>
+          <td>${s.taskCount}</td>
+          <td>${s.statusAsString}</td> 
           <td>
-            <a href="view?task_id=${s.storyID}">
+            <a href="view?story_id=${s.storyID}">
                 <button class="btn btn-primary">View</button>
             </a>
           </td>

@@ -122,6 +122,7 @@ public class StoryDB {
 		Story story = null;
 		String sql;
 		if (id == null) {
+			System.out.println("null");
 			sql = "SELECT story_id, created, created_by, updated, updated_by, story_name, description, "
 					+ "acceptance_criteria, status_id, project_id, sprint_id, task_count "
 					+ "FROM Story;";

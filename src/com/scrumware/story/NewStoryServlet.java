@@ -34,6 +34,7 @@ public class NewStoryServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ArrayList<User> userList = UserDB.getUsers();
 		ArrayList<Story> storyList = StoryDB.getAllStories();
+		//GET SPRINTS
 		request.setAttribute("users", userList);
 		request.setAttribute("story", storyList);
 		request.getRequestDispatcher("/story/new_story.jsp").forward(request, response);

@@ -34,7 +34,7 @@
           <label for="assigned_to">Assign To Sprint</label> 
           <select class="form-control" name="assigned_to">
             <c:forEach var="s" items="${sprint}">
-                <option value="${s.id}">${s.name}</option>            
+                <option value="${s.sysId}">${s.name}</option>            
             </c:forEach>
           </select>
         </div>
