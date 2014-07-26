@@ -35,11 +35,14 @@ public class ViewProjectServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String projectId = request.getParameter(Constants.PROJECT_ID);
 		Project project = ProjectDB.getProject(Integer.parseInt(projectId));
-		User pm = UserDB.getUser(project.getProjectManagerId());
-		User createdByUser = UserDB.getUser(project.getCreatedBy());
-		User updatedByUser = UserDB.getUser(project.getUpdatedBy());
+		User project_manager = UserDB.getUser(project.getProjectManagerId());
+		User createdBy = UserDB.getUser(project.getCreatedBy());
+		User updatedBy = UserDB.getUser(project.getUpdatedBy());
 		
 		request.setAttribute("project", project);
+		request.setAttribute("projectManager", project_manager);
+		request.setAttribute("created_by", createdBy);
+		request.setAttribute("updated_by", updatedBy);
 
 		request.getRequestDispatcher("/project/view_project.jsp").forward(request, response);
 	}

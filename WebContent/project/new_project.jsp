@@ -45,9 +45,9 @@
     			</td>
     		</tr>
     		<tr>
-    			<td>
+    			<td style="padding-right:20px!important;">
 			        <div class="form-group">
-			          <label for="story_name">Status</label> 
+			          <label for="status_id">Status</label> 
 			          <select class="form-control" name="status_id">
 			            <c:forEach var="status" items="${status}">
 			                <c:choose>

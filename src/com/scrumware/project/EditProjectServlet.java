@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.scrumware.config.Constants;
+import com.scrumware.task.Task;
+import com.scrumware.task.TaskDB;
 import com.scrumware.user.User;
 import com.scrumware.user.UserDB;
 import com.scrumware.config.Status;
@@ -41,7 +43,7 @@ public class EditProjectServlet extends HttpServlet {
 
 		request.setAttribute(Constants.STATUS, Status.values());
 		request.setAttribute("users", userList);
-		request.setAttribute("projects", project);
+		request.setAttribute("project", project);
 		
 		request.getRequestDispatcher("/project/edit_project.jsp").forward(request, response);
 	}
@@ -68,9 +70,12 @@ public class EditProjectServlet extends HttpServlet {
 		project.setCreatedBy(1);
 
 		Project savedProject = ProjectDB.saveProject(project);
-		
 		request.setAttribute("project", savedProject);
-		request.getRequestDispatcher("/project/view_project.jsp").forward(request, response);
+		if (projectId == null) {
+			request.getRequestDispatcher("/project/view?project_id=" + savedProject.getProjectId()).forward(request, response);
+		} else {
+			request.getRequestDispatcher("/project/view").forward(request, response);			
+		}
 	}
 
 }

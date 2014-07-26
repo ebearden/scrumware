@@ -25,7 +25,7 @@
   
   <div id="main" class="container theme-showcase" role="main">
   
-    <form role="form" name="edit_task" method="POST" action="edit">
+    <form role="form" name="edit_project" method="POST" action="edit">
         <!-- Hidden Project ID -->
         <input type="text" class="hidden" name="project_id" value="${project.projectId}">
         
@@ -35,14 +35,14 @@
 					<!-- Name -->
 	        		<div class="form-group">
 	          			<label for="project_name">Name</label>
-	          			<input type="text" class="form-control" name="task_name">
+	          			<input type="text" class="form-control" name="project_name" value="${project.name}">
 	       			 </div>
     			</td>
     			<td>
     				<!-- Planned Start Date -->
 	        		<div class="form-group">
 	          			<label for="planned_start_date">Planned Start Date</label>
-	          			<input id="start_date" type="text" class="form-control" name="planned_start_date">
+	          			<input id="start_date" type="text" class="form-control" name="planned_start_date" value="${project.startDate}">
 	        		</div>
     			</td>
     		</tr>
@@ -68,29 +68,35 @@
     				<!-- Planned End Date -->
 	        		<div class="form-group">
 	         			<label for="planned_end_date">Planned End Date</label>
-	          			<input id="end_date" type="text" class="form-control" name="planned_end_date">
+	          			<input id="end_date" type="text" class="form-control" name="planned_end_date" value="${project.endDate}">
 	        		</div>
     			</td>
     		</tr>
     		<tr>
-    			<td style="padding-right:20px!important;">     
-			        <!-- Project Manager -->
+    			<td>
 			        <div class="form-group">
 			          <label for="project_manager">Project Manager</label> 
 			          <select class="form-control" name="project_manager">
 			            <c:forEach var="u" items="${users}">
-			                <option value="${u.id}">${u.name}</option>            
+			              <c:choose>
+			                <c:when test="${u.id == project.projectManagerId}">
+			                  <option value="${u.id}" selected>${u.username}</option>
+			                </c:when>
+			                <c:otherwise>
+			                  <option value="${u.id}">${u.username}</option>
+			                </c:otherwise>
+			              </c:choose>
 			            </c:forEach>
 			          </select>
 			        </div>
-    			</td>
+		        </td>
     		</tr>
         </table>
         
         <!-- Description -->
         <div class="form-group">
           <label for="description">Description</label>
-          <textarea class="form-control" rows="3" name="description"></textarea>
+          <textarea class="form-control" rows="3" name="description">${project.description}</textarea>
         </div>
         
         <!-- Save -->

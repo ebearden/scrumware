@@ -53,7 +53,7 @@ public class ProjectDB {
 			projectStatement.setDate(5, project.getEndDate());
 			projectStatement.setInt(6, project.getStatusId());
 			if (isUpdate) {
-				projectStatement.setInt(8, project.getUpdatedBy());
+				projectStatement.setInt(7, project.getUpdatedBy());
 			} else {
 				projectStatement.setInt(8, project.getCreatedBy());
 				projectStatement.setInt(9, project.getUpdatedBy());

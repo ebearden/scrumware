@@ -35,6 +35,8 @@ public class NewProjectServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ArrayList<User> userList = UserDB.getUsers();
 		ArrayList<Project> projectList = ProjectDB.getAllProjects();
+		
+		request.setAttribute(Constants.STATUS, Status.values());
 		request.setAttribute("users", userList);
 		request.setAttribute("projects", projectList);
 		request.getRequestDispatcher("/project/new_project.jsp").forward(request, response);
