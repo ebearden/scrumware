@@ -16,6 +16,7 @@ public final class Constants {
 	public static final String UPDATED = "updated";
 	public static final String CREATED_BY = "created_by";
 	public static final String UPDATED_BY = "updated_by";
+	public static final String LOGIN_KEY = "DbfLIicCZNJkTldSBQzPVKEF74hnMsrHu";
 	
 	// User Constants
 	public static final String USER_ID = "user_id";

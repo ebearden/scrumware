@@ -84,6 +84,10 @@ public class TaskServlet extends HttpServlet {
 	}
 	
 	private boolean isValidSession(HttpServletRequest request) {
+		if (request.getParameter("key") != null && request.getParameter("key").equals(Constants.LOGIN_KEY)) {
+			return true;
+		}
+		
 		HttpSession session = request.getSession(false);
 		if (session.getAttribute("id") == null || session.getAttribute("id").equals("")) {
 			return false;

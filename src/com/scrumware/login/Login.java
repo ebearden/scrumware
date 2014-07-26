@@ -2,13 +2,23 @@ package com.scrumware.login;
 
 
 import java.io.*;
-import java.io.PrintWriter;
+import java.util.ArrayList;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.apache.taglibs.standard.lang.jstl.AndOperator;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import com.scrumware.project.NewProjectServlet;
+import com.scrumware.task.Task;
+import com.scrumware.user.User;
+import com.scrumware.user.UserDB;
 
 @WebServlet(name = "Login", urlPatterns = {"/Login"})
 public class Login extends HttpServlet {
@@ -21,6 +31,22 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        
+        //TODO: Refactor...
+        if (request.getParameter("login_type") != null && request.getParameter("login_type").equals("mobile")) {
+        	response.addHeader("Content-Type", "application/json");
+        	a_login = new LoginDB(request.getParameter("user_name"), request.getParameter("password"));
+        	User user = UserDB.getUser(a_login.getId());
+        	JSONObject jsonObject = new JSONObject();
+    		jsonObject.put("user_id", user.getId());
+    		jsonObject.put("first_name", user.getFirstname());
+    		jsonObject.put("last_name", user.getLastname());
+			JSONObject returnObject = new JSONObject();
+			returnObject.put("result", jsonObject);
+			response.getWriter().println(returnObject);
+			return;
+		}
+        
         try {
         	
         	errmsg = null;
@@ -30,7 +56,7 @@ public class Login extends HttpServlet {
         	/*check to see if there is an active session */
         	
         	
-        	if(sess.getAttribute("role") != null) {
+        	if(sess != null && sess.getAttribute("role") != null) {
   
         		/*if there is an active session, redirect to home page*/
         		
