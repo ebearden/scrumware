@@ -60,5 +60,9 @@ public final class Constants {
 	
 	//Sprint Constants
 	public static final String SPRINT_ID = "sprint_id";
+	public static final String SPRINT_NAME = "sprint_name";
+	public static final String START_DATE = "start_date";
+	public static final String END_DATE = "end_date";
+	
 
 }
