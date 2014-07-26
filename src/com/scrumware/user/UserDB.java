@@ -23,7 +23,7 @@ private static ArrayList<User> users = null;
         
          
 /*
- * new ArrayList products instantiated
+ * new ArrayList user instantiated
  */
      
         users = new ArrayList<User>();
@@ -90,8 +90,8 @@ private static ArrayList<User> users = null;
 
     /**
      *
-     * This method returns a specific product from the ArrayList
-     * products
+     * This method returns a specific user from the ArrayList
+     * users
      * 
      * @param productCode string passed from servlet
      * @return single instance of User u
@@ -131,13 +131,51 @@ private static ArrayList<User> users = null;
     }
     
     /**
+     * This method checks to see if a product is present in ArrayList products
+     *
+     * @param productCode String input from servlet
+     * @return true or false
+     */
+    public static boolean usernameExists(String username)
+    {
+    	 users = getUsers();       
+         for (User u : users)
+         {            
+             if (u.getUsername().equals(username))
+             {
+                 return true;
+             }
+         }             
+        return false;
+    }
+    
+    /**
+     * This method checks to see if a product is present in ArrayList products
+     *
+     * @param productCode String input from servlet
+     * @return true or false
+     */
+    public static boolean emailExists(String email)
+    {
+    	 users = getUsers();       
+         for (User u : users)
+         {            
+             if (u.getEmail() == email)
+             {
+                 return true;
+             }
+         }             
+        return false;
+    }
+    
+    /**
      *This method inserts the data from a Product object into the db that
      * holds product data
      * 
      * @param product Product object from servlet
      * @return 1 for success or 0 for failure
      */
-    public static int insert(User u)
+    public static int insert(User u, String password)
     {
         
 /*
@@ -154,8 +192,8 @@ private static ArrayList<User> users = null;
  */        
         
         String query = 
-                "INSERT INTO Sys_User (username, email_address) " +
-                "VALUES (?, ?)";
+                "INSERT INTO Sys_User (created, updated, username, password, first_name, last_name, email_address, user_role, active) " +
+                "VALUES (now(), now(), ?, ?, ?, ?, ?, ?, ?)";
         
 /*
  * try the query, if it works process data, otherwise catch the db exception
@@ -165,7 +203,12 @@ private static ArrayList<User> users = null;
         {        
             ps = connection.prepareStatement(query);
             ps.setString(1, u.getUsername());
-            ps.setString(2, u.getEmail());
+            ps.setString(2, password);
+            ps.setString(3, u.getFirstname());
+            ps.setString(4, u.getLastname());
+            ps.setString(5, u.getEmail());
+            ps.setInt(6, u.getRole());
+            ps.setInt(7, u.getActive());
             return ps.executeUpdate();
         }
         catch(SQLException e)
@@ -182,14 +225,7 @@ private static ArrayList<User> users = null;
         {
             DButil.closePreparedStatement(ps);
             pool.freeConnection(connection);
-            //JDBCHelper.freeConnection(connection);
-            /*
-            try  {
-            	connection.close();
-            } catch (Exception e) {
-            	e.printStackTrace();
-            }
-            */
+            
         }
     }
 

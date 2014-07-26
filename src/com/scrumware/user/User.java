@@ -79,7 +79,7 @@ public class User implements Serializable
      */
     public String getUsername()
     {
-        return username; 
+        return this.username; 
     }
     
     /**
@@ -100,7 +100,7 @@ public class User implements Serializable
      */
     public String getFirstname()
     {
-        return firstname; 
+        return this.firstname; 
     }
     
     /**
@@ -120,7 +120,7 @@ public class User implements Serializable
      */
     public String getLastname()
     {
-        return lastname; 
+        return this.lastname; 
     }
     
     /**
@@ -151,7 +151,7 @@ public class User implements Serializable
      */
     public String getEmail()
     {
-        return email; 
+        return this.email; 
     }
     
     /**
@@ -171,7 +171,7 @@ public class User implements Serializable
      */
     public int getId()
     {
-        return id; 
+        return this.id; 
     }
     
     
@@ -192,7 +192,7 @@ public class User implements Serializable
      */
     public int getRole()
     {
-        return role; 
+        return this.role; 
     }
     
     /**
@@ -212,7 +212,7 @@ public class User implements Serializable
      */
     public int getActive()
     {
-        return active; 
+        return this.active; 
     }
     
     /**
