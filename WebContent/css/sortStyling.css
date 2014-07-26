@@ -1,0 +1,33 @@
+@CHARSET "UTF-8";
+
+#todo{
+	border-style: solid;
+	border-width: 1px;
+	min-height:200px;
+    
+}
+
+#inprocess{
+	border-style: solid;
+    border-width: 1px;
+    min-height:200px;
+    
+}
+
+#toverify{
+	border-style: solid;
+    border-width: 1px;
+    min-height:200px;
+   
+}
+
+#done{
+	border-style: solid;
+    border-width: 1px;
+    min-height:200px;
+   
+}
+
+.emptylist{
+	min-height:200px
+}
