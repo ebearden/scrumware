@@ -1,6 +1,8 @@
 package com.scrumware.task;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -8,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.scrumware.config.Constants;
 import com.scrumware.config.Status;
@@ -79,15 +82,27 @@ public class EditTask extends HttpServlet {
 		task.setTaskId(taskId != null ? Integer.parseInt(taskId) : null);			
 		task.setStoryId(storyId != null ? Integer.parseInt(storyId) : 1);
 		task.setAssignedTo(assignedTo != null ? Integer.parseInt(assignedTo) : 1);
-		
 		task.setName(request.getParameter(Constants.TASK_NAME));
 		task.setDescription(request.getParameter(Constants.DESCRIPTION));
 		task.setWorkNotes(request.getParameter(Constants.WORK_NOTES));
 		
-		// TODO: Get current user.
-		task.setUpdatedBy(1);
-		task.setCreatedBy(1);
-		//-------------------
+		HttpSession session = request.getSession(false);
+		Integer userId = (Integer)session.getAttribute("id");
+		
+		// Handle Created by, Updated By,
+		if (userId != null) {
+			if (task.getTaskId() == null) {
+				// This is an insert. Set both created and updated
+				task.setCreatedBy(userId);
+				task.setUpdatedBy(userId);	
+			} else {
+				// This is an update. Just set updated.
+				task.setUpdatedBy(userId);
+			}
+		}
+		
+		
+
 		Task savedTask = TaskDB.saveTask(task);
 		request.setAttribute("task", savedTask);
 		if (taskId == null) {

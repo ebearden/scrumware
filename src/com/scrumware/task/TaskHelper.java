@@ -31,7 +31,7 @@ public class TaskHelper {
 		
 		
 		String insertSQL = "INSERT INTO Task_Dependencies (task_id, depends_on, active) "
-				+ "VALUES (?, ?, 1);";
+							+ "VALUES (?, ?, 1);";
 		String deleteSQL = "DELETE FROM Task_Dependencies WHERE task_id=? OR depends_on=?;";
 		
 		PreparedStatement reAssociateDependenciesStatement = null;

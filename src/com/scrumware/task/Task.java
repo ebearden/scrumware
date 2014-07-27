@@ -6,6 +6,7 @@ package com.scrumware.task;
  */
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,8 +33,8 @@ public class Task implements IJsonObject, Serializable {
 	private int statusId;
 	private String workNotes;
 	private String description;
-	private Date createdOn;
-	private Date updatedOn;
+	private Timestamp createdOn;
+	private Timestamp updatedOn;
 	private int createdBy;
 	private int updatedBy;
 	private int dependentCount;
@@ -169,7 +170,7 @@ public class Task implements IJsonObject, Serializable {
 		this.dependentTaskMap.putAll(dependentTaskMap);
 	}
 
-	public Date getCreatedOn() {
+	public Timestamp getCreatedOn() {
 		return createdOn;
 	}
 	
@@ -177,11 +178,11 @@ public class Task implements IJsonObject, Serializable {
 		return DateFormat.getDateTimeInstance().format(createdOn);
 	}
 
-	public void setCreatedOn(Date createdOn) {
+	public void setCreatedOn(Timestamp createdOn) {
 		this.createdOn = createdOn;
 	}
 
-	public Date getUpdatedOn() {
+	public Timestamp getUpdatedOn() {
 		return updatedOn;
 	}
 	
@@ -189,7 +190,7 @@ public class Task implements IJsonObject, Serializable {
 		return DateFormat.getDateTimeInstance().format(updatedOn);
 	}
 
-	public void setUpdatedOn(Date updatedOn) {
+	public void setUpdatedOn(Timestamp updatedOn) {
 		this.updatedOn = updatedOn;
 	}
 

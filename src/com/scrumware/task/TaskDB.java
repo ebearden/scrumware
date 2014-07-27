@@ -82,8 +82,8 @@ public class TaskDB {
 		}
 		else {
 			taskSQL = "INSERT INTO Task(task_name, description, assigned_to, status_id, "
-					+ "work_notes, story_id, dependent_count, created_by, updated_by) "
-					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+					+ "work_notes, story_id, dependent_count, created_by, updated_by, created, updated) "
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW());";
 		}
 		
 		PreparedStatement taskStatement = null;
@@ -108,6 +108,7 @@ public class TaskDB {
 				taskStatement.setInt(9, task.getUpdatedBy());
 			}
 
+			System.out.println(taskStatement);
 			
 			int result = taskStatement.executeUpdate();
 			if (result == 1) {
@@ -149,7 +150,6 @@ public class TaskDB {
 	private static boolean saveDependency(Map<Integer, ArrayList<Integer>> map, Integer taskId) {
 		Connection connection = ConnectionPool.getInstance().getConnection();
 		ArrayList<Integer> list = new ArrayList<Integer>();
-		//TODO: This seems a little risky.
 		list.addAll((ArrayList<Integer>)map.values().toArray()[0]);
 				
 		String sql;
@@ -231,9 +231,9 @@ public class TaskDB {
 				Map<Integer, ArrayList<Integer>> dependencyMap = new HashMap<Integer, ArrayList<Integer>>();
 				task = new Task();
 				task.setTaskId(taskResultSet.getInt(1));
-				task.setCreatedOn(taskResultSet.getDate(2));
+				task.setCreatedOn(taskResultSet.getTimestamp(2));
 				task.setCreatedBy(taskResultSet.getInt(3));
-				task.setUpdatedOn(taskResultSet.getDate(4));
+				task.setUpdatedOn(taskResultSet.getTimestamp(4));
 				task.setUpdatedBy(taskResultSet.getInt(5));
 				task.setName(taskResultSet.getString(6));
 				task.setDescription(taskResultSet.getString(7));

@@ -96,6 +96,5 @@ public class TaskServlet extends HttpServlet {
 		} else {
 			return true;
 		}
-		
 	}
 }
