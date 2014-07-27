@@ -77,9 +77,8 @@ public class Task implements IJsonObject, Serializable {
 		for (Integer id : dependentTaskMap.keySet()) {
 			
 			JSONObject jsonObject = new JSONObject();
-			jsonObject.put(Constants.DEPENDENCY_ID, id);
 			jsonObject.put(Constants.TASK_ID, dependentTaskMap.get(id).get(0));
-			jsonObject.put(Constants.ACTIVE, dependentTaskMap.get(id).get(1));
+			jsonObject.put(Constants.TASK_NAME, TaskDB.getTask(dependentTaskMap.get(id).get(0)).getName());
 			jsonArray.put(jsonObject);
 		}
 		
