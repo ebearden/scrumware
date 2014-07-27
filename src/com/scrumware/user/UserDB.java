@@ -192,7 +192,8 @@ private static ArrayList<User> users = null;
  */        
         
         String query = 
-                "INSERT INTO Sys_User (created, updated, username, password, first_name, last_name, email_address, user_role, active) " +
+                "INSERT INTO Sys_User (created, updated, username, password, first_name,"+
+        		"last_name, email_address, user_role, active) " +
                 "VALUES (now(), now(), ?, ?, ?, ?, ?, ?, ?)";
         
 /*
@@ -251,8 +252,13 @@ private static ArrayList<User> users = null;
  * set the statement to be executed in String query
  */  
         
-        String query = "UPDATE User SET username = ?,"+
-                " email_address = ?" +
+        String query = "UPDATE Sys_User SET updated = now(),"+
+        		" username = ?,"+
+                " first_name = ?," +
+                " last_name = ?," +
+                " email_address = ?," +
+                " user_role = ?," +
+                " active = ?" +
                 " WHERE user_id = ?";
 
  /*
@@ -263,8 +269,12 @@ private static ArrayList<User> users = null;
         {
             ps = connection.prepareStatement(query);
             ps.setString(1, u.getUsername());
-            ps.setString(2, u.getEmail());
-            ps.setInt(3, u.getId());
+            ps.setString(2, u.getFirstname());
+            ps.setString(3, u.getLastname());
+            ps.setString(4, u.getEmail());
+            ps.setInt(5, u.getRole());
+            ps.setInt(6, u.getActive());
+            ps.setInt(7, u.getId());
 
             return ps.executeUpdate();
         }
@@ -286,6 +296,111 @@ private static ArrayList<User> users = null;
         }
     }
 
+    public static boolean checkPassword(int user_id, String pass) {
+    	
+    	/*
+    	 * get an instance of a pool connection, then instantiate PreparedStatement ps
+    	 */        
+    	        
+    	        ConnectionPool pool = ConnectionPool.getInstance();
+    	        Connection connection = pool.getConnection();
+    	        PreparedStatement ps = null;
+    	        ResultSet rs = null;
+    	        String confirmpass = "";
+    	        
+    	/*
+    	 * set the statement to be executed in String query
+    	 */  
+    	        
+    	        String query = "SELECT password FROM Sys_User"+
+    	                " WHERE user_id = ?";
+
+    	 /*
+    	 * try the query, if it works process data, otherwise catch the db exception
+    	 */
+    	        
+    	        try
+    	        {        
+    	            ps = connection.prepareStatement(query);
+    	            ps.setInt(1, user_id);
+    	            rs = ps.executeQuery();
+    	            while(rs.next()) {
+    	            	confirmpass = rs.getString("password");
+    	            } 
+    	            
+    	        }
+    	        catch(SQLException e)
+    	        {
+    	            e.printStackTrace();
+    	        }
+    	        
+    	 /*
+    	 * close out the statement and free the pool connection
+    	 */       
+    	        
+    	        finally
+    	        {
+    	        	DButil.closeResultSet(rs);
+    	            DButil.closePreparedStatement(ps);
+    	            pool.freeConnection(connection);
+    	        }
+    	        
+    	        if (pass.matches(confirmpass)) {
+            		return true;
+            	} else {
+            		return false;
+            	}
+    	
+    }
+    
+    public static int resetPassword(int id, String newpass)
+    {
+        
+/*
+ * get an instance of a pool connection, then instantiate PreparedStatement ps
+ */        
+        
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        
+/*
+ * set the statement to be executed in String query
+ */  
+        
+        String query = "UPDATE Sys_User SET updated = now(), password = ?"+
+                " WHERE user_id = ?";
+
+ /*
+ * try the query, if it works process data, otherwise catch the db exception
+ */
+        
+        try
+        {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, newpass);
+            ps.setInt(2, id);
+
+            return ps.executeUpdate();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            return 0;
+        }
+        
+ /*
+ * close out the statement and free the pool connection
+ */       
+        
+        finally
+        {
+            DButil.closePreparedStatement(ps);
+            //JDBCHelper.freeConnection(connection);
+            pool.freeConnection(connection);
+        }
+    }
+    
     /**
      * This method deletes an entry from the db using data from a Product object
      *

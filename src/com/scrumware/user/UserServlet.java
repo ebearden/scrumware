@@ -8,13 +8,17 @@ package com.scrumware.user;
 
 //import Data.ProductDB;
 import java.io.IOException;
+
 import java.io.PrintWriter;
 import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.scrumware.role.*;
 
 /**
  * This servlet controller displays all Users in the db
@@ -61,8 +65,10 @@ public class UserServlet extends HttpServlet {
 */            
             
             ArrayList<User> users = UserDB.getUsers();
+            ArrayList<Role> roles = RoleDB.getRoles();
             //System.out.println("got users");
             request.setAttribute("users",users);
+            request.setAttribute("roles",roles);
             
 /** 
  * The data is forwarded to ViewUsers.jsp

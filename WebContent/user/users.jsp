@@ -27,9 +27,11 @@
 
   <div id="main" class="container theme-showcase" role="main">
   
-            <h1>User List</h1>
+            <div class="pull-left"><h3>User List</h3></div>
+            <div class="pull-right"><h3><a href="../user/adduser">Add a user</a></h3></div>
             <table id="user-table" class="table table-condensed table-hover">
-                <tr><th>User Name</th><th>First Name</th><th>Last Name</th><th>User Email</th><th>Functions</th></tr>
+                <tr><th>User Name</th><th>First Name</th><th>Last Name</th><th>User Email</th><th>Role</th>
+                <th>Status</th><th>Password</th><th>Functions</th></tr>
                 <c:forEach var="u" items="${users}">
                     <tr>
                         
@@ -37,14 +39,25 @@
                         <td>${u.firstname}</td>
                         <td>${u.lastname}</td>
                         <td>${u.email}</td>
+                        <c:forEach var="r" items="${roles}">
+                        	<c:if test="${u.role == r.id}">
+                        		<td>${r.rolename}</td>
+                        	</c:if>
+                        </c:forEach>	
+                        <c:choose>
+                        	<c:when test="${u.active == 0}"><td>Inactive</td></c:when>
+                        	<c:otherwise><td>Active</td></c:otherwise>
+                        </c:choose>
+                        
                         <td>
-                            <a href="<c:url value='/EditUser?code=${u.id}'/>">Edit</a>
-                            <a href="<c:url value='/DeleteUser?code=${u.id}'/>">Delete</a>
+                            <a href="<c:url value='../user/reset_pass.jsp?id=${u.id}'/>">Reset</a>
+                        </td>
+                        <td>
+                            <a href="<c:url value='../user/edituser?id=${u.id}'/>">Edit Profile</a>
                         </td>
                     </tr>
                 </c:forEach>
             </table>
-            <div><h3><a href="../user/adduser">Add a user</a></h3></div>
 </div>
 </body>
 </html>

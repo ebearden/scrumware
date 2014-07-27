@@ -54,9 +54,9 @@ function userFormValidation() {
                         message: 'The user name cannot be empty'
                     },
                     stringLength: {
-                        min: 6,
+                        min: 4,
                         max: 30,
-                        message: 'The user name must be more than 6 and less than 30 characters long'
+                        message: 'The user name must be more than 3 and less than 30 characters long'
                     }
                 }
             },
@@ -69,7 +69,7 @@ function userFormValidation() {
                     stringLength: {
                         min: 1,
                         max: 30,
-                        message: 'The first name must be more than 6 and less than 30 characters long'
+                        message: 'The first name must be at least one character and less than 30 characters long'
                     }
                 }
             },
@@ -82,7 +82,7 @@ function userFormValidation() {
                     stringLength: {
                         min: 1,
                         max: 30,
-                        message: 'The last name must be more than 6 and less than 30 characters long'
+                        message: 'The last name must be at least one character and less than 30 characters long'
                     }
                 }
             },
