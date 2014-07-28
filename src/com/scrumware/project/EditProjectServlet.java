@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.scrumware.config.Constants;
 import com.scrumware.task.Task;
@@ -36,6 +37,12 @@ public class EditProjectServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		if (!isValidSession(request)) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			return;
+		}
+		
 		String projectId = request.getParameter(Constants.PROJECT_ID);
 		Project project = ProjectDB.getProject(Integer.parseInt(projectId));
 		ArrayList<User> userList = UserDB.getUsers();
@@ -52,6 +59,12 @@ public class EditProjectServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		if (!isValidSession(request)) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			return;
+		}
+		
 		String projectId = request.getParameter(Constants.PROJECT_ID);
 		String statusId = request.getParameter(Constants.STATUS_ID);
 		String projectMgr = request.getParameter(Constants.PROJECT_MANAGER);
@@ -78,6 +91,24 @@ public class EditProjectServlet extends HttpServlet {
 			request.getRequestDispatcher("/project/view?project_id=" + savedProject.getProjectId()).forward(request, response);
 		} else {
 			request.getRequestDispatcher("/project/view").forward(request, response);			
+		}
+		
+	}
+	
+	private boolean isValidSession(HttpServletRequest request) {
+		if (request.getParameter("key") != null && request.getParameter("key").equals(Constants.LOGIN_KEY)) {
+			return true;
+		}
+		
+		HttpSession session = request.getSession(false);
+		if (session.getAttribute("id") == null || session.getAttribute("id").equals("")) {
+			return false;
+		} else if (session.getAttribute("user_name") == null || session.getAttribute("user_name").equals("")) {
+			return false;
+		} else if (session.getAttribute("role") == null || session.getAttribute("role").equals("")) {
+			return false;
+		} else {
+			return true;
 		}
 	}
 

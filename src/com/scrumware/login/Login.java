@@ -79,7 +79,14 @@ public class Login extends HttpServlet {
 	            	
 	            	/*validate user credentials against DB*/
 	            	
-	            	a_login = new LoginDB(request.getParameter("user_name"),request.getParameter("password"));
+	            	String password = "";
+		        	try {
+		        		password = com.scrumware.login.PasswordService.getInstance().encrypt(request.getParameter("password"));
+		        	} catch(SystemUnavailableException e) {
+		        		e.printStackTrace();
+		        	}
+	            	
+	            	a_login = new LoginDB(request.getParameter("user_name"), password);
 	            	
 	            	/*if valid, create session
 	            	 * set max inactive interval to 30 mins

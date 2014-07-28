@@ -8,7 +8,6 @@ package com.scrumware.user;
 
 //import Data.ProductDB;
 import java.io.IOException;
-
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
@@ -17,7 +16,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.scrumware.config.Constants;
 import com.scrumware.role.*;
 
 /**
@@ -49,6 +50,26 @@ public class UserServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
+        	
+        	if (!isValidSession(request)) {
+    			response.sendRedirect(request.getContextPath() + "/login.jsp");
+    			return;
+    		}
+        	
+        	HttpSession sess = request.getSession(false);
+        	int user_role = 0;
+        	Object ob = sess.getAttribute("role");
+            if (ob instanceof Integer) {
+            	user_role = (Integer) ob;
+            } else {
+            	System.out.println("WTF this should be an int.");
+            }
+            
+            if (user_role > 2) {
+            	response.sendRedirect(request.getContextPath() + "/home.jsp");
+    			return;
+            }
+        	
             /* TODO output your page here. You may use following sample code. */
             
 /** 
@@ -127,4 +148,22 @@ public class UserServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+    
+    private boolean isValidSession(HttpServletRequest request) {
+		if (request.getParameter("key") != null && request.getParameter("key").equals(Constants.LOGIN_KEY)) {
+			return true;
+		}
+		
+		HttpSession session = request.getSession(false);
+		if (session.getAttribute("id") == null || session.getAttribute("id").equals("")) {
+			return false;
+		} else if (session.getAttribute("user_name") == null || session.getAttribute("user_name").equals("")) {
+			return false;
+		} else if (session.getAttribute("role") == null || session.getAttribute("role").equals("")) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+    
 }

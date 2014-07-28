@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <nav class="navbar navbar-static-top navbar-inverse " role="navigation">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -16,11 +17,22 @@
         <li><a href="/SCRUMware/sprint/sprints">Sprints</a>
         <li><a href="/SCRUMware/story/stories">Stories</a>
         <li><a href="/SCRUMware/task/tasks">Tasks</a>
-        <li><a href="/SCRUMware/user/users">Users</a>
+        <c:if test="${sessionScope.role<3}">
+        	<li><a href="/SCRUMware/user/users">Users</a>
+        </c:if>
+        
       </ul>
+      
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="/SCRUMware/user/reset_pass.jsp">Reset Password</a>
-        <li><a href="/SCRUMware/Logout">Logout</a></li>
+      	<li id="fat-menu" class="dropdown">
+		  <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">${sessionScope.user_name}<b class="caret"></b></a>
+		  <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
+		  	<li><a href="/SCRUMware/user/viewuser">View Profile</a></li>
+		    <li><a href="/SCRUMware/user/reset_pass.jsp">Reset Password</a></li>
+		    <li role="presentation" class="divider"></li>
+		    <li><a href="/SCRUMware/Logout">Logout</a></li>
+		  </ul>
+		</li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

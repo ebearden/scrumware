@@ -40,6 +40,12 @@ public class EditTask extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		if (!isValidSession(request)) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			return;
+		}
+		
 		String taskId = request.getParameter(Constants.TASK_ID);
 		Task task = TaskDB.getTask(Integer.parseInt(taskId));
 		ArrayList<User> userList = UserDB.getUsers();
@@ -56,6 +62,7 @@ public class EditTask extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		if (!isValidSession(request)) {
 			response.sendRedirect(request.getContextPath() + "/login.jsp");
 			return;
