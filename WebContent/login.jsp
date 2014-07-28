@@ -4,6 +4,7 @@
 <html>
 <head>
 <%@ include file="partials/include_bootstrap_partial.jsp" %>
+<link rel="stylesheet" href="css/lavish-theme.css">
 
 <title>SCRUMware | Login</title>
 </head>

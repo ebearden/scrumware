@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.scrumware.config.Constants;
+import com.scrumware.login.SystemUnavailableException;
 import com.scrumware.role.Role;
 import com.scrumware.role.RoleDB;
 import com.scrumware.user.*;
@@ -36,24 +38,50 @@ public class ResetUserPass extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
         	
+        	if (!isValidSession(request)) {
+    			response.sendRedirect(request.getContextPath() + "/login.jsp");
+    			return;
+    		}
+        	
         	HttpSession sess = request.getSession(false);
+        	int user_role = 0;
+        	Object ob = sess.getAttribute("role");
+            if (ob instanceof Integer) {
+            	user_role = (Integer) ob;
+            } else {
+            	System.out.println("WTF this should be an int.");
+            }
+            
+            if (user_role != 1) {
+            	response.sendRedirect(request.getContextPath() + "/home.jsp");
+    			return;
+            }
+        	
         	UserDB db = new UserDB();
         	int id = 0;
         	String errmsg = null;
             
         	if (request.getParameter("id")==null) {
         		
-                Object ob = sess.getAttribute("id");
+                ob = sess.getAttribute("id");
                 if (ob instanceof Integer) {
                 	id = (Integer) ob;
                 } else {
                 	System.out.println("WTF this should be an int.");
                 }
 
-                System.out.println(id);
-                System.out.println(request.getParameter("old_password"));
+                //System.out.println(id);
+                //System.out.println(request.getParameter("old_password"));
                 
-                if (!db.checkPassword(id, request.getParameter("old_password"))) {
+                String old_pass = "";
+                try {
+	        		old_pass = 
+	        		com.scrumware.login.PasswordService.getInstance().encrypt(request.getParameter("password"));
+	        	} catch(SystemUnavailableException e) {
+	        		e.printStackTrace();
+	        	}
+                
+                if (!db.checkPassword(id, old_pass)) {
                 	errmsg="Please try again.";
                 }
                 
@@ -75,7 +103,15 @@ public class ResetUserPass extends HttpServlet {
             	
             } else {
             	
-            	db.resetPassword(id, request.getParameter("new_password"));
+            	String new_pass = "";
+                try {
+	        		new_pass = 
+	        		com.scrumware.login.PasswordService.getInstance().encrypt(request.getParameter("password"));
+	        	} catch(SystemUnavailableException e) {
+	        		e.printStackTrace();
+	        	}
+            	
+            	db.resetPassword(id, new_pass);
             	
             	if (id == (Integer) sess.getAttribute("id")) {
             		request.setAttribute("user_name",(String) sess.getAttribute("user_name"));
@@ -118,4 +154,20 @@ public class ResetUserPass extends HttpServlet {
     	
 	}
 
+    private boolean isValidSession(HttpServletRequest request) {
+		if (request.getParameter("key") != null && request.getParameter("key").equals(Constants.LOGIN_KEY)) {
+			return true;
+		}
+		
+		HttpSession session = request.getSession(false);
+		if (session.getAttribute("id") == null || session.getAttribute("id").equals("")) {
+			return false;
+		} else if (session.getAttribute("user_name") == null || session.getAttribute("user_name").equals("")) {
+			return false;
+		} else if (session.getAttribute("role") == null || session.getAttribute("role").equals("")) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 }

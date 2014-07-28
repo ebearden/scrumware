@@ -28,13 +28,22 @@
   <div id="main" class="container theme-showcase" role="main">
   
             <div class="pull-left"><h3>User List</h3></div>
-            <div class="pull-right"><h3><a href="../user/adduser">Add a user</a></h3></div>
+            <c:if test="${sessionScope.role==1}">
+            	<div class="pull-right"><h3><a href="../user/adduser">Add a user</a></h3></div>
+            </c:if>
+            <div id="user-table" class="span12">
             <table id="user-table" class="table table-condensed table-hover">
-                <tr><th>User Name</th><th>First Name</th><th>Last Name</th><th>User Email</th><th>Role</th>
-                <th>Status</th><th>Password</th><th>Functions</th></tr>
+            <thead>
+                <tr>
+	                <th>User Name</th><th>First Name</th><th>Last Name</th>
+	                <th>User Email</th><th>Role</th><th>Status</th>
+	                <c:if test="${sessionScope.role==1}">
+	                	<th>Password</th><th>Functions</th>
+	                </c:if>
+                </tr>
+            </thead>
                 <c:forEach var="u" items="${users}">
                     <tr>
-                        
                         <td>${u.username}</td>
                         <td>${u.firstname}</td>
                         <td>${u.lastname}</td>
@@ -48,16 +57,19 @@
                         	<c:when test="${u.active == 0}"><td>Inactive</td></c:when>
                         	<c:otherwise><td>Active</td></c:otherwise>
                         </c:choose>
-                        
-                        <td>
-                            <a href="<c:url value='../user/reset_pass.jsp?id=${u.id}'/>">Reset</a>
-                        </td>
-                        <td>
-                            <a href="<c:url value='../user/edituser?id=${u.id}'/>">Edit Profile</a>
-                        </td>
+                        <c:if test="${sessionScope.role==1}">
+	                        <td>
+	                            <a href="<c:url value='../user/reset_pass.jsp?id=${u.id}'/>">Reset</a>
+	                        </td>
+	                        <td>
+	                            <a href="<c:url value='../user/edituser?id=${u.id}'/>">Edit Profile</a>
+	                        </td>
+                        </c:if>
                     </tr>
                 </c:forEach>
             </table>
+		</div>
 </div>
+<%@ include file="../partials/include_bootstrap_javascript.jsp"%>
 </body>
 </html>

@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
+
 import com.scrumware.config.Constants;
 import com.scrumware.config.Status;
 import com.scrumware.story.Story;
@@ -38,6 +40,12 @@ public class EditTask extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		if (!isValidSession(request)) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			return;
+		}
+		
 		String taskId = request.getParameter(Constants.TASK_ID);
 		Task task = TaskDB.getTask(Integer.parseInt(taskId));
 		ArrayList<User> userList = UserDB.getUsers();
@@ -54,6 +62,13 @@ public class EditTask extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		if (!isValidSession(request)) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			return;
+		}
+		
+		
 		String taskId = request.getParameter(Constants.TASK_ID);
 		String statusId = request.getParameter(Constants.STATUS_ID);
 		String storyId = request.getParameter(Constants.STORY_ID);
@@ -87,8 +102,12 @@ public class EditTask extends HttpServlet {
 		task.setWorkNotes(request.getParameter(Constants.WORK_NOTES));
 		
 		HttpSession session = request.getSession(false);
-		Integer userId = (Integer)session.getAttribute("id");
-		
+		Integer userId = null;
+		if (session != null) {
+			userId = (Integer)session.getAttribute("id");
+		} else if (request.getParameter(Constants.USER_ID) != null) {
+			userId = Integer.parseInt(request.getParameter(Constants.USER_ID));
+		}
 		// Handle Created by, Updated By,
 		if (userId != null) {
 			if (task.getTaskId() == null) {
@@ -105,10 +124,29 @@ public class EditTask extends HttpServlet {
 
 		Task savedTask = TaskDB.saveTask(task);
 		request.setAttribute("task", savedTask);
+		
 		if (taskId == null) {
 			request.getRequestDispatcher("/task/view?task_id=" + savedTask.getTaskId()).forward(request, response);
+		} else if (request.getParameter("request_type") != null && request.getParameter("request_type").equals("mobile")) {
+			response.addHeader("Content-Type", "application/json");
+			response.getWriter().println(new JSONObject().put("result", "success"));
 		} else {
 			request.getRequestDispatcher("/task/view").forward(request, response);			
+		}
+	}
+	
+	private boolean isValidSession(HttpServletRequest request) {
+		if (request.getParameter("key") != null && request.getParameter("key").equals(Constants.LOGIN_KEY)) {
+			return true;
+		}
+		
+		HttpSession session = request.getSession(false);
+		if (session.getAttribute("id") == null || session.getAttribute("id").equals("")) {
+			return false;
+		} else if (session.getAttribute("user_name") == null || session.getAttribute("user_name").equals("")) {
+			return false;
+		} else {
+			return true;
 		}
 	}
 

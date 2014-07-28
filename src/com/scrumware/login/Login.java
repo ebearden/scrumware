@@ -32,17 +32,20 @@ public class Login extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
-        //TODO: Refactor...
+        // Handle mobile login. 
         if (request.getParameter("login_type") != null && request.getParameter("login_type").equals("mobile")) {
-        	response.addHeader("Content-Type", "application/json");
-        	a_login = new LoginDB(request.getParameter("user_name"), request.getParameter("password"));
+        	a_login = new LoginDB(request.getParameter("user_name"), password(request));
         	User user = UserDB.getUser(a_login.getId());
+        	
         	JSONObject jsonObject = new JSONObject();
     		jsonObject.put("user_id", user.getId());
     		jsonObject.put("first_name", user.getFirstname());
     		jsonObject.put("last_name", user.getLastname());
-			JSONObject returnObject = new JSONObject();
+			
+    		JSONObject returnObject = new JSONObject();
 			returnObject.put("result", jsonObject);
+			
+			response.addHeader("Content-Type", "application/json");
 			response.getWriter().println(returnObject);
 			return;
 		}
@@ -79,7 +82,9 @@ public class Login extends HttpServlet {
 	            	
 	            	/*validate user credentials against DB*/
 	            	
-	            	a_login = new LoginDB(request.getParameter("user_name"),request.getParameter("password"));
+	            	
+	            	
+	            	a_login = new LoginDB(request.getParameter("user_name"), password(request));
 	            	
 	            	/*if valid, create session
 	            	 * set max inactive interval to 30 mins
@@ -136,6 +141,16 @@ public class Login extends HttpServlet {
             out.close();
         }
 	
+	}
+	
+	private String password(HttpServletRequest request) {
+		String password = "";
+    	try {
+    		password = com.scrumware.login.PasswordService.getInstance().encrypt(request.getParameter("password"));
+    	} catch(SystemUnavailableException e) {
+    		e.printStackTrace();
+    	}
+    	return password;
 	}
 	
 	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

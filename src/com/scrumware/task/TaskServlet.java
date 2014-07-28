@@ -73,6 +73,13 @@ public class TaskServlet extends HttpServlet {
 		}
 	}
 	
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request,response);
+	}
+	
 	private JSONObject createJSONObject(ArrayList<Task> taskList) {
 		JSONObject jsonObject = new JSONObject();
 		JSONArray jsonArray = new JSONArray();
@@ -92,6 +99,8 @@ public class TaskServlet extends HttpServlet {
 		if (session.getAttribute("id") == null || session.getAttribute("id").equals("")) {
 			return false;
 		} else if (session.getAttribute("user_name") == null || session.getAttribute("user_name").equals("")) {
+			return false;
+		} else if (session.getAttribute("role") == null || session.getAttribute("role").equals("")) {
 			return false;
 		} else {
 			return true;

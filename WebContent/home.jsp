@@ -4,6 +4,7 @@
 <html>
 <head>
 <%@ include file="partials/include_bootstrap_partial.jsp" %>
+<link rel="stylesheet" href="css/lavish-theme.css">
 
 <title>SCRUMware | Home</title>
 </head>
@@ -17,7 +18,7 @@
         <div class="jumbotron">
         	<h1>SCRUMware Home</h1>
             <p>
-            Welcome to SCRUMware ${user_name}!
+            Welcome to SCRUMware ${sessionScope.user_name}!
             </p>
         </div>
         <%@ include file="partials/include_bootstrap_javascript.jsp" %>
