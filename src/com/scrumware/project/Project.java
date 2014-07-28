@@ -11,7 +11,7 @@ import com.scrumware.interfaces.IJsonObject;
 
 public class Project implements IJsonObject {
 	//Base Variables
-	private int projectId;
+	private Integer projectId;
 	private String name;
 	private String description;
 	private int projectManagerId;
@@ -56,7 +56,7 @@ public class Project implements IJsonObject {
 	}
 	
 	//Get Values
-	public int getProjectId() {
+	public Integer getProjectId() {
 		return this.projectId;
 	}
 	
@@ -114,7 +114,7 @@ public class Project implements IJsonObject {
 	}
 	
 	//Set Values
-	public void setProjectId(int project) {
+	public void setProjectId(Integer project) {
 		this.projectId = project;
 	}
 	
