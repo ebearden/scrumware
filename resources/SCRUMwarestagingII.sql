@@ -37,22 +37,20 @@ create table if not exists Status (
     PRIMARY KEY (status_id)
 ) auto_increment=1;
 
-create table if not exists Sys_User (
-    user_id int unsigned not null auto_increment,
-    created datetime not null default '0000-00-00 00:00:01',
-    updated datetime not null default '0000-00-00 00:00:01',
-    
-    username varchar(40) not null,
-    password varchar(40) not null,
-    first_name varchar(40),
-    last_name varchar(40),
-    email_address varchar(60),
-    user_role int unsigned not null,
-    active boolean DEFAULT true,
-    
-    PRIMARY KEY (user_id),
-    FOREIGN KEY (user_role) REFERENCES User_Role(role_id)
-) auto_increment=1;
+CREATE TABLE Sys_User (
+  user_id int(10) unsigned NOT NULL AUTO_INCREMENT,
+  created datetime NOT NULL DEFAULT '0000-00-00 00:00:01',
+  updated datetime NOT NULL DEFAULT '0000-00-00 00:00:01',
+  username varchar(40) NOT NULL,
+  password varchar(40) NOT NULL,
+  first_name varchar(40) DEFAULT NULL,
+  last_name varchar(40) DEFAULT NULL,
+  email_address varchar(60) DEFAULT NULL,
+  user_role int(10) unsigned NOT NULL,
+  active tinyint(1) DEFAULT '1',
+  PRIMARY KEY (user_id),
+  KEY user_role (user_role)
+) AUTO_INCREMENT=1 ;
 
 create table if not exists Project (
     project_id int unsigned not null auto_increment,
@@ -143,7 +141,7 @@ create table if not exists Task (
 ) auto_increment=1;
 
 create table if not exists Asset (
-	asset_id int unsigned not null auto_increment,
+    asset_id int unsigned not null auto_increment,
     created datetime not null default '0000-00-00 00:00:00',
     created_by int unsigned not null,
     updated datetime not null default '0000-00-00 00:00:00',
@@ -170,15 +168,15 @@ create table if not exists Task_Dependencies (
 ) auto_increment=1;
 
 create table if not exists Project_Users (
-	proj_users_id int unsigned not null auto_increment,
+    proj_users_id int unsigned not null auto_increment,
     created datetime not null default '0000-00-00 00:00:01',
     updated datetime not null default '0000-00-00 00:00:01',
-	project_id int unsigned,
-	user_id int unsigned,
-	
-	PRIMARY KEY (proj_users_id),
-	FOREIGN KEY (project_id) REFERENCES Project(project_id),
-	FOREIGN KEY (user_id) REFERENCES Sys_User(user_id)
+    project_id int unsigned,
+    user_id int unsigned,
+    
+    PRIMARY KEY (proj_users_id),
+    FOREIGN KEY (project_id) REFERENCES Project(project_id),
+    FOREIGN KEY (user_id) REFERENCES Sys_User(user_id)
 ) auto_increment=1;
 
 #----------------------------------
@@ -195,12 +193,14 @@ insert into Status (status_name) values ('In Process');
 insert into Status (status_name) values ('To Verify');
 insert into Status (status_name) values ('Done');
 # Users
-insert into Sys_User (username, password, first_name, last_name, user_role) values ('admin', 'goodpass', 'Super', 'User', 1);
-insert into Sys_User (username, password, first_name, last_name, email_address, user_role) values ('ebearden', 'pw', 'Elvin', 'Bearden', 'elvin@scw.com', 3);
-insert into Sys_User (username, password, first_name, last_name, email_address, user_role) values ('ekubic', 'pw', 'Emily', 'Kubic', 'emily@scw.com', 3);
-insert into Sys_User (username, password, first_name, last_name, email_address, user_role) values ('jthao', 'pw', 'Joshua', 'Thao', 'joshua@scw.com', 3);
-insert into Sys_User (username, password, first_name, last_name, email_address, user_role) values ('nzitzer', 'pw', 'Nick', 'Zitzer', 'nick@scw.com', 2);
-insert into Sys_User (username, password, first_name, last_name, email_address, user_role) values ('jzorgdrager', 'pw', 'John', 'Zorgdrager', 'john@scw.com', 3);
+INSERT INTO Sys_User (created, updated, username, password, first_name, last_name, email_address, user_role, active) VALUES
+('0000-00-00 00:00:01', '2014-07-27 20:08:36', 'admin', '0e1ddb984e31997e343e3c2bf879c6cdbec255ae', 'Super', 'User', 'admin@scw.com', 1, 1),
+('0000-00-00 00:00:01', '0000-00-00 00:00:01', 'ebearden', 'bdab0b7dfea8906e8fb840c1b0a71e355875c721', 'Elvin', 'Bearden', 'elvin@scw.com', 3, 1),
+('0000-00-00 00:00:01', '0000-00-00 00:00:01', 'ekubic', 'bdab0b7dfea8906e8fb840c1b0a71e355875c721', 'Emily', 'Kubic', 'emily@scw.com', 1, 1),
+('0000-00-00 00:00:01', '0000-00-00 00:00:01', 'jthao', 'bdab0b7dfea8906e8fb840c1b0a71e355875c721', 'Joshua', 'Thao', 'joshua@scw.com', 3, 1),
+('0000-00-00 00:00:01', '0000-00-00 00:00:01', 'nzitzer', 'bdab0b7dfea8906e8fb840c1b0a71e355875c721', 'Nick', 'Zitzer', 'nick@scw.com', 2, 1),
+('0000-00-00 00:00:01', '0000-00-00 00:00:01', 'jzorgdrager', 'bdab0b7dfea8906e8fb840c1b0a71e355875c721', 'John', 'Zorgdrager', 'john@scw.com', 3, 1),
+('2014-07-27 18:43:56', '2014-07-27 18:43:56', 'testinactive', 'b7aa244bfc1b880e486e42d0735ee16bf1dd1c09', 'test', 'inactive', 'inactive@scw.com', 3, 0);
 # Projects
 insert into Project (project_name, description, project_manager, planned_start_date, planned_end_date, status_id, created_by, updated_by)
 values ('Do Things', 'Things to be done', 5, NOW(), DATE_ADD(NOW(),INTERVAL 45 DAY), 1, 1, 1);
