@@ -62,7 +62,7 @@
     			</td>
     		</tr>
     		<tr>
-    			<td>
+    			<td style="padding-right:20px!important;">
 			        <div class="form-group">
 			          <label for="project_manager">Project Manager</label> 
 			          <select class="form-control" name="project_manager">
@@ -96,8 +96,8 @@
     
   <!-- Confirm Delete Modal -->
     <div class="modal fade" id="confirmDeleteModal" tabindex="-1"
-      role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
+      role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="background-image: url('http://i.imgur.com/ECYOWOC.gif'); background-size:cover;">
+      <div class="modal-dialog" style="left: 0px;">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">
@@ -107,7 +107,8 @@
             <h4 class="modal-title" id="myModalLabel">Confirm Deletion</h4>
           </div>
           <div class="modal-body">
-            <p>Are you sure you want to delete this project?</p>
+            <p>     Are you sure you want to delete this project?<br></p>
+            <p>All related sprints, stories, and tasks will be deleted.</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default"
