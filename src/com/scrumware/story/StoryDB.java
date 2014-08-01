@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 
+
 import com.scrumware.config.Constants;
 import com.scrumware.jdbc.ConnectionPool;
 import com.scrumware.project.Project;
@@ -177,14 +178,25 @@ public class StoryDB {
 	public static boolean deleteStory(Story story) {
 		Connection connection = ConnectionPool.getInstance().getConnection();
 		PreparedStatement statement = null;
-		String sql = "DELETE FROM Story WHERE story_id=?";
+		String[] sql = new String[4];
+		//Delete Dependent On Task Dependencies in Story
+		sql[0] = "DELETE Task_Dependencies AS td FROM Task_Dependencies td RIGHT JOIN Task t ON t.task_id=td.depends_on RIGHT JOIN Story s ON s.story_id=t.story_id WHERE s.story_id=?;";
+		//Delete Dependent of Task Dependencies in Story
+		sql[1] = "DELETE Task_Dependencies AS td FROM Task_Dependencies td RIGHT JOIN Task t ON t.task_id=td.task_id RIGHT JOIN Story s ON s.story_id=t.story_id WHERE s.story_id=?;";
+		//Delete Tasks in Story
+		sql[2] = "DELETE Task AS t FROM Task t RIGHT JOIN Story s ON s.story_id=t.story_id WHERE s.story_id=?;";
+		//Delete Story
+		sql[3] = "DELETE Story AS s FROM Story s WHERE s.story_id=?;";
+
 		boolean success = false;
 		
 		try {
-			statement = connection.prepareStatement(sql);
-			statement.setInt(1, story.getStoryID());
-			if (statement.executeUpdate() == 1) {
-				success = true;
+			for(int i = 0; i < sql.length; i++) {
+				statement = connection.prepareStatement(sql[i]);
+				statement.setInt(1, story.getStoryID());
+				if (statement.executeUpdate() == 1) {
+					success = true;
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
