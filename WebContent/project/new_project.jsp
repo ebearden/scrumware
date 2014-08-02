@@ -29,7 +29,7 @@
     				<!-- Planned Start Date -->
 	        		<div class="form-group">
 	          			<label for="planned_start_date">Planned Start Date</label>
-	          			<input id="start_date" type="text" class="form-control" name="planned_start_date">
+	          			<input id="start_date" type="text" class="form-control" name="planned_start_date"  readonly="true" style="cursor: default; background-color: white;">
 	        		</div>
     			</td>
     		</tr>
@@ -55,7 +55,7 @@
     				<!-- Planned End Date -->
 	        		<div class="form-group">
 	         			<label for="planned_end_date">Planned End Date</label>
-	          			<input id="end_date" type="text" class="form-control" name="planned_end_date">
+	          			<input id="end_date" type="text" class="form-control" name="planned_end_date"  readonly="true" style="cursor: default; background-color: white;">
 	        		</div>
     			</td>
     		</tr>
@@ -92,7 +92,7 @@
   <script>
   $(function() {
     $( "#start_date" ).datepicker({ dateFormat: 'yy-mm-dd'});
-    $( "#end_date").datepicker({ dateFormat: 'yy-mm-dd'});
+    $( "#end_date").datepicker({ dateFormat: 'yy-mm-dd', minDate: new Date()});
   });
   </script>
 </body>
