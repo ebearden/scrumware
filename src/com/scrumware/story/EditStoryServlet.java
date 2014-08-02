@@ -64,6 +64,7 @@ public class EditStoryServlet extends HttpServlet {
 		String statusId = request.getParameter(Constants.STATUS_ID);
 		String projectId = request.getParameter(Constants.PROJECT_ID);
 		
+		
 		Story story = new Story();
 		story.setStoryID(storyId != null ? Integer.parseInt(storyId) : null);
 		story.setStatusId(statusId != null ? Integer.parseInt(statusId) : 1);

@@ -14,7 +14,7 @@
   <div id="main" class="container theme-showcase" role="main">
     <div id="success"></div>
     <p>
-    <a href="new"><button class="btn btn-primary">New Task</button></a><br />
+    <a href="edit?story_id=${param.story_id}"><button class="btn btn-primary">Edit Story</button></a><br />
     </p>
     <div class="span12"><hr /></div>
     <div id="task-table" class="span12">
