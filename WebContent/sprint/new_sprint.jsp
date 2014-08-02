@@ -22,7 +22,7 @@
 					<!-- Name -->
 	        		<div class="form-group">
 	          			<label for="sprint_name">Name</label>
-	          			<input type="text" class="form-control" name="task_name">
+	          			<input type="text" class="form-control" name="sprint_name">
 	       			 </div>
     			</td>
     			<td>
@@ -72,7 +72,7 @@
         </div>
         
         <!-- Submit -->
-        <button type="submit" class="btn btn-primary">Add Project</button>
+        <button type="submit" class="btn btn-primary">Add Sprint</button>
     </form>
 </div>
  <%@ include file="../partials/include_bootstrap_javascript.jsp"%>

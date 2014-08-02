@@ -152,7 +152,7 @@ function projectFormValidation() {
 		}
 	});	
 }
-function projectFormValidation() {
+function sprintFormValidation() {
 	$('#sprintForm').bootstrapValidator({
 		message: 'This value is not valid',
 		feedbackIcons: {
@@ -192,12 +192,12 @@ function projectFormValidation() {
 			description: {
 				validators: {
 					notEmpty: {
-						message: 'Please enter a description for the task.'
+						message: 'Please enter a description for the sprint.'
 					},
 					stringLength: {
 						min: 10,
 						max: 1000,
-						message: 'The task description should be descriptive.'
+						message: 'The sprint description should be descriptive.'
 					}
 				}
 			}
