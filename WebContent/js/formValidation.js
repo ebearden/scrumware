@@ -97,5 +97,58 @@ function userFormValidation() {
                 }
             }
         }
+    });	
+}
+
+function projectFormValidation() {
+	$('#projectForm').bootstrapValidator({
+        message: 'This value is not valid',
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+        	project_name: {
+                message: 'Please enter a name',
+                validators: {
+                    notEmpty: {
+                        message: 'The project name cannot be empty'
+                    },
+                    stringLength: {
+                        min: 6,
+                        max: 30,
+                        message: 'The project name must be more than 6 and less than 30 characters long'
+                    }
+                }
+            },
+            planned_start_date: {
+                message: 'Please select a start date',
+                validators: {
+                    notEmpty: {
+                        message: 'The project start date cannot be empty'
+                    },
+                }
+            },
+            planned_end_date: {
+                message: 'Please select an end date',
+                validators: {
+                    notEmpty: {
+                        message: 'The project end date cannot be empty'
+                    },
+                }
+            },
+            description: {
+                validators: {
+                    notEmpty: {
+                        message: 'Please enter a description for the task.'
+                    },
+                    stringLength: {
+                        min: 10,
+                        max: 1000,
+                        message: 'The task description should be descriptive.'
+                    }
+                }
+            }
+        }
     });
 }
