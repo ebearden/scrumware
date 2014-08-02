@@ -21,6 +21,12 @@
            // Only make the .panel-heading child elements support dragging.
            // Omit this to make the entire <li>...</li> draggable.
            handle: '.panel-heading', 
+           receive: function(event, ui){
+        	   var taskItem = ui.item.context.id;
+        	   var newStatus = ui.item.parent().attr("id")
+        	           	   
+        	   $.get('UpdateTaskStatus',{taskID: taskItem,statusID: newStatus});
+           }
            
        }).disableSelection();
        
@@ -34,6 +40,12 @@
            // Omit this to make the entire <li>...</li> draggable.
            handle: '.panel-heading', 
            
+           receive: function(event, ui){
+        	   var taskItem = ui.item.context.id;
+        	   var newStatus = ui.item.parent().attr("id")
+        	           	   
+        	   $.get('UpdateTaskStatus',{taskID: taskItem,statusID: newStatus});
+           }
        
        }).disableSelection(); 
        
@@ -46,6 +58,12 @@
            // Only make the .panel-heading child elements support dragging.
            // Omit this to make the entire <li>...</li> draggable.
            handle: '.panel-heading', 
+           receive: function(event, ui){
+        	   var taskItem = ui.item.context.id;
+        	   var newStatus = ui.item.parent().attr("id")
+        	           	   
+        	   $.get('UpdateTaskStatus',{taskID: taskItem,statusID: newStatus});
+           }
            
        
        });
@@ -58,7 +76,20 @@
     	   
            // Only make the .panel-heading child elements support dragging.
            // Omit this to make the entire <li>...</li> draggable.
-           handle: '.panel-heading', 
+           handle: '.panel-heading',
+           receive: function(event, ui){
+        	   var taskItem = ui.item.context.id;
+        	   var newStatus = ui.item.parent().attr("id")
+        	           	   
+        	   $.get('UpdateTaskStatus',{taskID: taskItem,statusID: newStatus},function(response){
+        		   
+        		   if (response === "fail"){
+        			   panelList.sortable('cancel');
+        		       $(ui.sender).sortable('cancel');
+        		       alert(response);	
+        		   }
+        	   });
+           }
            
        
        }).disableSelection();
@@ -113,10 +144,7 @@
     				</li>
     			</c:if>
    			</c:forEach>
-   				<li } class="panel panel-info">
-    		    		<div class="panel-heading">teste </div>
-        				<div class="panel-body">test</div>
-    				</li>
+   				
 		</ul>
 	</div>
 	
