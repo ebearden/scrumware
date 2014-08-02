@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-
 import com.scrumware.config.Constants;
 import com.scrumware.jdbc.ConnectionPool;
 import com.scrumware.project.Project;
@@ -176,15 +175,36 @@ public class StoryDB {
 	 */
 	public static boolean deleteStory(Story story) {
 		Connection connection = ConnectionPool.getInstance().getConnection();
-		PreparedStatement statement = null;
-		String sql = "DELETE FROM Story WHERE story_id=?";
+		PreparedStatement removeSprintStatement = null;
+		PreparedStatement removeProjectStatement = null;
+		PreparedStatement deleteSprintStatement = null;
+		
+		String deleteSprintSQL = "DELETE FROM Story WHERE story_id=?;";
+		String removeSprintSQL = "UPDATE Sprint SET story_id=NULL WHERE story_id=?;";
+		String removeProjectSQL = "UPDATE Project SET story_id=NULL WHERE story_id=?;";
+		
 		boolean success = false;
 		
 		try {
-			statement = connection.prepareStatement(sql);
-			statement.setInt(1, story.getStoryID());
-			if (statement.executeUpdate() == 1) {
+			connection.setAutoCommit(false);
+			
+			removeSprintStatement = connection.prepareStatement(removeSprintSQL);
+			removeSprintStatement.setInt(1, story.getStoryID());
+			removeSprintStatement.executeUpdate();
+			
+			removeProjectStatement = connection.prepareStatement(removeProjectSQL);
+			removeProjectStatement.setInt(1, story.getStoryID());
+			removeProjectStatement.executeUpdate();
+			
+			deleteSprintStatement = connection.prepareStatement(deleteSprintSQL);
+			deleteSprintStatement.setInt(1, story.getStoryID());
+			
+			if (deleteSprintStatement.executeUpdate() == 1) {
 				success = true;
+				connection.commit();
+				connection.setAutoCommit(true);
+			} else {
+				connection.rollback();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

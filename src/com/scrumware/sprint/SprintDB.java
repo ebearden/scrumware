@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-
 import com.scrumware.config.Constants;
 import com.scrumware.jdbc.ConnectionPool;
 import com.scrumware.sprint.Sprint;
@@ -167,15 +166,37 @@ public class SprintDB {
 	 */
 	public static boolean deleteSprint(Sprint sprint) {
 		Connection connection = ConnectionPool.getInstance().getConnection();
-		PreparedStatement statement = null;
-		String sql = "DELETE FROM Sprint WHERE sprint_id=?";
+		
+		PreparedStatement removeTasksStatement = null;
+		PreparedStatement removeFromStoryStatement = null;
+		PreparedStatement deleteSprintStatement = null;
+		
+		String deleteSprintSQL = "DELETE FROM Sprint WHERE sprint_id=?;";
+		String removeFromStorySQL = "UPDATE Story SET sprint_id=NULL WHERE sprint_id=?;";
+		String removeTasksSQL = "UPDATE Task SET sprint_id=NULL WHERE sprint_id=?;";
+		
 		boolean success = false;
 		
 		try {
-			statement = connection.prepareStatement(sql);
-			statement.setInt(1, sprint.getSprintId());
-			if (statement.executeUpdate() == 1) {
+			connection.setAutoCommit(false);
+			
+			removeTasksStatement = connection.prepareStatement(removeTasksSQL);
+			removeTasksStatement.setInt(1, sprint.getSprintId());
+			removeTasksStatement.executeUpdate();
+			
+			removeFromStoryStatement = connection.prepareStatement(removeFromStorySQL);
+			removeFromStoryStatement.setInt(1, sprint.getSprintId());
+			removeFromStoryStatement.executeUpdate();
+			
+			deleteSprintStatement = connection.prepareStatement(deleteSprintSQL);
+			deleteSprintStatement.setInt(1, sprint.getSprintId());
+			
+			if (deleteSprintStatement.executeUpdate() == 1) {
 				success = true;
+				connection.commit();
+				connection.setAutoCommit(true);
+			} else {
+				connection.rollback();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
