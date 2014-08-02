@@ -16,7 +16,7 @@
   
     <form role="form" name="edit_story" method="POST" action="edit">
         <!-- Hidden story ID -->
-        <input type="text" class="hidden" name="story_id" value="${story.storyId}">
+        <input type="text" class="hidden" name="story_id" value="${story.storyID}">
         
     	<table width="100%">
     		<tr>
@@ -36,8 +36,8 @@
 			          <select class="form-control" name="status_id">
 			            <c:forEach var="status" items="${status}">
 			                <c:choose>
-			                <c:when test="${status.code == story.statusId}">
-			                  <option value="${status.code}" selected>${status.statusAsString}</option>
+			                <c:when test="${status.code == story.statusID}">
+			                  <option value="${status.code}" selected>${status.description}</option>
 			                </c:when>
 			                <c:otherwise>
 			                   <option value="${status.code}">${status.description}</option>
@@ -88,7 +88,7 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-default"
               data-dismiss="modal">No</button>
-            <a href="delete?story_id=${story.storyId}">
+            <a href="delete?story_id=${story.storyID}">
               <button type="button" class="btn btn-primary">Delete</button>
             </a>
           </div>

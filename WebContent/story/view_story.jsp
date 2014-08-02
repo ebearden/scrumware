@@ -16,6 +16,7 @@
     <p>
     <a href="edit?story_id=${param.story_id}"><button class="btn btn-primary">Edit Story</button></a><br />
     </p>
+    <h2>${story.storyName}</h2>
     <div class="span12"><hr /></div>
     <div id="task-table" class="span12">
     <table id="task-table" class="table table-condensed table-hover">

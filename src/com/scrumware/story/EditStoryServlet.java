@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.scrumware.config.Constants;
+import com.scrumware.config.Status;
 import com.scrumware.user.User;
 import com.scrumware.user.UserDB;
 
@@ -44,8 +45,9 @@ public class EditStoryServlet extends HttpServlet {
 		Story story = StoryDB.getStory(Integer.parseInt(storyId));
 		ArrayList<User> userList = UserDB.getUsers();
 		
+		request.setAttribute(Constants.STATUS, Status.values());
 		request.setAttribute("users", userList);
-		request.setAttribute("stories", story);
+		request.setAttribute("story", story);
 		
 		request.getRequestDispatcher("/story/edit_story.jsp").forward(request, response);
 	}
