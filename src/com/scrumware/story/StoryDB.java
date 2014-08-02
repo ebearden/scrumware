@@ -175,36 +175,26 @@ public class StoryDB {
 	 */
 	public static boolean deleteStory(Story story) {
 		Connection connection = ConnectionPool.getInstance().getConnection();
-		PreparedStatement removeSprintStatement = null;
-		PreparedStatement removeProjectStatement = null;
-		PreparedStatement deleteSprintStatement = null;
-		
-		String deleteSprintSQL = "DELETE FROM Story WHERE story_id=?;";
-		String removeSprintSQL = "UPDATE Sprint SET story_id=NULL WHERE story_id=?;";
-		String removeProjectSQL = "UPDATE Project SET story_id=NULL WHERE story_id=?;";
-		
+		PreparedStatement statement = null;
+		String[] sql = new String[4];
+		//Delete Dependent On Task Dependencies in Story
+		sql[0] = "DELETE Task_Dependencies AS td FROM Task_Dependencies td RIGHT JOIN Task t ON t.task_id=td.depends_on RIGHT JOIN Story s ON s.story_id=t.story_id WHERE s.story_id=?;";
+		//Delete Dependent of Task Dependencies in Story
+		sql[1] = "DELETE Task_Dependencies AS td FROM Task_Dependencies td RIGHT JOIN Task t ON t.task_id=td.task_id RIGHT JOIN Story s ON s.story_id=t.story_id WHERE s.story_id=?;";
+		//Delete Tasks in Story
+		sql[2] = "DELETE Task AS t FROM Task t RIGHT JOIN Story s ON s.story_id=t.story_id WHERE s.story_id=?;";
+		//Delete Story
+		sql[3] = "DELETE Story AS s FROM Story s WHERE s.story_id=?;";
+
 		boolean success = false;
-		
+
 		try {
-			connection.setAutoCommit(false);
-			
-			removeSprintStatement = connection.prepareStatement(removeSprintSQL);
-			removeSprintStatement.setInt(1, story.getStoryID());
-			removeSprintStatement.executeUpdate();
-			
-			removeProjectStatement = connection.prepareStatement(removeProjectSQL);
-			removeProjectStatement.setInt(1, story.getStoryID());
-			removeProjectStatement.executeUpdate();
-			
-			deleteSprintStatement = connection.prepareStatement(deleteSprintSQL);
-			deleteSprintStatement.setInt(1, story.getStoryID());
-			
-			if (deleteSprintStatement.executeUpdate() == 1) {
-				success = true;
-				connection.commit();
-				connection.setAutoCommit(true);
-			} else {
-				connection.rollback();
+			for(int i = 0; i < sql.length; i++) {
+				statement = connection.prepareStatement(sql[i]);
+				statement.setInt(1, story.getStoryID());
+				if (statement.executeUpdate() == 1) {
+					success = true;
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
