@@ -136,17 +136,34 @@ public class ProjectDB {
 		return projectList;
 	}
 	
-	public static boolean deleteProject(Project project) {
+	public static boolean deleteProject(int projectId) {
 		Connection connection = ConnectionPool.getInstance().getConnection();
 		PreparedStatement statement = null;
-		String sql = "DELETE FROM Project WHERE project_id=?";
+		String[] sql = new String[7];
+		//Delete Dependent On Task Dependencies in Project
+		sql[0] = "DELETE Task_Dependencies AS td FROM Task_Dependencies td RIGHT JOIN Task t ON t.task_id=td.depends_on RIGHT JOIN Story s ON s.story_id=t.story_id RIGHT JOIN Project p ON p.project_id=s.project_id WHERE p.project_id=?;";
+		//Delete Dependent of Task Dependencies in Project
+		sql[1] = "DELETE Task_Dependencies AS td FROM Task_Dependencies td RIGHT JOIN Task t ON t.task_id=td.task_id RIGHT JOIN Story s ON s.story_id=t.story_id RIGHT JOIN Project p ON p.project_id=s.project_id WHERE p.project_id=?;";
+		//Delete Tasks in Project
+		sql[2] = "DELETE Task AS t FROM Task t RIGHT JOIN Story s ON s.story_id=t.story_id RIGHT JOIN Project p ON p.project_id=s.project_id WHERE p.project_id=?;";
+		//Delete Stories in Project
+		sql[3] = "DELETE Story AS s FROM Story s RIGHT JOIN Project p ON p.project_id=s.project_id WHERE p.project_id=?;";
+		//Delete Sprints in Project
+		sql[4] = "DELETE Sprint AS s FROM Sprint s RIGHT JOIN Project p ON p.project_id=s.project_id WHERE p.project_id=?;";
+		//Delete User/Project Association
+		sql[5] = "DELETE Project_Users AS pu FROM Project_Users pu RIGHT JOIN Project p ON p.project_id=pu.project_id WHERE p.project_id=?;";
+		//Delete Project
+		sql[6] = "DELETE Project AS p FROM Project p WHERE p.project_id=?;";
+
 		boolean success = false;
 		
 		try {
-			statement = connection.prepareStatement(sql);
-			statement.setInt(1, project.getProjectId());
-			if (statement.executeUpdate() == 1) {
-				success = true;
+			for(int i = 0; i < sql.length; i++) {
+				statement = connection.prepareStatement(sql[i]);
+				statement.setInt(1, projectId);
+				if (statement.executeUpdate() == 1) {
+					success = true;
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
