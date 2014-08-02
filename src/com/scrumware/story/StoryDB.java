@@ -56,7 +56,7 @@ public class StoryDB {
 		String storySQL;
 		boolean isUpdate = false;
 		
-		if ((Integer)(story.getStoryID()) != null) {
+		if (story.getStoryID() != null) {
 			isUpdate = true;
 			storySQL = "UPDATE Story SET story_name=?, description=?, acceptance_criteria=?, "
 					+ "status_id=?, sprint_id=?, task_count=?, "
@@ -80,7 +80,7 @@ public class StoryDB {
 			storyStatement.setInt(5, story.getSprintID());
 			storyStatement.setInt(6, story.getTaskCount());
 			if (isUpdate) {
-				storyStatement.setInt(8, story.getUpdatedBy());
+				storyStatement.setInt(7, story.getUpdatedBy());
 			} else {
 				storyStatement.setInt(7, story.getCreatedBy());
 				storyStatement.setInt(8, story.getUpdatedBy());
