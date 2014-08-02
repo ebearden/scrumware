@@ -86,7 +86,7 @@
 </div>
   <%@ include file="../partials/include_bootstrap_javascript.jsp"%>
   <script type="text/javascript" src="../js/formValidation.js"></script>
-  <script type="text/javascript">
+  <script>
   $(document).ready(function() {
     projectFormValidation();
   });
@@ -101,6 +101,5 @@
     $( "#end_date").datepicker({ dateFormat: 'yy-mm-dd', minDate: new Date()});
   });
   </script>
-  
 </body>
 </html>

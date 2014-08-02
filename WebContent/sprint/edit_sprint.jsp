@@ -8,5 +8,22 @@
 </head>
 <body>
 
+ <%@ include file="../partials/include_bootstrap_javascript.jsp"%>
+  <script type="text/javascript" src="../js/formValidation.js"></script>
+  <script type="text/javascript">
+  $(document).ready(function() {
+    sprintFormValidation();
+  });
+  </script>
+<!-- Below Added for Datepicker Fields -->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script>
+  $(function() {
+    $( "#start_date" ).datepicker({ dateFormat: 'yy-mm-dd'});
+    $( "#end_date").datepicker({ dateFormat: 'yy-mm-dd', minDate: new Date()});
+  });
+  </script>
 </body>
 </html>
