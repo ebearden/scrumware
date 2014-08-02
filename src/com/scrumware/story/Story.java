@@ -18,7 +18,7 @@ public class Story implements com.scrumware.interfaces.IJsonObject, Serializable
 	private int updatedBy;
 	private int statusID;
 	private int projectID;
-	private int sprintID;
+	private Integer sprintID;
 	private int taskCount;
 	private String storyName;
 	private String description;
@@ -77,7 +77,7 @@ public class Story implements com.scrumware.interfaces.IJsonObject, Serializable
 	public int getProjectID(){
 		return projectID;
 	}
-	public int getSprintID(){
+	public Integer getSprintID(){
 		return sprintID;
 	}
 	public int getTaskCount(){
@@ -108,7 +108,7 @@ public class Story implements com.scrumware.interfaces.IJsonObject, Serializable
 		this.statusID = status;
 	}
 
-	public void setSprintID(int sprint){
+	public void setSprintID(Integer sprint){
 		this.sprintID = sprint;
 	}
 	public void setTaskCount(int tasks){

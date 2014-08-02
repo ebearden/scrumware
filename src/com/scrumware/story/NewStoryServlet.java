@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.scrumware.config.Constants;
+import com.scrumware.sprint.Sprint;
+import com.scrumware.sprint.SprintDB;
 import com.scrumware.user.User;
 import com.scrumware.user.UserDB;
 
@@ -41,9 +43,11 @@ public class NewStoryServlet extends HttpServlet {
 		
 		ArrayList<User> userList = UserDB.getUsers();
 		ArrayList<Story> storyList = StoryDB.getAllStories();
+		ArrayList<Sprint> sprintList = SprintDB.getAllSprints();
 		//GET SPRINTS
 		request.setAttribute("users", userList);
 		request.setAttribute("story", storyList);
+		request.setAttribute("sprint", sprintList);
 		request.getRequestDispatcher("/story/new_story.jsp").forward(request, response);
 	}
 

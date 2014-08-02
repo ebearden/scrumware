@@ -33,7 +33,7 @@
         <div class="form-group">
           <label for="assigned_to">Assign To Sprint</label> 
           <select class="form-control" name="assigned_to">
-            <c:forEach var="s" items="${sprintList}">
+            <c:forEach var="s" items="${sprint}">
                 <option value="${s.sprintId}">${s.name}</option>            
             </c:forEach>
           </select>

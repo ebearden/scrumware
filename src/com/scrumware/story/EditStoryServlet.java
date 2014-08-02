@@ -13,6 +13,8 @@ import javax.servlet.http.HttpSession;
 
 import com.scrumware.config.Constants;
 import com.scrumware.config.Status;
+import com.scrumware.sprint.Sprint;
+import com.scrumware.sprint.SprintDB;
 import com.scrumware.user.User;
 import com.scrumware.user.UserDB;
 
@@ -43,11 +45,13 @@ public class EditStoryServlet extends HttpServlet {
 		
 		String storyId = request.getParameter(Constants.STORY_ID);
 		Story story = StoryDB.getStory(Integer.parseInt(storyId));
+		ArrayList<Sprint> sprintList = SprintDB.getAllSprints();
 		ArrayList<User> userList = UserDB.getUsers();
 		
 		request.setAttribute(Constants.STATUS, Status.values());
 		request.setAttribute("users", userList);
 		request.setAttribute("story", story);
+		request.setAttribute("sprint", sprintList);
 		
 		request.getRequestDispatcher("/story/edit_story.jsp").forward(request, response);
 	}
@@ -64,16 +68,18 @@ public class EditStoryServlet extends HttpServlet {
 		
 		String storyId = request.getParameter(Constants.STORY_ID);
 		String statusId = request.getParameter(Constants.STATUS_ID);
-		String projectId = request.getParameter(Constants.PROJECT_ID);
+		String sprintId = request.getParameter(Constants.SPRINT_ID);
 		
 		
 		Story story = new Story();
 		story.setStoryID(storyId != null ? Integer.parseInt(storyId) : null);
 		story.setStatusId(statusId != null ? Integer.parseInt(statusId) : 1);
+		story.setSprintID(sprintId != null ? Integer.parseInt(sprintId) : null);
 		
 		story.setStoryName(request.getParameter(Constants.STORY_NAME));
 		story.setDescription(request.getParameter(Constants.DESCRIPTION));
 		story.setAcceptanceCriteria(request.getParameter(Constants.ACCEPTENCE_CRITERIA));
+		
 		
 		HttpSession session = request.getSession(false);
 		Integer userId = null;
