@@ -7,17 +7,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>New Sprint</title>
 <%@ include file="../partials/include_bootstrap_partial.jsp"%>
-<!-- Below Added for Datepicker Fields -->
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
-  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-  <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
-  <link rel="stylesheet" href="/resources/demos/style.css">
-  <script>
-  $(function() {
-    $( "#start_date" ).datepicker();
-    $( "#end_date").datepicker();
-  });
-  </script>
 </head>
 
 <body role="document">
@@ -26,7 +15,7 @@
   <div id="main" class="container theme-showcase" role="main">
   <script>
   </script>
-    <form role="form" name="new_project" method="POST" action="new">
+    <form role="form" id="sprintForm" name="new_sprint" method="POST" action="new">
     	<table width="100%">
     		<tr>
     			<td style="padding-right:20px!important;">
@@ -40,7 +29,7 @@
     				<!-- Planned Start Date -->
 	        		<div class="form-group">
 	          			<label for="start_date">Start Date</label>
-	          			<input id="start_date" type="text" class="form-control" name="start_date">
+	          			<input id="start_date" type="text" class="form-control" name="start_date" readonly="true" style="cursor: default; background-color: white;">
 	        		</div>
     			</td>
     		</tr>
@@ -66,7 +55,7 @@
     				<!-- Planned End Date -->
 	        		<div class="form-group">
 	         			<label for="end_date">End Date</label>
-	          			<input id="end_date" type="text" class="form-control" name="end_date">
+	          			<input id="end_date" type="text" class="form-control" name="end_date" readonly="true" style="cursor: default; background-color: white;">
 	        		</div>
     			</td>
     		</tr>
@@ -86,5 +75,22 @@
         <button type="submit" class="btn btn-primary">Add Project</button>
     </form>
 </div>
+ <%@ include file="../partials/include_bootstrap_javascript.jsp"%>
+  <script type="text/javascript" src="../js/formValidation.js"></script>
+  <script type="text/javascript">
+  $(document).ready(function() {
+    sprintFormValidation();
+  });
+  </script>
+<!-- Below Added for Datepicker Fields -->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script>
+  $(function() {
+    $( "#start_date" ).datepicker({ dateFormat: 'yy-mm-dd'});
+    $( "#end_date").datepicker({ dateFormat: 'yy-mm-dd', minDate: new Date()});
+  });
+  </script>
 </body>
 </html>
