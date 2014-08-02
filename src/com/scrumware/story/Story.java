@@ -11,7 +11,7 @@ import com.scrumware.config.Status;
 public class Story implements com.scrumware.interfaces.IJsonObject, Serializable{
 	
 	//base variables
-	private int storyID;
+	private Integer storyID;
 	private Date created;
 	private int createdBy;
 	private Date updated;
@@ -56,7 +56,7 @@ public class Story implements com.scrumware.interfaces.IJsonObject, Serializable
 		acceptenceCriteria = json.getString(Constants.ACCEPTENCE_CRITERIA);
 	}
 	//getters
-	public int getStoryID(){
+	public Integer getStoryID(){
 		return storyID;
 	}
 	public Date getCreated(){

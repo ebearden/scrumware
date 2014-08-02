@@ -71,9 +71,26 @@ public class EditStoryServlet extends HttpServlet {
 		
 		story.setStoryName(request.getParameter(Constants.STORY_NAME));
 		story.setDescription(request.getParameter(Constants.DESCRIPTION));
-		// NEED SESSIONS
-		story.setUpdatedBy(1);
-		story.setCreatedBy(1);
+		
+		HttpSession session = request.getSession(false);
+		Integer userId = null;
+		if (session != null) {
+			userId = (Integer)session.getAttribute("id");
+		} else if (request.getParameter(Constants.USER_ID) != null) {
+			userId = Integer.parseInt(request.getParameter(Constants.USER_ID));
+		}
+		// Handle Created by, Updated By,
+		if (userId != null) {
+			if (story.getStoryID() == null) {
+				// This is an insert. Set both created and updated
+				story.setCreatedBy(userId);
+				story.setUpdatedBy(userId);	
+			} else {
+				// This is an update. Just set updated.
+				story.setUpdatedBy(userId);
+			}
+		}
+
 
 		Story savedStory = StoryDB.saveStory(story);
 		

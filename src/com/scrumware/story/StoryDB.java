@@ -65,9 +65,9 @@ public class StoryDB {
 					
 		}
 		else {
-			storySQL = "INSERT INTO Project(story_name, description, acceptance_criteria, status_id, "
+			storySQL = "INSERT INTO Story(story_name, description, acceptance_criteria, status_id, "
 					+ "sprint_id, task_count, created_by, updated_by) "
-					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";	
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";	
 		}
 		
 		try {

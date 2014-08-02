@@ -81,9 +81,25 @@ public class EditProjectServlet extends HttpServlet {
 		project.setDescription(request.getParameter(Constants.DESCRIPTION));
 		project.setStartDate(Date.valueOf(request.getParameter(Constants.PLANNED_START_DATE)));
 		project.setEndDate(Date.valueOf(request.getParameter(Constants.PLANNED_END_DATE)));
-		// NEED SESSIONS
-		project.setUpdatedBy(1);
-		project.setCreatedBy(1);
+		
+		HttpSession session = request.getSession(false);
+		Integer userId = null;
+		if (session != null) {
+			userId = (Integer)session.getAttribute("id");
+		} else if (request.getParameter(Constants.USER_ID) != null) {
+			userId = Integer.parseInt(request.getParameter(Constants.USER_ID));
+		}
+		// Handle Created by, Updated By,
+		if (userId != null) {
+			if (project.getProjectId() == null) {
+				// This is an insert. Set both created and updated
+				project.setCreatedBy(userId);
+				project.setUpdatedBy(userId);	
+			} else {
+				// This is an update. Just set updated.
+				project.setUpdatedBy(userId);
+			}
+		}
 
 		Project savedProject = ProjectDB.saveProject(project);
 		request.setAttribute("project", savedProject);
