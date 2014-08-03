@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.scrumware.config.Constants;
+import com.scrumware.login.SessionHelper;
 import com.scrumware.user.User;
 import com.scrumware.user.UserDB;
 
@@ -34,6 +35,10 @@ public class TaskDependencies extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if (!SessionHelper.validateSession(request, response)) {
+			return;
+		}
+		
 		String action = request.getParameter("action");
 		
 		if (action != null && action.equals("delete")) {
@@ -71,6 +76,10 @@ public class TaskDependencies extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if (!SessionHelper.validateSession(request, response)) {
+			return;
+		}
+		
 		String taskId = request.getParameter(Constants.TASK_ID);
 		String dependencyId = request.getParameter("dependent_task_id");
 		

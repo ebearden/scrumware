@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.scrumware.config.Constants;
+import com.scrumware.login.SessionHelper;
 import com.scrumware.task.Task;
 import com.scrumware.task.TaskDB;
 import com.scrumware.task.TaskHelper;
@@ -32,8 +33,7 @@ public class DeleteSprintServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (!isValidSession(request)) {
-			response.sendRedirect(request.getContextPath() + "/login.jsp");
+		if (!SessionHelper.validateSession(request, response)) {
 			return;
 		}
 		
@@ -63,28 +63,9 @@ public class DeleteSprintServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (!isValidSession(request)) {
-			response.sendRedirect(request.getContextPath() + "/login.jsp");
+		if (!SessionHelper.validateSession(request, response)) {
 			return;
 		}
 		
 	}
-	
-	private boolean isValidSession(HttpServletRequest request) {
-		if (request.getParameter("key") != null && request.getParameter("key").equals(Constants.LOGIN_KEY)) {
-			return true;
-		}
-		
-		HttpSession session = request.getSession(false);
-		if (session.getAttribute("id") == null || session.getAttribute("id").equals("")) {
-			return false;
-		} else if (session.getAttribute("user_name") == null || session.getAttribute("user_name").equals("")) {
-			return false;
-		} else if (session.getAttribute("role") == null || session.getAttribute("role").equals("")) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-
 }

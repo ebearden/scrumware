@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import com.scrumware.config.Constants;
 import com.scrumware.config.Status;
+import com.scrumware.login.SessionHelper;
 
 /**
  * Servlet implementation class UpdateTaskStatus
@@ -35,6 +36,10 @@ public class UpdateTaskStatus extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if (!SessionHelper.validateSession(request, response)) {
+			return;
+		}
+		
 		String newStatus = "";
 		String taskId = request.getParameter("taskID");
 		String status = request.getParameter("statusID");
@@ -100,7 +105,6 @@ public class UpdateTaskStatus extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 	}
 
 }
