@@ -109,6 +109,11 @@
 
   <div id="main" class="container theme-showcase" role="main">
     
+   <div class="page-header">
+        <h2>Your Tasks:</h2>
+   </div>
+    
+    
     
     <div class="row">
     	<label class="col-xs-3">To Do</label>
@@ -119,7 +124,7 @@
     
    
    <div class="row">
-	<div id="todo" class="col-xs-3" >
+	<div id="todo" class="col-xs-3 well" >
     	<ul id="draggablePanelList1" class="list-unstyled emptylist">
     		<c:forEach var="t" items="${task_list}">
 				<c:if test ="${t.statusId == 1}">
@@ -134,7 +139,7 @@
 	</div>
 	
 	
-	<div id="inprocess" class="col-xs-3">
+	<div id="inprocess" class="col-xs-3 well">
 		<ul id="draggablePanelList2" class="list-unstyled emptylist">
     		<c:forEach var="t" items="${task_list}">
 				<c:if test ="${t.statusId == 2}">
@@ -149,7 +154,7 @@
 	</div>
 	
 	
-	<div id="toverify" class="col-xs-3">
+	<div id="toverify" class="col-xs-3 well">
 		<ul id="draggablePanelList3" class="list-unstyled emptylist">
     		<c:forEach var="t" items="${task_list}">
 				<c:if test ="${t.statusId == 3}">
@@ -163,7 +168,7 @@
 	</div>
 	
 	
-		<div id="done" class="col-xs-3">
+		<div id="done" class="col-xs-3 well">
 		<ul id="draggablePanelList4" class="list-unstyled emptylist">
 			<c:forEach var="t" items="${task_list}">
 				<c:if test ="${t.statusId == 4}">
