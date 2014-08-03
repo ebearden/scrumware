@@ -12,10 +12,6 @@
   <%@ include file="../partials/navigation_bar_partial.jsp"%>
 
   <div id="main" class="container theme-showcase" role="main">
-    <br /> <br />
-    <div id="success"></div>
-    <p>
-    <br /> <br />
     <a href="new"><button class="btn btn-primary">New Story</button></a><br />
     </p>
     <div class="span12"><hr /></div>
@@ -28,7 +24,6 @@
         <th>Description</th>
         <th>Acceptance Criteria</th>
         <th>Sprint</th>
-        <th>Task Count</th>
         <th>Status</th>
         <th><!-- Button column --></th>
       <tr>
@@ -40,7 +35,6 @@
           <td>${s.description}</td>          
           <td>${s.acceptanceCriteria}</td>          
           <td>${s.sprintID}</td>
-          <td>${s.taskCount}</td>
           <td>${s.statusAsString}</td> 
           <td>
             <a href="view?story_id=${s.storyID}">

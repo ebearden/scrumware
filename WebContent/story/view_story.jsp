@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<title>Tasks</title>
+<title>Story | ${story.storyName}</title>
 <%@ include file="../partials/include_bootstrap_partial.jsp"%>
 </head>
 <body role="document">
@@ -12,12 +12,15 @@
   <%@ include file="../partials/navigation_bar_partial.jsp"%>
 
   <div id="main" class="container theme-showcase" role="main">
-    <div id="success"></div>
-    <p>
-    <a href="edit?story_id=${param.story_id}"><button class="btn btn-primary">Edit Story</button></a><br />
-    </p>
-    <h2>${story.storyName}</h2>
+    <h2>#${story.storyID} - ${story.storyName}&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="edit?story_id=${story.storyID}"><button class="btn btn-default">Edit</button></h2></a>
+    <p><h4><small>Created on: ${story.createdDateAsString} by ${created_by.username} <br/>
+    Last Updated: ${story.updatedDateAsString} by ${updated_by.username}</small></h4></p>
+    <h3>${story.statusAsString}</h3>
     <div class="span12"><hr /></div>
+    <div class="lead"><p>${story.description}</p></div>
+    <div class="span12 "><hr /></div>    
+    <p class="lead">Tasks in this story:</p>
     <div id="task-table" class="span12">
     <table id="task-table" class="table table-condensed table-hover">
       <thead>

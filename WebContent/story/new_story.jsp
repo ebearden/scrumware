@@ -14,7 +14,6 @@
   <%@ include file="../partials/navigation_bar_partial.jsp"%>
   
   <div id="main" class="container theme-showcase" role="main">
-  <br /><br /><br /><br />
   
     <form role="form" name="new_project" method="POST" action="new">
         <!-- Name -->
@@ -31,8 +30,8 @@
         
         <!-- Assign To Sprint -->
         <div class="form-group">
-          <label for="assigned_to">Assign To Sprint</label> 
-          <select class="form-control" name="assigned_to">
+          <label for="sprint_id">Assign To Sprint</label> 
+          <select class="form-control" name="sprint_id">
             <c:forEach var="s" items="${sprint}">
                 <option value="${s.sprintId}">${s.name}</option>            
             </c:forEach>
@@ -41,8 +40,8 @@
         
         <!-- Acceptance Criteria -->
         <div class="form-group">
-          <label for="acceptance criteria">Acceptance Criteria</label>
-          <textarea class="form-control" rows="3" name="description"></textarea>
+          <label for="acceptance_criteria">Acceptance Criteria</label>
+          <textarea class="form-control" rows="3" name="acceptance_criteria"></textarea>
         </div>
         
         

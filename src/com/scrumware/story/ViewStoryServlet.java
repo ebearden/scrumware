@@ -49,13 +49,15 @@ public class ViewStoryServlet extends HttpServlet {
 		}
 		
 		String dataType = request.getParameter(DATA_TYPE_PARAMETER);
-		String userId = request.getParameter(Constants.USER_ID);
 		String storyId = request.getParameter(Constants.STORY_ID);
 		ArrayList<Task> taskList;
-
+		
+		Story story = StoryDB.getStory(Integer.parseInt(storyId));
+		User createdByUser = UserDB.getUser(story.getCreatedBy());
+		User updatedByUser = UserDB.getUser(story.getUpdatedBy());
+		
 		if ("json".equals(dataType) && storyId != null) {
 			taskList = TaskDB.getAllTasksForStory(Integer.parseInt(storyId));
-			
 			JSONObject jsonObject = createJSONObject(taskList);
 			response.addHeader("Content-Type", "application/json");
 			response.getWriter().println(jsonObject);
@@ -65,14 +67,16 @@ public class ViewStoryServlet extends HttpServlet {
 			
 			for (Task task : taskList) {
 				User user = UserDB.getUser(task.getAssignedTo());
-				Story story = StoryDB.getStory(task.getStoryId());
+				Story s = StoryDB.getStory(task.getStoryId());
 				DetailedTask detailedTask = new DetailedTask(task);
 				detailedTask.setAssignedTo(user);
-				detailedTask.setStory(story);
+				detailedTask.setStory(s);
 				taskDetailList.add(detailedTask);
 			}
-			
+			request.setAttribute("story", story);
 			request.setAttribute("task_list", taskDetailList);
+			request.setAttribute(Constants.CREATED_BY, createdByUser);
+			request.setAttribute(Constants.UPDATED_BY, updatedByUser);
 			request.getRequestDispatcher("/story/view_story.jsp").forward(request, response);
 		}
 	}

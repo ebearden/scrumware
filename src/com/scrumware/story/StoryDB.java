@@ -29,7 +29,6 @@ public class StoryDB {
 	 * @return List of all stories.
 	 */
 	public static ArrayList<Story> getAllStories() {
-		System.out.println("getAllStories()");
 		return getStoryListForIdType(null, null);
 	}
 
@@ -66,8 +65,8 @@ public class StoryDB {
 		}
 		else {
 			storySQL = "INSERT INTO Story(story_name, description, acceptance_criteria, status_id, "
-					+ "sprint_id, task_count, created_by, updated_by) "
-					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";	
+					+ "sprint_id, task_count, created_by, updated_by, created, updated) "
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW());";	
 		}
 		
 		try {
@@ -81,6 +80,7 @@ public class StoryDB {
 			storyStatement.setInt(6, story.getTaskCount());
 			if (isUpdate) {
 				storyStatement.setInt(7, story.getUpdatedBy());
+				storyStatement.setInt(8, story.getStoryID());
 			} else {
 				storyStatement.setInt(7, story.getCreatedBy());
 				storyStatement.setInt(8, story.getUpdatedBy());
@@ -92,8 +92,6 @@ public class StoryDB {
 				ResultSet generatedKey = storyStatement.getGeneratedKeys();
 				if (generatedKey.next()) {
 					story.setStoryID(generatedKey.getInt(1));
-					System.out.println(generatedKey.getInt(1));
-					System.out.println(generatedKey.getLong(1));
 				}
 			}
 		} catch (SQLException e) {
@@ -121,7 +119,6 @@ public class StoryDB {
 		Story story = null;
 		String sql;
 		if (id == null) {
-			System.out.println("null");
 			sql = "SELECT story_id, created, created_by, updated, updated_by, story_name, description, "
 					+ "acceptance_criteria, status_id, project_id, sprint_id, task_count "
 					+ "FROM Story;";
@@ -134,10 +131,7 @@ public class StoryDB {
 		
 		try {
 			PreparedStatement storyStatement = connection.prepareStatement(sql);
-			System.out.println(storyStatement);
-			
 
-			
 			if (id != null) {
 				storyStatement.setInt(1, id);
 			}
@@ -146,9 +140,9 @@ public class StoryDB {
 			while (storyResultSet.next()) {
 				story = new Story();
 				story.setStoryID(storyResultSet.getInt(1));
-				story.setCreated(storyResultSet.getDate(2));
+				story.setCreated(storyResultSet.getTimestamp(2));
 				story.setCreatedBy(storyResultSet.getInt(3));
-				story.setUpdated(storyResultSet.getDate(4));
+				story.setUpdated(storyResultSet.getTimestamp(4));
 				story.setUpdatedBy(storyResultSet.getInt(5));
 				story.setStoryName(storyResultSet.getString(6));
 				story.setDescription(storyResultSet.getString(7));

@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
+
 import com.scrumware.config.Constants;
 import com.scrumware.config.Status;
 import com.scrumware.login.SessionHelper;
@@ -102,7 +104,10 @@ public class EditStoryServlet extends HttpServlet {
 
 		Story savedStory = StoryDB.saveStory(story);
 		
-		request.setAttribute("story", savedStory);
-		request.getRequestDispatcher("/story/view_story.jsp").forward(request, response);
+		if (storyId == null) {
+			request.getRequestDispatcher("/story/view?story_id=" + savedStory.getStoryID()).forward(request, response);
+		} else {
+			request.getRequestDispatcher("/story/view").forward(request, response);			
+		}
 	}
 }

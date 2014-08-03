@@ -2,6 +2,8 @@ package com.scrumware.story;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.DateFormat;
 
 import org.json.JSONObject;
 
@@ -9,12 +11,14 @@ import com.scrumware.config.Constants;
 import com.scrumware.config.Status;
 
 public class Story implements com.scrumware.interfaces.IJsonObject, Serializable{
+
+	private static final long serialVersionUID = 1L;
 	
 	//base variables
 	private Integer storyID;
-	private Date created;
+	private Timestamp created;
 	private int createdBy;
-	private Date updated;
+	private Timestamp updated;
 	private int updatedBy;
 	private int statusID;
 	private int projectID;
@@ -59,14 +63,20 @@ public class Story implements com.scrumware.interfaces.IJsonObject, Serializable
 	public Integer getStoryID(){
 		return storyID;
 	}
-	public Date getCreated(){
+	public Timestamp getCreated(){
 		return created;
+	}
+	public String getCreatedDateAsString() {
+		return DateFormat.getDateTimeInstance().format(created);
 	}
 	public int getCreatedBy(){
 		return createdBy;
 	}
-	public Date getUpdated(){
+	public Timestamp getUpdated(){
 		return updated;
+	}
+	public String getUpdatedDateAsString() {
+		return DateFormat.getDateTimeInstance().format(updated);
 	}
 	public int getUpdatedBy(){
 		return updatedBy;
@@ -98,7 +108,7 @@ public class Story implements com.scrumware.interfaces.IJsonObject, Serializable
 	
 	//setters
 
-	public void setUpdated(Date date){
+	public void setUpdated(Timestamp date){
 		this.updated = date;
 	}
 	public void setUpdatedBy(int user){
@@ -123,25 +133,17 @@ public class Story implements com.scrumware.interfaces.IJsonObject, Serializable
 	public void setAcceptanceCriteria(String criteria){
 		this.acceptenceCriteria = criteria;
 	}
-
-	public void setStoryID(int id) {
-		this.storyID = id;
-		
+	public void setStoryID(Integer id) {
+		this.storyID = id;	
 	}
-
-	public void setCreated(Date date) {
-		this.created = date;
-		
+	public void setCreated(Timestamp date) {
+		this.created = date;	
 	}
-
 	public void setCreatedBy(int createdBy) {
-		this.createdBy = createdBy;
-		
+		this.createdBy = createdBy;	
 	}
-
 	public void setProjectID(int id) {
-		this.projectID = id;
-		
+		this.projectID = id;	
 	}
 	
 

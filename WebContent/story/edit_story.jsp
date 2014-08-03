@@ -27,8 +27,26 @@
 	          			<input type="text" class="form-control" name="story_name" value="${story.storyName}">
 	       			 </div>
     			</td>
-    			
     		</tr>
+            <tr>
+                <td style="padding-right:20px!important;">
+                    <div class="form-group">
+                      <label for="status_id">Sprint</label> 
+                      <select class="form-control" name="sprint_id">
+                        <c:forEach var="sprint" items="${sprint}">            
+                          <c:choose>
+                            <c:when test="${sprint.sprintId == story.sprintID}">
+                              <option value="${sprint.sprintId}" selected>${sprint.name}</option>
+                            </c:when>
+                            <c:otherwise>
+                               <option value="${sprint.sprintId}">${sprint.name}</option>
+                            </c:otherwise>
+                          </c:choose>
+                        </c:forEach>
+                      </select>
+                    </div>
+                </td>
+            </tr>
     		<tr>
     			<td style="padding-right:20px!important;">
     				<div class="form-group">
