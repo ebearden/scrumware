@@ -70,7 +70,6 @@ public class UserServlet extends HttpServlet {
     			return;
             }
         	
-            /* TODO output your page here. You may use following sample code. */
             
 /** 
  * The title to be displayed on the jsp is set, then passed to the request.

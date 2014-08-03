@@ -28,7 +28,6 @@ public class ViewProjectServlet extends HttpServlet {
      */
     public ViewProjectServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**

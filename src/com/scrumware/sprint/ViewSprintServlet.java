@@ -24,7 +24,6 @@ public class ViewSprintServlet extends HttpServlet {
      */
     public ViewSprintServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**

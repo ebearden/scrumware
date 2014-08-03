@@ -26,7 +26,6 @@ public class AddUser extends HttpServlet {
      */
     public AddUser() {
         super();
-        // TODO Auto-generated constructor stub
     }
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -146,7 +145,6 @@ public class AddUser extends HttpServlet {
 	 */
     @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 
         processRequest(request, response);
 	}
@@ -156,7 +154,6 @@ public class AddUser extends HttpServlet {
 	 */
     @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 
         processRequest(request, response);
 	}

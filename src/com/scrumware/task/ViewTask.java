@@ -30,7 +30,6 @@ public class ViewTask extends HttpServlet {
      */
     public ViewTask() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**

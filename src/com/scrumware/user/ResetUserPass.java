@@ -30,7 +30,6 @@ public class ResetUserPass extends HttpServlet {
      */
     public ResetUserPass() {
         super();
-        // TODO Auto-generated constructor stub
     }
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -137,7 +136,6 @@ public class ResetUserPass extends HttpServlet {
 	 */
     @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
     	
     	processRequest(request, response);
     	
@@ -148,7 +146,6 @@ public class ResetUserPass extends HttpServlet {
 	 */
     @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
     	
     	processRequest(request, response);
     	

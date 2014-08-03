@@ -24,7 +24,6 @@ public class EditSprintServlet extends HttpServlet {
      */
     public EditSprintServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
