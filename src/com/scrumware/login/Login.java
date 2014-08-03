@@ -63,7 +63,7 @@ public class Login extends HttpServlet {
   
         		/*if there is an active session, redirect to home page*/
         		
-        		getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);
+        		response.sendRedirect("task/assigned_tasks");
         		
         	} else {
         	
@@ -119,7 +119,7 @@ public class Login extends HttpServlet {
 	        		 */
 	        		
 	        		//request.setAttribute("user_name",session.getAttribute("user_name"));
-	                getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);
+	               response.sendRedirect("task/assigned_tasks");
 	        		
 	        	} else {
 	        		
