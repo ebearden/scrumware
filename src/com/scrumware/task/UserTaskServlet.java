@@ -14,11 +14,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.scrumware.config.Constants;
-import com.scrumware.task.DetailedTask;
+import com.scrumware.login.SessionHelper;
 import com.scrumware.task.Task;
 import com.scrumware.task.TaskDB;
-import com.scrumware.user.User;
-import com.scrumware.user.UserDB;
 
 /**
  * Servlet implementation class SprintServlet
@@ -41,23 +39,22 @@ public class UserTaskServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		if (!isValidSession(request)) {
 			response.sendRedirect(request.getContextPath() + "/login.jsp");
 			return;
 		}
 		
+		Integer userId = SessionHelper.getSessionUserId(request);
 		String dataType = request.getParameter(DATA_TYPE_PARAMETER);
-		String userId = request.getParameter(Constants.USER_ID);
 		ArrayList<Task> taskList;
 
 		if ("json".equals(dataType) && userId != null) {
-			taskList = TaskDB.getAllTasksForUserId(Integer.parseInt(userId));
+			taskList = TaskDB.getAllTasksForUserId(userId);
 			JSONObject jsonObject = createJSONObject(taskList);
 			response.addHeader("Content-Type", "application/json");
 			response.getWriter().println(jsonObject);
 		} else {
-			taskList = TaskDB.getAllTasks();
+			taskList = TaskDB.getAllTasksForUserId(userId);
 			request.setAttribute("task_list", taskList);
 			request.getRequestDispatcher("/task/assigned_tasks.jsp").forward(request, response);
 		}
