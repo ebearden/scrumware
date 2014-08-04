@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.scrumware.config.Constants;
-import com.scrumware.login.SessionHelper;
+import com.scrumware.config.Status;
+import com.scrumware.project.Project;
+import com.scrumware.project.ProjectDB;
 import com.scrumware.user.User;
 import com.scrumware.user.UserDB;
 
@@ -35,13 +37,16 @@ public class NewSprintServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		if (!SessionHelper.validateSession(request, response)) {
+		if (!isValidSession(request)) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
 			return;
 		}
 		
-		ArrayList<User> userList = UserDB.getUsers();
 		ArrayList<Sprint> sprintList = SprintDB.getAllSprints();
-		request.setAttribute("users", userList);
+		ArrayList<Project> projectList = ProjectDB.getAllProjects();
+		
+		request.setAttribute(Constants.STATUS, Status.values());
+		request.setAttribute("projects", projectList);
 		request.setAttribute("sprints", sprintList);
 		request.getRequestDispatcher("/sprint/new_sprint.jsp").forward(request, response);
 	}
@@ -51,10 +56,29 @@ public class NewSprintServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		if (!SessionHelper.validateSession(request, response)) {
+		if (!isValidSession(request)) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
 			return;
 		}
 		
 		request.getRequestDispatcher("edit").forward(request, response);
 	}
+	
+	private boolean isValidSession(HttpServletRequest request) {
+		if (request.getParameter("key") != null && request.getParameter("key").equals(Constants.LOGIN_KEY)) {
+			return true;
+		}
+		
+		HttpSession session = request.getSession(false);
+		if (session.getAttribute("id") == null || session.getAttribute("id").equals("")) {
+			return false;
+		} else if (session.getAttribute("user_name") == null || session.getAttribute("user_name").equals("")) {
+			return false;
+		} else if (session.getAttribute("role") == null || session.getAttribute("role").equals("")) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 }

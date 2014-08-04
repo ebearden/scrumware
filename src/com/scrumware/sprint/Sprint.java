@@ -10,7 +10,7 @@ import com.scrumware.interfaces.IJsonObject;
 public class Sprint implements IJsonObject{
 	//Base Variables
 	
-	private int sprintId;
+	private Integer sprintId;
 	private String name;
 	private String description;
 	private Date startDate;
@@ -83,7 +83,7 @@ public class Sprint implements IJsonObject{
 		return statusId;
 	}
 	
-	public int getSprintId() {
+	public Integer getSprintId() {
 		return sprintId;
 	}
 	

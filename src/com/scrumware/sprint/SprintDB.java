@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+
 import com.scrumware.config.Constants;
 import com.scrumware.jdbc.ConnectionPool;
 import com.scrumware.sprint.Sprint;
@@ -57,9 +58,9 @@ public class SprintDB {
 					
 		}
 		else {
-			sprintSQL = "INSERT INTO Project(sprint_name, description, status_id, "
-					+ "sprint_id, created_by, updated_by, project_id) "
-					+ "VALUES (?, ?, ?, ?, ?, ?, ?);";	
+			sprintSQL = "INSERT INTO Sprint (sprint_name, description, status_id, "
+					+ "created_by, updated_by, project_id) "
+					+ "VALUES (?, ?, ?, ?, ?, ?);";	
 		}
 		
 		try {
@@ -68,15 +69,19 @@ public class SprintDB {
 			sprintStatement.setString(1, sprint.getName());
 			sprintStatement.setString(2, sprint.getDescription());
 			sprintStatement.setInt(3, sprint.getStatusId());
-			sprintStatement.setInt(4, sprint.getSprintId());
+			
+			
 			
 			if (isUpdate) {
+				sprintStatement.setInt(4, sprint.getSprintId());
 				sprintStatement.setInt(6, sprint.getUpdatedBy());
+				sprintStatement.setInt(7, sprint.getProjectId());
 			} else {
+				sprintStatement.setInt(4, sprint.getCreatedBy());
 				sprintStatement.setInt(5, sprint.getCreatedBy());
-				sprintStatement.setInt(6, sprint.getUpdatedBy());
+				sprintStatement.setInt(6, sprint.getProjectId());
 			}
-			sprintStatement.setInt(7, sprint.getProjectId());
+			
 
 			
 			int result = sprintStatement.executeUpdate();
@@ -119,7 +124,7 @@ public class SprintDB {
 		}
 		else {
 			sql = "SELECT sprint_id, created, created_by, updated, updated_by, sprint_name, description, "
-					+ "start_date, end_date, status_id, project_id"
+					+ "start_date, end_date, status_id, project_id "
 					+ "FROM Sprint WHERE " + type + "=?;";
 		}
 		
@@ -166,37 +171,15 @@ public class SprintDB {
 	 */
 	public static boolean deleteSprint(Sprint sprint) {
 		Connection connection = ConnectionPool.getInstance().getConnection();
-		
-		PreparedStatement removeTasksStatement = null;
-		PreparedStatement removeFromStoryStatement = null;
-		PreparedStatement deleteSprintStatement = null;
-		
-		String deleteSprintSQL = "DELETE FROM Sprint WHERE sprint_id=?;";
-		String removeFromStorySQL = "UPDATE Story SET sprint_id=NULL WHERE sprint_id=?;";
-		String removeTasksSQL = "UPDATE Task SET sprint_id=NULL WHERE sprint_id=?;";
-		
+		PreparedStatement statement = null;
+		String sql = "DELETE FROM Sprint WHERE sprint_id=?";
 		boolean success = false;
 		
 		try {
-			connection.setAutoCommit(false);
-			
-			removeTasksStatement = connection.prepareStatement(removeTasksSQL);
-			removeTasksStatement.setInt(1, sprint.getSprintId());
-			removeTasksStatement.executeUpdate();
-			
-			removeFromStoryStatement = connection.prepareStatement(removeFromStorySQL);
-			removeFromStoryStatement.setInt(1, sprint.getSprintId());
-			removeFromStoryStatement.executeUpdate();
-			
-			deleteSprintStatement = connection.prepareStatement(deleteSprintSQL);
-			deleteSprintStatement.setInt(1, sprint.getSprintId());
-			
-			if (deleteSprintStatement.executeUpdate() == 1) {
+			statement = connection.prepareStatement(sql);
+			statement.setInt(1, sprint.getSprintId());
+			if (statement.executeUpdate() == 1) {
 				success = true;
-				connection.commit();
-				connection.setAutoCommit(true);
-			} else {
-				connection.rollback();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

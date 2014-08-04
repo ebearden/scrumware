@@ -10,37 +10,82 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.scrumware.config.Constants;
-import com.scrumware.login.SessionHelper;
+import com.scrumware.user.User;
+import com.scrumware.user.UserDB;
 
 /**
  * Servlet implementation class ViewSprintServlet
+ * John Zorgdrager
  */
-@WebServlet("/ViewSprintServlet")
+@WebServlet(name = "ViewSprintServlet", urlPatterns = {"/ViewSprint", "/sprint/view"})
 public class ViewSprintServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+   
     public ViewSprintServlet() {
         super();
+       
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (!SessionHelper.validateSession(request, response)) {
+		// TODO Auto-generated method stub
+		if (!isValidSession(request)) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
 			return;
 		}
+		
+		String sprintID = request.getParameter(Constants.SPRINT_ID);
+		System.out.println(sprintID);
+		Sprint sprint = SprintDB.getSprint(Integer.parseInt(sprintID));
+		User createdBy = UserDB.getUser(sprint.getCreatedBy());
+		User updatedBy = UserDB.getUser(sprint.getUpdatedBy());
+		
+		request.setAttribute("sprint", sprint);
+		request.setAttribute("created_by", createdBy);
+		request.setAttribute("updated_by", updatedBy);
+
+		request.getRequestDispatcher("/sprint/view_sprint.jsp").forward(request, response);
+		
+		
+		
+		
+		
 	}
+	
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (!SessionHelper.validateSession(request, response)) {
+		
+		
+		if (!isValidSession(request)) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
 			return;
 		}
+		
+		doGet(request, response);
 	}
+	
+	private boolean isValidSession(HttpServletRequest request) {
+		if (request.getParameter("key") != null && request.getParameter("key").equals(Constants.LOGIN_KEY)) {
+			return true;
+		}
+		
+		HttpSession session = request.getSession(false);
+		if (session.getAttribute("id") == null || session.getAttribute("id").equals("")) {
+			return false;
+		} else if (session.getAttribute("user_name") == null || session.getAttribute("user_name").equals("")) {
+			return false;
+		} else if (session.getAttribute("role") == null || session.getAttribute("role").equals("")) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 }
