@@ -102,13 +102,27 @@ public class AssetUpload extends HttpServlet {
         		System.out.println(servletContext+File.separator+folderLocation+File.separator+project_id+File.separator+fileName);
         		
         		String uploadPath = getServletContext().getRealPath("")
-        			    + File.separator + folderLocation + File.separator + project_id;
+        			    + File.separator + folderLocation;
         		
         		//String uploadPath = File.separator + folderLocation + File.separator + project_id;
         		
         		File uploadDir = new File(uploadPath);
         		if (!uploadDir.exists()) {
         		    uploadDir.mkdir();
+        		    System.out.println("projectassets does not exist.");
+        		} else {
+        			System.out.println("projectassets exists.");
+        		}
+        		
+        		uploadPath = getServletContext().getRealPath("")
+        			    + File.separator + folderLocation + File.separator + project_id;
+        		
+        		uploadDir = new File(uploadPath);
+        		if (!uploadDir.exists()) {
+        		    uploadDir.mkdir();
+        		    System.out.println("project folder does not exist.");
+        		} else {
+        			System.out.println("project folder exists.");
         		}
         		
 		        File uploadedFile = 
