@@ -18,18 +18,20 @@ public class SessionHelper {
 		boolean valid = false;
 		if (request.getParameter("key") != null && request.getParameter("key").equals(Constants.LOGIN_KEY)) {
 			valid = true;
+		} else {
+			HttpSession session = request.getSession(false);
+			if (session.getAttribute("id") == null || session.getAttribute("id").equals("")) {
+				valid = false;
+			} else if (session.getAttribute("user_name") == null || session.getAttribute("user_name").equals("")) {
+				valid = false;
+			} else if (session.getAttribute("role") == null || session.getAttribute("role").equals("")) {
+				valid = false;
+			} else {
+				valid = true;
+			}
 		}
 		
-		HttpSession session = request.getSession(false);
-		if (session.getAttribute("id") == null || session.getAttribute("id").equals("")) {
-			valid = false;
-		} else if (session.getAttribute("user_name") == null || session.getAttribute("user_name").equals("")) {
-			valid = false;
-		} else if (session.getAttribute("role") == null || session.getAttribute("role").equals("")) {
-			valid = false;
-		} else {
-			valid = true;
-		}
+		
 		
 		if (!valid) {
 			try {
