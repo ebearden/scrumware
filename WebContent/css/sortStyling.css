@@ -3,31 +3,31 @@
 #todo{
 	border-style: solid;
 	border-width: 1px;
-	min-height:200px;
+	min-height:700px;
     
 }
 
 #inprocess{
 	border-style: solid;
     border-width: 1px;
-    min-height:200px;
+    min-height:700px;
     
 }
 
 #toverify{
 	border-style: solid;
     border-width: 1px;
-    min-height:200px;
+    min-height:700px;
    
 }
 
 #done{
 	border-style: solid;
     border-width: 1px;
-    min-height:200px;
+    min-height:100%;
    
 }
 
 .emptylist{
-	min-height:200px
+	min-height:700px
 }
