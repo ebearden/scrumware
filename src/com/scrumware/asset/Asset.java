@@ -17,6 +17,7 @@ public class Asset implements IJsonObject {
 	private Date updatedOn;
 	private int createdBy;
 	private int updatedBy;
+	private int projectId;
 	
 	//Empty Constructor
 	public Asset() {
@@ -32,6 +33,7 @@ public class Asset implements IJsonObject {
 		json.put(Constants.ASSET_NAME, this.name);
 		json.put(Constants.DESCRIPTION, this.description);
 		json.put(Constants.LOCATION, this.location);
+		json.put(Constants.PROJECT_ID, this.projectId);
 		return json;
 	}
 
@@ -79,6 +81,10 @@ public class Asset implements IJsonObject {
 		return this.location;
 	}
 	
+	public int getProject() {
+		return this.projectId;
+	}
+	
 	//Set Values
 	public void setAssetID(int asset) {
 		this.assetId = asset;
@@ -110,5 +116,9 @@ public class Asset implements IJsonObject {
 	
 	public void setLocation(String loc) {
 		this.location = loc;
+	}
+	
+	public void setProjectID(int project) {
+		this.projectId = project;
 	}
 }

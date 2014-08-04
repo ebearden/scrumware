@@ -42,7 +42,7 @@ public class ViewUser extends HttpServlet {
         	
         	HttpSession sess = request.getSession(false);
         	int id = 0;
-        	Object ob = sess.getAttribute("role");
+        	Object ob = sess.getAttribute("id");
             if (ob instanceof Integer) {
             	id = (Integer) ob;
             } else {

@@ -27,6 +27,7 @@
         <th>Planned Start Date</th>
         <th>Planned End Date</th>
         <th>Status</th>
+        <th>Files</th>
         <th><!-- Button column --></th>
       <tr>
       </thead>
@@ -37,7 +38,11 @@
           <td>${p.projectManagerId}</td>          
           <td>${p.startDate}</td>
           <td>${p.endDate}</td>
-          <td>${p.statusAsString}</td>
+          <td>${p.statusAsString}</td><td>
+            <a href="../asset/assets?project_id=${p.projectId}">
+                <button class="btn btn-primary">Assets</button>
+            </a>
+          </td>
           <td>
             <a href="view?project_id=${p.projectId}">
                 <button class="btn btn-primary">View</button>

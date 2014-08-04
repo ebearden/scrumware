@@ -28,8 +28,8 @@
   <div id="main" class="container theme-showcase" role="main">
   
             <div class="pull-left"><h3>User Profile</h3></div>
-            <div id="user-profile-table" class="span3">
-            <table id="user-profile-table" class="span3 table table-condensed table-hover">       
+            <div id="user-profile-table" class="span1">
+            <table id="user-profile-table" class="span2 table table-condensed table-hover">       
                 <tr><th>User Name</th><td>${requestScope.user.username}</td></tr>
 	            <tr><th>First Name</th><td>${requestScope.user.firstname}</td></tr>
 	            <tr><th>Last Name</th><td>${requestScope.user.lastname}</td></tr>
