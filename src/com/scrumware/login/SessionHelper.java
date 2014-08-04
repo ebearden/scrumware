@@ -55,4 +55,33 @@ public class SessionHelper {
 		}
 		return null;
 	}
+	
+	/**
+	 * Get the current users role.
+	 * @param request - the current HttpServletRequest.
+	 * @return - user role as an Integer.
+	 */
+	public static Integer getSessionUserRole(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		if (session.getAttribute("role") != null) {
+			System.out.println(session.getAttribute("role"));
+			return Integer.parseInt(session.getAttribute("role").toString());
+		}
+		return null;
+	}
+	
+	/**
+	 * Get the current users username.
+	 * @param request - the current HttpServletRequest.
+	 * @return - username as a String.
+	 */
+	public static String getSessionUserName(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		if (session.getAttribute("user_name") != null) {
+			System.out.println(session.getAttribute("user_name"));
+			return session.getAttribute("user_name").toString();
+		}
+		return null;
+	}
+	
 }
