@@ -5,7 +5,6 @@ import java.util.*;
 import java.sql.*;
 
 import com.scrumware.jdbc.*;
-import com.scrumware.user.User;
 
 public class AssetDB {
 	
