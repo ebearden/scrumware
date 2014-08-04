@@ -8,19 +8,17 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 import javax.servlet.http.HttpSession;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Logger;
-import java.util.logging.Level;
 
 import org.apache.commons.fileupload.FileItem;  
-import org.apache.commons.fileupload.FileItemFactory;  
 import org.apache.commons.fileupload.FileUploadException;  
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;  
 import org.apache.commons.fileupload.servlet.ServletFileUpload; 
+
+import com.scrumware.login.SessionHelper;
 
 
 /**
@@ -47,6 +45,10 @@ public class AssetUpload extends HttpServlet {
     protected void processRequest(HttpServletRequest request,
         HttpServletResponse response)
         throws ServletException, IOException {
+    	if (!SessionHelper.validateSession(request, response)) {
+			return;
+		}
+    	
     	response.setContentType("text/html;charset=UTF-8");
     	
     	HttpSession sess = request.getSession(false);
