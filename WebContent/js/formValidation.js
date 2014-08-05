@@ -148,7 +148,8 @@ function projectFormValidation() {
 						message: 'The task description should be descriptive.'
 					}
 				}
-			}
+			},
+			
 		}
 	});	
 }
