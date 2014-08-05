@@ -15,7 +15,7 @@
   
   <div id="main" class="container theme-showcase" role="main">
   
-    <form role="form" name="new_project" method="POST" action="new">
+    <form role="form" id="storyForm" name="new_story" method="POST" action="new">
         <!-- Name -->
         <div class="form-group">
           <label for="story_name">Name</label>
@@ -49,5 +49,12 @@
         <button type="submit" class="btn btn-primary">Add Story</button>
     </form>
 </div>
+  <%@ include file="../partials/include_bootstrap_javascript.jsp"%>
+  <script type="text/javascript" src="../js/formValidation.js"></script>
+  <script type="text/javascript">
+  $(document).ready(function() {
+	storyFormValidation();
+  });
+</script>
 </body>
 </html>

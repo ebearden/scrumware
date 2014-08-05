@@ -14,7 +14,7 @@
   
   <div id="main" class="container theme-showcase" role="main">
   
-    <form role="form" name="edit_story" method="POST" action="edit">
+    <form role="form" id="storyForm" name="edit_story" method="POST" action="edit">
         <!-- Hidden story ID -->
         <input type="text" class="hidden" name="story_id" value="${story.storyID}">
         
@@ -77,7 +77,7 @@
         </div>
         <div class="form-group">
           <label for="acceptance criteria">Acceptance Criteria</label>
-          <textarea class="form-control" rows="3" name="description">${story.acceptanceCriteria}</textarea>
+          <textarea class="form-control" rows="3" name="acceptance_criteria">${story.acceptanceCriteria}</textarea>
         </div>
         
         
@@ -116,9 +116,14 @@
 
   </div>
   <%@ include file="../partials/include_bootstrap_javascript.jsp"%>
+    <script type="text/javascript" src="../js/formValidation.js"></script>
+    <script type="text/javascript">
+  $(document).ready(function() {
+	storyFormValidation();
+  });
+</script>
   <!-- Below Added for Datepicker Fields -->
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
-  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
   <link rel="stylesheet" href="/resources/demos/style.css">
 </body>

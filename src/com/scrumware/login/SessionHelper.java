@@ -20,14 +20,18 @@ public class SessionHelper {
 			valid = true;
 		} else {
 			HttpSession session = request.getSession(false);
-			if (session.getAttribute("id") == null || session.getAttribute("id").equals("")) {
-				valid = false;
-			} else if (session.getAttribute("user_name") == null || session.getAttribute("user_name").equals("")) {
-				valid = false;
-			} else if (session.getAttribute("role") == null || session.getAttribute("role").equals("")) {
-				valid = false;
+			if (session != null) {
+				if (session.getAttribute("id") == null || session.getAttribute("id").equals("")) {
+					valid = false;
+				} else if (session.getAttribute("user_name") == null || session.getAttribute("user_name").equals("")) {
+					valid = false;
+				} else if (session.getAttribute("role") == null || session.getAttribute("role").equals("")) {
+					valid = false;
+				} else {
+					valid = true;
+				}				
 			} else {
-				valid = true;
+				valid = false;
 			}
 		}
 		
