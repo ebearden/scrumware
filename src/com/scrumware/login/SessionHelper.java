@@ -52,7 +52,7 @@ public class SessionHelper {
 	public static Integer getSessionUserId(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		if (session.getAttribute("id") != null) {
-			System.out.println(session.getAttribute("id"));
+			//System.out.println(session.getAttribute("id"));
 			return Integer.parseInt(session.getAttribute("id").toString());
 		}
 		return null;
@@ -66,7 +66,7 @@ public class SessionHelper {
 	public static Integer getSessionUserRole(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		if (session.getAttribute("role") != null) {
-			System.out.println(session.getAttribute("role"));
+			//System.out.println(session.getAttribute("role"));
 			return Integer.parseInt(session.getAttribute("role").toString());
 		}
 		return null;
@@ -80,7 +80,7 @@ public class SessionHelper {
 	public static String getSessionUserName(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		if (session.getAttribute("user_name") != null) {
-			System.out.println(session.getAttribute("user_name"));
+			//System.out.println(session.getAttribute("user_name"));
 			return session.getAttribute("user_name").toString();
 		}
 		return null;
