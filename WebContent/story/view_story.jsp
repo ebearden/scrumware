@@ -54,5 +54,6 @@
   </div>
 
   <%@ include file="../partials/include_bootstrap_javascript.jsp"%>
+
 </body>
 </html>

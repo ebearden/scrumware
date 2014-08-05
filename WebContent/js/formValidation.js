@@ -140,7 +140,7 @@ function projectFormValidation() {
 			description: {
 				validators: {
 					notEmpty: {
-						message: 'Please enter a description for the task.'
+						message: 'Please enter a description for the project.'
 					},
 					stringLength: {
 						min: 10,
@@ -205,3 +205,52 @@ function sprintFormValidation() {
 		}
 	});
 }
+function storyFormValidation() {
+	$('#storyForm').bootstrapValidator({
+		message: 'This value is not valid',
+		feedbackIcons: {
+			valid: 'glyphicon glyphicon-ok',
+			validating: 'glyphicon glyphicon-refresh'
+		},
+		fields: {
+			story_name: {
+				message: 'Please enter a name',
+				validators: {
+					notEmpty: {
+						message: 'The story name cannot be empty'
+					},
+					stringLength: {
+						min: 6,
+						max: 30,
+						message: 'The story name must be more than 6 and less than 30 characters long'
+					}
+				}
+			},
+			description: {
+				validators: {
+					notEmpty: {
+						message: 'Please enter a description for the story.'
+					},
+					stringLength: {
+						min: 10,
+						max: 1000,
+						message: 'The task description should be descriptive.'
+					}
+				}
+			},
+			acceptance_criteria: {
+				validators: {
+					notEmpty: {
+						message: 'Please enter an acceptance criteria for the story.'
+					},
+					stringLength: {
+						min: 10,
+						max: 1000,
+						message: 'The acceptance criteria should be descriptive.'
+					}
+				}
+			}
+		}
+	});	
+}
+

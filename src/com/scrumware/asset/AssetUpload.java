@@ -51,15 +51,9 @@ public class AssetUpload extends HttpServlet {
     	
     	response.setContentType("text/html;charset=UTF-8");
     	
-    	HttpSession sess = request.getSession(false);
+    	com.scrumware.login.SessionHelper.validateSession(request, response);
     	
-    	Object ob = sess.getAttribute("id");
-        if (ob instanceof Integer) {
-        	user_id = (Integer) ob;
-        } else {
-        	System.out.println("WTF this should be an int.");
-        }
-        
+    	user_id = com.scrumware.login.SessionHelper.getSessionUserId(request);
         project_id = Integer.parseInt(request.getParameter("project_id"));
     	
     	
@@ -99,16 +93,30 @@ public class AssetUpload extends HttpServlet {
         		
         		asset.setName(fileName);
 		        
-        		System.out.println(servletContext+File.separator+folderLocation+File.separator+project_id+File.separator+fileName);
+        		System.out.println(servletContext+File.separator+folderLocation+File.separator+project_id+
+        				File.separator+fileName);
         		
         		String uploadPath = getServletContext().getRealPath("")
-        			    + File.separator + folderLocation + File.separator + project_id;
+        			    + File.separator + folderLocation;
         		
         		//String uploadPath = File.separator + folderLocation + File.separator + project_id;
         		
         		File uploadDir = new File(uploadPath);
         		if (!uploadDir.exists()) {
         		    uploadDir.mkdir();
+        		    System.out.println("projectassets does not exist.");
+        		} else {
+        			System.out.println("projectassets exists.");
+        		}
+        		
+        		uploadPath = getServletContext().getRealPath("") + File.separator + project_id;
+        		
+        		uploadDir = new File(uploadPath);
+        		if (!uploadDir.exists()) {
+        		    uploadDir.mkdir();
+        		    System.out.println("project folder does not exist.");
+        		} else {
+        			System.out.println("project folder exists.");
         		}
         		
 		        File uploadedFile = 

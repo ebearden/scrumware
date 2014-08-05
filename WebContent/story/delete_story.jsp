@@ -16,5 +16,6 @@
   <a href="stories"><button class="btn btn-primary">Return to stories</button></a>
   </div>
   <%@ include file="../partials/include_bootstrap_javascript.jsp"%>
+
 </body>
 </html>
