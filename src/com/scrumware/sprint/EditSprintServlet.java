@@ -38,7 +38,7 @@ public class EditSprintServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		
 		if (!isValidSession(request)) {
 			response.sendRedirect(request.getContextPath() + "/login.jsp");
@@ -47,11 +47,12 @@ public class EditSprintServlet extends HttpServlet {
 		
 		String sprintId = request.getParameter(Constants.SPRINT_ID);
 		Sprint sprint = SprintDB.getSprint(Integer.parseInt(sprintId));
+		ArrayList<Project> projects = ProjectDB.getAllProjects();
 		ArrayList<User> userList = UserDB.getUsers();
 		
 
 		request.setAttribute(Constants.STATUS, Status.values());
-		request.setAttribute("users", userList);
+		request.setAttribute("projects", projects);
 		request.setAttribute("sprint", sprint);
 		
 		request.getRequestDispatcher("/sprint/edit_sprint.jsp").forward(request, response);
@@ -107,6 +108,11 @@ public class EditSprintServlet extends HttpServlet {
 		
 		Sprint savedSprint = SprintDB.saveSprint(sprint);
 		request.setAttribute("sprint", savedSprint);
+		if (sprintId == null) {
+			request.getRequestDispatcher("/sprint/view?sprint_id=" + savedSprint.getSprintId()).forward(request, response);
+		} else {
+			request.getRequestDispatcher("/sprint/view").forward(request, response);			
+		}
 		
 	}
 	

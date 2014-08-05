@@ -1,6 +1,7 @@
 package com.scrumware.sprint;
 
 import java.sql.Date;
+import java.text.DateFormat;
 
 import org.json.JSONObject;
 
@@ -101,6 +102,14 @@ public class Sprint implements IJsonObject{
 	
 	public int getUpdatedBy() {
 		return this.updatedBy;
+	}
+	
+	public String getCreatedOnDateAsString() {
+		return DateFormat.getDateTimeInstance().format(createdOn);
+	}
+	
+	public String getUpdatedOnDateAsString() {
+		return DateFormat.getDateTimeInstance().format(updatedOn);
 	}
 	
 	public int getProjectId(){

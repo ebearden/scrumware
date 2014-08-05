@@ -52,15 +52,15 @@ public class SprintDB {
 		if ((Integer)(sprint.getSprintId()) != null) {
 			isUpdate = true;
 			sprintSQL = "UPDATE Sprint SET sprint_name=?, description=?, "
-					+ "status_id=?, sprint_id=?, "
+					+ "status_id=?,  "
 					+ "updated=NOW(), updated_by=?,project_id=? "
 					+ "WHERE sprint_id=?;";
 					
 		}
 		else {
 			sprintSQL = "INSERT INTO Sprint (sprint_name, description, status_id, "
-					+ "created_by, updated_by, project_id) "
-					+ "VALUES (?, ?, ?, ?, ?, ?);";	
+					+ "created_by, updated_by, project_id, start_date, end_date, created, updated) "
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW());";	
 		}
 		
 		try {
@@ -73,16 +73,19 @@ public class SprintDB {
 			
 			
 			if (isUpdate) {
-				sprintStatement.setInt(4, sprint.getSprintId());
-				sprintStatement.setInt(6, sprint.getUpdatedBy());
-				sprintStatement.setInt(7, sprint.getProjectId());
+				
+				sprintStatement.setInt(4, sprint.getUpdatedBy());
+				sprintStatement.setInt(5, sprint.getProjectId());
+				sprintStatement.setInt(6, sprint.getSprintId());
 			} else {
 				sprintStatement.setInt(4, sprint.getCreatedBy());
 				sprintStatement.setInt(5, sprint.getCreatedBy());
 				sprintStatement.setInt(6, sprint.getProjectId());
+				sprintStatement.setDate(7, sprint.getStartDate());
+				sprintStatement.setDate(8, sprint.getEndDate());
 			}
 			
-
+			System.out.println(sprintStatement.toString());
 			
 			int result = sprintStatement.executeUpdate();
 			if (result == 1) {
