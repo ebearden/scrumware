@@ -32,8 +32,6 @@ public class SessionFilter implements Filter {
         
         boolean authorized = false;
     	boolean ok_url = false;
-
-        
         
         HttpSession sess = request.getSession(false);
         if (sess != null) {
@@ -59,8 +57,8 @@ public class SessionFilter implements Filter {
             chain.doFilter(request, response);
             return;
         } else {
-        	//response.sendRedirect(request.getContextPath() + "/login.jsp");
-            request.getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
+        	response.sendRedirect(request.getContextPath() + "/login.jsp");
+            //request.getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
             return;
         }
         

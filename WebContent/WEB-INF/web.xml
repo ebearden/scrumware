@@ -9,12 +9,7 @@
     </filter-class>
     <init-param>
         <param-name>avoid-urls</param-name>
-        <param-value>
-	        /SCRUMware/login.jsp,
-	        /SCRUMware/Login,
-	        /login.jsp,
-	        /Login
-        </param-value>
+        <param-value>/SCRUMware/login.jsp,/SCRUMware/Login,/login.jsp,/Login</param-value>
     </init-param>
 </filter>
 <filter-mapping>
