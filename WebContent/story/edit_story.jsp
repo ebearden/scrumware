@@ -89,7 +89,7 @@
     
   <!-- Confirm Delete Modal -->
     <div class="modal fade" id="confirmDeleteModal" tabindex="-1"
-      role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="background-image: url('http://i.imgur.com/ECYOWOC.gif'); background-size:cover;">
+      role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog" style="left: 0px;">
         <div class="modal-content">
           <div class="modal-header">

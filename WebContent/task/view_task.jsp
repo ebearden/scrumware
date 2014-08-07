@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<title>Edit</title>
-
 <%@ include file="../partials/include_bootstrap_partial.jsp"%>
+<title>Task | ${task.taskId}</title>
+
 </head>
 <body role="document">
   <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
