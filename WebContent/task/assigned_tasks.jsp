@@ -86,7 +86,7 @@
         		   if (response === "fail"){
         			   panelList.sortable('cancel');
         		       $(ui.sender).sortable('cancel');
-        		       alert(response);	
+        		       alert("The task cannot be closed because it has open dependencies.");	
         		   }
         	   });
            }
@@ -134,7 +134,6 @@
     				</li>
     			</c:if>
    			</c:forEach>
-   			
 		</ul>
 	</div>
 	

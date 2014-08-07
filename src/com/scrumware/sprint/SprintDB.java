@@ -175,7 +175,6 @@ public class SprintDB {
 	public static boolean deleteSprint(Sprint sprint) {
 		Connection connection = ConnectionPool.getInstance().getConnection();
 
-		PreparedStatement removeTasksStatement = null;
 		PreparedStatement removeFromStoryStatement = null;
 		PreparedStatement deleteSprintStatement = null;
 
