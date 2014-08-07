@@ -18,6 +18,8 @@ import com.scrumware.role.RoleDB;
 
 /**
  * Servlet implementation class EditUser
+ * 
+ * @author emily kubic
  */
 @WebServlet(name = "EditUser", urlPatterns = {"/EditUser", "/user/edituser"})
 public class EditUser extends HttpServlet {
@@ -40,14 +42,7 @@ public class EditUser extends HttpServlet {
     			return;
     		}
         	
-        	HttpSession sess = request.getSession(false);
-        	int user_role = 0;
-        	Object ob = sess.getAttribute("role");
-            if (ob instanceof Integer) {
-            	user_role = (Integer) ob;
-            } else {
-            	System.out.println("WTF this should be an int.");
-            }
+        	int user_role = SessionHelper.getSessionUserRole(request);
             
             if (user_role != 1) {
             	response.sendRedirect(request.getContextPath() + "/home.jsp");

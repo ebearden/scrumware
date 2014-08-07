@@ -9,7 +9,7 @@ import javax.sql.DataSource;
  * the database holding Product data by creating a context and setting the 
  * location of the database
  * 
- * @see Data.DButil
+ * @see DButil
  *
  * @author eakubic
  */

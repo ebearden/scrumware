@@ -20,6 +20,10 @@ import com.scrumware.task.Task;
 import com.scrumware.user.User;
 import com.scrumware.user.UserDB;
 
+/**
+ * @author emily kubic
+ */
+
 @WebServlet(name = "Login", urlPatterns = {"/Login"})
 public class Login extends HttpServlet {
 	

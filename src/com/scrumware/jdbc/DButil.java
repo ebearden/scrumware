@@ -5,8 +5,6 @@ import java.sql.*;
 /**
  *This class manages SQL query statements and result sets
  * 
- * @see Data.ProductDB
- * 
  * @author eakubic
  */
 public class DButil {

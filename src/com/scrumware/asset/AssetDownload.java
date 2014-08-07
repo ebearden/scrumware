@@ -14,6 +14,9 @@ import com.scrumware.login.SessionHelper;
 
 /**
  * Servlet implementation class AssetDownload
+ * 
+ * @author emily kubic
+ * 
  */
 @WebServlet(name="/AssetDownload", urlPatterns={"/AssetDownload", "/asset/download"})
 public class AssetDownload extends HttpServlet {

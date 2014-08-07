@@ -4,6 +4,10 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/*
+ * @author Emily Kubic
+ */
+
 public final class PasswordService
 {
 	private static PasswordService instance;

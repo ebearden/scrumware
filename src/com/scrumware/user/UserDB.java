@@ -6,6 +6,10 @@ import java.sql.*;
 
 import com.scrumware.jdbc.*;
 
+/**
+ * @author emily kubic
+ */
+
 public class UserDB {
 	
 private static ArrayList<User> users = null;

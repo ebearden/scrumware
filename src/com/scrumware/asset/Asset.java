@@ -7,6 +7,13 @@ import org.json.JSONObject;
 import com.scrumware.config.Constants;
 import com.scrumware.interfaces.IJsonObject;
 
+/**
+ * @author elvin bearen
+ * 
+ * mods: emily kubic
+ * 
+ */
+
 public class Asset implements IJsonObject {
 	//Base Variables
 	private int assetId;

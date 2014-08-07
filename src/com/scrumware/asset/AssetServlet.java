@@ -20,6 +20,9 @@ import com.scrumware.user.UserDB;
 
 /**
  * Servlet implementation class AssetServlet
+ * 
+ * @author emily kubic
+ * 
  */
 @WebServlet(name = "/AssetServlet", urlPatterns = {"/AssetServlet", "/asset/assets"})
 public class AssetServlet extends HttpServlet {

@@ -6,9 +6,11 @@ import java.sql.*;
 
 import com.scrumware.jdbc.*;
 
-public class AssetDB {
-	
+/**
+ * @author emily kubic
+ */
 
+public class AssetDB {
 	
 private static ArrayList<Asset> assets = null;
     

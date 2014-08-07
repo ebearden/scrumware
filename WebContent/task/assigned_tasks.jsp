@@ -128,7 +128,7 @@
     	<ul id="draggablePanelList1" class="list-unstyled emptylist">
     		<c:forEach var="t" items="${task_list}">
 				<c:if test ="${t.statusId == 1}">
-    				<li id="${t.taskId}" class="panel panel-info">
+    				<li id="${t.taskId}" class="panel panel-primary">
     		    		<div class="panel-heading">${t.name} </div>
         				<div class="panel-body">${t.description}</div>
     				</li>
@@ -143,9 +143,9 @@
 		<ul id="draggablePanelList2" class="list-unstyled emptylist">
     		<c:forEach var="t" items="${task_list}">
 				<c:if test ="${t.statusId == 2}">
-    				<li id= "${t.taskId}" class="panel panel-info">
-    		    		<div class="panel-heading">${t.name} </div>
-        				<div class="panel-body">${t.description}</div>
+    				<li id= "${t.taskId}" class="panel panel-primary">
+    		    		<div class="panel-default panel-heading">${t.name} </div>
+        				<div class="panel-default panel-body">${t.description}</div>
     				</li>
     			</c:if>
    			</c:forEach>
@@ -158,7 +158,7 @@
 		<ul id="draggablePanelList3" class="list-unstyled emptylist">
     		<c:forEach var="t" items="${task_list}">
 				<c:if test ="${t.statusId == 3}">
-    				<li id= "${t.taskId}" class="panel panel-info">
+    				<li id= "${t.taskId}" class="panel panel-primary">
     		    		<div class="panel-heading">${t.name} </div>
         				<div class="panel-body">${t.description}</div>
     				</li>
@@ -172,7 +172,7 @@
 		<ul id="draggablePanelList4" class="list-unstyled emptylist">
 			<c:forEach var="t" items="${task_list}">
 				<c:if test ="${t.statusId == 4}">
-    				<li id= "${t.taskId}" class="panel panel-info">
+    				<li id= "${t.taskId}" class="panel panel-primary">
     		    		<div class="panel-heading">${t.name} </div>
         				<div class="panel-body">${t.description}</div>
     				</li>
