@@ -14,14 +14,14 @@ import java.io.Serializable;
 
 
 /**
- *  This model class creates a Product Object and provides getters and setters
+ *  This model class creates an User Object and provides getters and setters
  * for this object.
  * 
- * @see Data.ProductDB
+ * @see UserDB
  * 
  * @author eakubic
  */
-//public class User implements Serializable
+
 
 public class User implements Serializable
 {

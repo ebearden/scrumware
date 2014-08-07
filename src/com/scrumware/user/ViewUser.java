@@ -18,6 +18,8 @@ import com.scrumware.role.*;
 
 /**
  * Servlet implementation class ViewUser
+ * 
+ * @author emily kubic
  */
 @WebServlet(name = "ViewUser", urlPatterns = {"/ViewUser", "/user/viewuser"})
 public class ViewUser extends HttpServlet {

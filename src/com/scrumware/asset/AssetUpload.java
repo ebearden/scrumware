@@ -23,6 +23,7 @@ import com.scrumware.login.SessionHelper;
 
 /**
  * Servlet implementation class AssetUpload
+ * @author Emily Kubic
  */
 @WebServlet(name="/AssetUpload", urlPatterns={"/AssetUpload","/asset/upload"})
 public class AssetUpload extends HttpServlet {

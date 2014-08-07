@@ -6,6 +6,9 @@ import java.sql.*;
 
 import com.scrumware.jdbc.*;
 
+/**
+ * @author emily kubic
+ */
 
 public class RoleDB {
 	

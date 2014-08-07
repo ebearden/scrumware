@@ -20,6 +20,8 @@ import com.scrumware.user.*;
 
 /**
  * Servlet implementation class ResetUserPass
+ * 
+ * @author emily kubic
  */
 @WebServlet(name = "ResetUserPass", urlPatterns = {"/ResetUserPass", "/user/resetuserpass"})
 public class ResetUserPass extends HttpServlet {
@@ -42,14 +44,7 @@ public class ResetUserPass extends HttpServlet {
     			return;
     		}
         	
-        	HttpSession sess = request.getSession(false);
-        	int user_role = 0;
-        	Object ob = sess.getAttribute("role");
-            if (ob instanceof Integer) {
-            	user_role = (Integer) ob;
-            } else {
-            	System.out.println("WTF this should be an int.");
-            }
+        	int user_role = SessionHelper.getSessionUserRole(request);
             
             if (user_role != 1) {
             	response.sendRedirect(request.getContextPath() + "/home.jsp");
@@ -62,12 +57,7 @@ public class ResetUserPass extends HttpServlet {
             
         	if (request.getParameter("id")==null) {
         		
-                ob = sess.getAttribute("id");
-                if (ob instanceof Integer) {
-                	id = (Integer) ob;
-                } else {
-                	System.out.println("WTF this should be an int.");
-                }
+                id = SessionHelper.getSessionUserId(request);
 
                 //System.out.println(id);
                 //System.out.println(request.getParameter("old_password"));
@@ -112,6 +102,7 @@ public class ResetUserPass extends HttpServlet {
             	
             	db.resetPassword(id, new_pass);
             	
+            	HttpSession sess = request.getSession(false);
             	if (id == (Integer) sess.getAttribute("id")) {
             		request.setAttribute("user_name",(String) sess.getAttribute("user_name"));
             		getServletContext().getRequestDispatcher("/home.jsp").forward(request, response);

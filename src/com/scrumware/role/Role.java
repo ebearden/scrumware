@@ -1,5 +1,9 @@
 package com.scrumware.role;
 
+/**
+ * @author emily kubic
+ */
+
 public class Role {
 	
 	private int id;

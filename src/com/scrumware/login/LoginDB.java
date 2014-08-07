@@ -7,6 +7,10 @@ import java.sql.*;
 
 import com.scrumware.jdbc.*;
 
+/**
+ * @author emily kubic
+ */
+
 public class LoginDB {
 	
 	private String user_name;

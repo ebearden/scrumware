@@ -16,6 +16,7 @@ import com.scrumware.login.*;
 
 /**
  * Servlet implementation class AddUser
+ * @author emily kubic
  */
 @WebServlet(name = "AddUser", urlPatterns = {"/AddUser", "/user/adduser"})
 public class AddUser extends HttpServlet {
