@@ -16,6 +16,7 @@ public class LoginDB {
 	private String user_name;
 	private int id;
 	private int role;
+	private int active;
 	//private User user;
 	
 	/*no arg constructor
@@ -27,6 +28,7 @@ public class LoginDB {
 		this.user_name = "";
 		this.id = 0;
 		this.role = 0;
+		this.active = 0;
 		
 	}
 	
@@ -37,6 +39,7 @@ public class LoginDB {
 		this.user_name = name;
 		this.id = 0;
 		this.role = 0;
+		this.active = 0;
 		//this.user = new User();
 		
 	
@@ -57,7 +60,7 @@ public class LoginDB {
      * set the statement to be executed in String query
      */        
             
-            String query = "SELECT user_id, password, user_role FROM Sys_User WHERE username = ?";
+            String query = "SELECT user_id, password, user_role, active FROM Sys_User WHERE username = ?";
             
     /*
      * try the query, if it works process data, otherwise catch the db exception
@@ -74,6 +77,7 @@ public class LoginDB {
             		//System.out.println("id: "+this.id);
             		this.role = rs.getInt("user_role");
             		//System.out.println("role: "+this.id);
+            		this.active = rs.getInt("active");
             	}
             } 
             
@@ -101,7 +105,7 @@ public class LoginDB {
 	/*check to see if credentials matched DB*/
 	
 	public boolean isValid() {
-		if (this.role!=0 && this.id!=0) {
+		if (this.role!=0 && this.id!=0 && this.active!=0) {
 			return true;
 		} else {
 			return false;
@@ -121,6 +125,14 @@ public class LoginDB {
 	public int getRole() {
 		
 		return this.role;
+		
+	}
+	
+	/*return user active id for session variables*/
+	
+	public int getActive() {
+		
+		return this.active;
 		
 	}
 	

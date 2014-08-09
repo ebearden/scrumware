@@ -141,21 +141,21 @@ public class ProjectDB {
 		PreparedStatement statement = null;
 		String[] sql = new String[8];
 		//Delete Dependent On Task Dependencies in Project
-		sql[0] = "DELETE Task_Dependencies AS td FROM Task_Dependencies td RIGHT JOIN Task t ON t.task_id=td.depends_on RIGHT JOIN Story s ON s.story_id=t.story_id RIGHT JOIN Project p ON p.project_id=s.project_id WHERE p.project_id=?;";
+		sql[0] = "DELETE Task_Dependencies FROM Task_Dependencies RIGHT JOIN Task ON Task.task_id=Task_Dependencies.depends_on RIGHT JOIN Story ON Story.story_id=Task.story_id RIGHT JOIN Project ON Project.project_id=Story.project_id WHERE Project.project_id=?;";
 		//Delete Dependent of Task Dependencies in Project
-		sql[1] = "DELETE Task_Dependencies AS td FROM Task_Dependencies td RIGHT JOIN Task t ON t.task_id=td.task_id RIGHT JOIN Story s ON s.story_id=t.story_id RIGHT JOIN Project p ON p.project_id=s.project_id WHERE p.project_id=?;";
+		sql[1] = "DELETE Task_Dependencies FROM Task_Dependencies RIGHT JOIN Task ON Task.task_id=Task_Dependencies.task_id RIGHT JOIN Story ON Story.story_id=Task.story_id RIGHT JOIN Project ON Project.project_id=Story.project_id WHERE Project.project_id=?;";
 		//Delete Tasks in Project
-		sql[2] = "DELETE Task AS t FROM Task t RIGHT JOIN Story s ON s.story_id=t.story_id RIGHT JOIN Project p ON p.project_id=s.project_id WHERE p.project_id=?;";
+		sql[2] = "DELETE Task FROM Task RIGHT JOIN Story ON Story.story_id=Task.story_id RIGHT JOIN Project ON Project.project_id=Story.project_id WHERE Project.project_id=?;";
 		//Delete Stories in Project
-		sql[3] = "DELETE Story AS s FROM Story s RIGHT JOIN Project p ON p.project_id=s.project_id WHERE p.project_id=?;";
+		sql[3] = "DELETE Story FROM Story RIGHT JOIN Project ON Project.project_id=Story.project_id WHERE Project.project_id=?;";
 		//Delete Sprints in Project
-		sql[4] = "DELETE Sprint AS s FROM Sprint s RIGHT JOIN Project p ON p.project_id=s.project_id WHERE p.project_id=?;";
+		sql[4] = "DELETE Sprint FROM Sprint RIGHT JOIN Project ON Project.project_id=Sprint.project_id WHERE Project.project_id=?;";
 		//Delete User/Project Association
-		sql[5] = "DELETE Project_Users AS pu FROM Project_Users pu RIGHT JOIN Project p ON p.project_id=pu.project_id WHERE p.project_id=?;";
+		sql[5] = "DELETE Project_Users FROM Project_Users RIGHT JOIN Project ON Project.project_id=Project_Users.project_id WHERE Project.project_id=?;";
 		//Delete Project Assets
-		sql[6] = "Delete Asset AS a FROM Asset a RIGHT JOIN Project p ON p.project_id=a.project_id WHERE p.project_id=?";
+		sql[6] = "Delete Asset FROM Asset RIGHT JOIN Project ON Project.project_id=Asset.project_id WHERE Project.project_id=?";
 		//Delete Project
-		sql[7] = "DELETE Project AS p FROM Project p WHERE p.project_id=?;";
+		sql[7] = "DELETE Project FROM Project WHERE Project.project_id=?;";
 
 		boolean success = false;
 		

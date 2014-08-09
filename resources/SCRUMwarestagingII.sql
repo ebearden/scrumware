@@ -4,6 +4,7 @@ use scrumwarestaging;
 # Rebuild blank tables on localhost.
 #----------------------------------
 drop table if exists Project_Users;
+drop table if exists Asset;
 drop table if exists Task_Dependencies;
 drop table if exists Task;
 drop table if exists Story;
@@ -12,7 +13,6 @@ drop table if exists Project;
 drop table if exists Sys_User;
 drop table if exists Status;
 drop table if exists User_Role;
-drop table if exists Asset;
 #----------------------------------
 
 create table if not exists User_Role (
@@ -140,19 +140,26 @@ create table if not exists Task (
     FOREIGN KEY (assigned_to) REFERENCES Sys_User(user_id)
 ) auto_increment=1;
 
-create table if not exists Asset (
-    asset_id int unsigned not null auto_increment,
-    created datetime not null default '0000-00-00 00:00:00',
-    created_by int unsigned not null,
-    updated datetime not null default '0000-00-00 00:00:00',
-    updated_by int unsigned not null,
-    
-    asset_name char(40),
-    description text(1000),
-    location char(80),
-    
-    PRIMARY KEY (asset_id)
-) auto_increment=1;
+
+CREATE TABLE `Asset` (
+  `asset_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_by` int(10) unsigned NOT NULL,
+  `updated` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_by` int(10) unsigned NOT NULL,
+  `asset_name` char(40) DEFAULT NULL,
+  `description` text,
+  `location` longtext,
+  `project_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`asset_id`),
+  KEY `project_id` (`project_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Constraints for table `Asset`
+--
+ALTER TABLE `Asset`
+  ADD CONSTRAINT `Asset_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `Project` (`project_id`);
 
 create table if not exists Task_Dependencies (
     dependency_id int unsigned not null auto_increment,
