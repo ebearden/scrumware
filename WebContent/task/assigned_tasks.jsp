@@ -81,12 +81,13 @@
         	   var taskItem = ui.item.context.id;
         	   var newStatus = ui.item.parent().attr("id")
         	           	   
-        	   $.get('UpdateTaskStatus',{taskID: taskItem,statusID: newStatus},function(response){
+        	   $.post('UpdateTaskStatus',{taskID: taskItem,statusID: newStatus},function(response){
         		   
         		   if (response === "fail"){
         			   panelList.sortable('cancel');
         		       $(ui.sender).sortable('cancel');
-        		       alert("The task cannot be closed because it has open dependencies.");	
+        		       alert("The task cannot be closed because it has open dependencies.");
+        		       
         		   }
         	   });
            }
