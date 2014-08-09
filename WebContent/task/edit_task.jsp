@@ -7,7 +7,8 @@
 <title>Edit Task</title>
 <script>
 function addDependency() {
-    var options = document.getElementsByName('story_id')[0];
+    var options = document.getElementsByName('story_id');
+    console.log(options);
     for (var i in options) {
         if (options[i].selected) {
         	var location = 'dependencies?story_id=' + options[i].value;
@@ -91,8 +92,10 @@ function addDependency() {
         <!-- Add Dependency -->
         <!-- Delete -->
         <button onclick="return false;" class="btn btn-danger" data-toggle="modal" data-target="#confirmDeleteModal">Delete</button>
-    </form><br />
-        <button onclick="return addDependency();" class="btn btn-primary">Add a dependency</button>
+    </form><br /> 
+    <a href="dependencies?story_id=${task.storyId}&task_id=${task.taskId}">
+        <button class="btn btn-primary">Add a dependency</button>
+    </a>
     
     <!-- Confirm Delete Modal -->
     <div class="modal fade" id="confirmDeleteModal" tabindex="-1"
