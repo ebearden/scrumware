@@ -44,7 +44,7 @@
           <td>${s.storyID}</td>          
           <td>${s.storyName}</td>          
           <td>${s.description}</td>          
-          <td>${s.statusID}</td>
+          <td>${s.getStatusAsString()}</td>
           <td>
             <a href="../story/view?story_id=${s.storyID}">
                 <button class="btn btn-primary">View</button>
