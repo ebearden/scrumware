@@ -5,12 +5,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <%@ include file="../partials/include_bootstrap_partial.jsp"%>
-<title>Your Profile</title>
+<title>Delete Asset</title>
 </head>
 <body>
 <%-- 
-    Document   : ViewUsers
-    Created on : Jun 28, 2014
+    Document   : Delete Asset
+    Created on : Aug 10, 2014
     Author     : eakubic
 
     This page uses custom tags with the prefix c
@@ -30,7 +30,7 @@
   			
   			<div class = "row">
 	            <div class="col-md-4 col-md-offset-4">
-	            	<h3 class="text-center">User Profile</h3>
+	            	<h3 class="text-center">Asset Information</h3>
 	            </div>
             </div>
             <div class = "row">
@@ -41,18 +41,33 @@
             </div>
             <div id="user-profile-table" class="col-md-4 col-md-offset-4">
             <table id="user-profile-table" class="table">       
-                <tr><th>User Name</th><td>${requestScope.user.username}</td></tr>
-	            <tr><th>First Name</th><td>${requestScope.user.firstname}</td></tr>
-	            <tr><th>Last Name</th><td>${requestScope.user.lastname}</td></tr>
-	            <tr><th>User Email</th><td>${requestScope.user.email}</td></tr>
-                <tr><th>User Role</th>
-                	<c:forEach var="r" items="${roles}">
-                       	<c:if test="${requestScope.user.role == r.id}">
-                       		<td>${r.rolename}</td>
+                <tr><th>File Name</th><td>${asset.name}</td></tr>
+	            <tr><th>File Description</th><td>${asset.description}</td></tr>
+	            <tr><th>Created On</th><td>${asset.created}</td></tr>
+                <tr><th>Created By</th>
+                	<c:forEach var="u" items="${users}">
+                       	<c:if test="${asset.createdBy == u.id}">
+                       		<td>${u.username}</td>
+                       	</c:if>
+                    </c:forEach>
+                </tr>
+	            <tr><th>Updated On</th><td>${asset.created}</td></tr>
+                <tr><th>Updated By</th>
+                	<c:forEach var="u" items="${users}">
+                       	<c:if test="${asset.updatedBy == u.id}">
+                       		<td>${u.username}</td>
                        	</c:if>
                     </c:forEach>
                 </tr>
             </table>
+		</div>
+		<div class="col-md-2 col-md-offset-5">
+			<a href="../asset/delete?id=${asset.assetID}&confirm=true">
+            	<button class="btn btn-success">Delete</button>
+            </a>
+            <a href="../asset/assets?project_id=${asset.project}">
+            	<button class="btn btn-danger">Cancel</button>
+            </a>
 		</div>
 </div>
 <%@ include file="../partials/include_bootstrap_javascript.jsp"%>

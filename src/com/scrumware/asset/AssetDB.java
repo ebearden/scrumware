@@ -176,21 +176,76 @@ private static ArrayList<Asset> assets = null;
      * @return single instance of User u
      */
     
-/*
+
     public static Asset getAsset(int id)
     {
-        assets = getAssets();       
-        for (Asset a : assets)
-        {            
-            if (id != 0 && 
-                id == a.getAssetID())
-            {
-                return a;
-            }
-        }        
-        return null;
+    	/*
+    	 * new ArrayList user instantiated
+    	 */
+    	     
+    	        Asset a = new Asset();
+    	  
+    	/*
+    	 * get an instance of a pool connection, then instantiate PreparedStatement ps
+    	 * and ResultSet rs
+    	 */
+    	        
+    	        ConnectionPool pool = ConnectionPool.getInstance();
+    	        Connection connection = pool.getConnection();
+    	        PreparedStatement ps = null;
+    	        ResultSet rs = null;
+    	          
+    	/*
+    	 * set the statement to be executed in String query
+    	 */
+    	    
+    	        
+    	        String query = "SELECT * FROM Asset WHERE asset_id = ?";
+    	  
+    	/*
+    	 * try the query, if it works process data and return products, otherwise
+    	 * catch the db exception
+    	 */    
+    	        
+    	        try
+    	        {
+    	            ps = connection.prepareStatement(query);
+    	            ps.setInt(1, id);
+    	            rs = ps.executeQuery();
+    	            while (rs.next())
+    	            {
+    	                
+    	                a.setAssetID(rs.getInt("asset_id"));
+    	                a.setCreated(rs.getDate("created"));
+    	                a.setCreatedBy(rs.getInt("created_by"));
+    	                a.setUpdated(rs.getDate("updated"));
+    	                a.setUpdatedBy(rs.getInt("updated_by"));
+    	                a.setName(rs.getString("asset_name"));
+    	                a.setDescription(rs.getString("description"));
+    	                a.setLocation(rs.getString("location"));
+    	                a.setProjectID(rs.getInt("project_id"));
+    	            }
+    	            return a;
+    	        }
+    	        catch (SQLException e){
+    	            e.printStackTrace();
+    	            return null;
+    	        }    
+    	        
+    	/*
+    	 * close out the result set, the statement and free the pool connection
+    	 */    
+    	        
+    	        finally
+    	        {
+    	            DButil.closeResultSet(rs);
+    	            DButil.closePreparedStatement(ps);
+    	            pool.freeConnection(connection);
+    	        }
+    	        
+    	    
     }
-*/
+
     
     /**
      * This method checks to see if an Asset is present in ArrayList assets
@@ -199,14 +254,13 @@ private static ArrayList<Asset> assets = null;
      * @return true or false
      */
     
-/*
-    public static boolean exists(int id)
+
+    public static boolean exists(String name, int project_id)
     {
-    	 assets = getAssets();       
+    	 assets = getAssets(project_id);       
          for (Asset a : assets)
          {            
-             if (id != 0 && 
-                 id == a.getAssetID())
+             if (name.equals(a.getName()))
              {
                  return true;
              }
@@ -214,7 +268,7 @@ private static ArrayList<Asset> assets = null;
         return false;
     }
     
- */   
+  
     
     /**
      *This method inserts the data from an Asset object into the db that
@@ -300,7 +354,8 @@ private static ArrayList<Asset> assets = null;
  */  
         
         String query = "UPDATE Asset SET updated = now(),"+
-        		" updated_by = ?"+
+        		" updated_by = ?, "+
+        		" description = ?"+
                 " WHERE asset_id = ?";
 
  /*
@@ -311,7 +366,8 @@ private static ArrayList<Asset> assets = null;
         {
             ps = connection.prepareStatement(query);
             ps.setInt(1, a.getUpdatedBy());
-            ps.setInt(2, a.getAssetID());
+            ps.setString(2, a.getDescription());
+            ps.setInt(3, a.getAssetID());
             return ps.executeUpdate();
         }
         catch(SQLException e)

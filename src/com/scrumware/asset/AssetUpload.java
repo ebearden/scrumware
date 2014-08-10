@@ -46,16 +46,16 @@ public class AssetUpload extends HttpServlet {
     protected void processRequest(HttpServletRequest request,
         HttpServletResponse response)
         throws ServletException, IOException {
+    	
     	if (!SessionHelper.validateSession(request, response)) {
 			return;
 		}
     	
     	response.setContentType("text/html;charset=UTF-8");
     	
-    	com.scrumware.login.SessionHelper.validateSession(request, response);
-    	
     	user_id = com.scrumware.login.SessionHelper.getSessionUserId(request);
         project_id = Integer.parseInt(request.getParameter("project_id"));
+        String errmsg = null;
     	
     	
     	// Check that we have a file upload request  
@@ -86,83 +86,105 @@ public class AssetUpload extends HttpServlet {
         		
         		Iterator<FileItem> iter = items.iterator();
         		
-        		FileItem item = iter.next();
+        		FileItem a_file = iter.next();
+        		FileItem a_desc = iter.next();
+        		boolean update = false;
+        		boolean exists = false;
+        		
 
+    			System.out.println("Starting Logic");
+        		
+        		if (request.getParameter("update") != null) {
+        			update = Boolean.parseBoolean(request.getParameter("update"));
+        			System.out.println("update = " + update);
+        		}
+        		
+        		if (a_file.getSize() >= upload.getFileSizeMax()) {
+        			System.out.println("file size: " + a_file.getSize());
+        			System.out.println("upload size: " + upload.getSizeMax());
+        			errmsg = "Max file size exceeded.";
+        		}
+        		
         		Asset asset = new Asset();
         		
-        		String fileName = item.getName();  	
+        		String fileName = a_file.getName();  	
         		
-        		asset.setName(fileName);
-		        
-        		System.out.println(servletContext+File.separator+folderLocation+File.separator+project_id+
-        				File.separator+fileName);
-        		
-        		String uploadPath = getServletContext().getRealPath("")
-        			    + File.separator + folderLocation;
-        		
-        		//String uploadPath = File.separator + folderLocation + File.separator + project_id;
-        		
-        		File uploadDir = new File(uploadPath);
-        		if (!uploadDir.exists()) {
-        		    uploadDir.mkdir();
-        		    System.out.println("projectassets does not exist.");
-        		} else {
-        			System.out.println("projectassets exists.");
+        		if (AssetDB.exists(fileName, project_id)) {
+        			asset = AssetDB.getAsset(fileName, project_id);
+        			exists = true;
         		}
         		
-        		uploadPath = uploadPath+ File.separator + project_id;
-        		
-        		uploadDir = new File(uploadPath);
-        		if (!uploadDir.exists()) {
-        		    uploadDir.mkdir();
-        		    System.out.println("project folder does not exist.");
-        		} else {
-        			System.out.println("project folder exists.");
+        		if (exists == true && update == false) {
+        			System.out.println("already exists");
+        			errmsg="This file already exists.  "+
+        					"Do you want to overwrite it with a new version?<br/>"+
+        					"If so, please select the file again and click \"Confirm\"";
         		}
         		
-		        File uploadedFile = 
-		        		new File(uploadPath+File.separator+fileName); 
-		        
-		        asset.setLocation(uploadPath+File.separator+fileName);
-		        
-		        item.write(uploadedFile);
+        		if (errmsg != null && update == false) {
+        			System.out.println("setting params");
+        			request.setAttribute("exists", exists);
+        			request.setAttribute("errmsg", errmsg);
+        			request.setAttribute("project_id", project_id);
+        			request.setAttribute("a_desc", a_desc.getString());
+        			getServletContext().getRequestDispatcher("/asset/asset_upload.jsp?project_id="+project_id).forward(request, response);
+        			
+        		} else {
         		
-        		item = iter.next();
-        		
-        		asset.setDescription(item.getString());
-        		
-        		asset.setProjectID(project_id);
-        		
-        		asset.setCreatedBy(user_id);
-        		asset.setUpdatedBy(user_id);
-        		
-        		AssetDB assetdb = new AssetDB();
-        		assetdb.insert(asset);
-        		
-        		/*
-        		while (iter.hasNext()) {
-        		    FileItem item = iter.next();
+			        
+	        		System.out.println(servletContext+File.separator+folderLocation+File.separator+project_id+
+	        				File.separator+fileName);
+	        		
+	        		String uploadPath = getServletContext().getRealPath("")
+	        			    + File.separator + folderLocation;
+	        		
+	        		//String uploadPath = File.separator + folderLocation + File.separator + project_id;
+	        		
+	        		File uploadDir = new File(uploadPath);
+	        		if (!uploadDir.exists()) {
+	        		    uploadDir.mkdir();
+	        		    System.out.println("projectassets does not exist.");
+	        		}
+	        		
+	        		uploadPath = uploadPath+ File.separator + project_id;
+	        		
+	        		uploadDir = new File(uploadPath);
+	        		if (!uploadDir.exists()) {
+	        		    uploadDir.mkdir();
+	        		    System.out.println("project folder does not exist.");
+	        		}
+	        		
+			        File uploadedFile = 
+			        		new File(uploadPath+File.separator+fileName); 
+			        
+			        a_file.write(uploadedFile);
+			        
+			        if (update) {
+			        	
+			        	System.out.println(a_desc.getString());
+		        		asset.setDescription(a_desc.getString());
+			        	asset.setUpdatedBy(user_id);
+			        	AssetDB.update(asset);
+			        	System.out.println("Updated file info.");
+			        
+			        } else {
+		        		asset.setName(fileName);
+				        
+				        asset.setLocation(uploadPath+File.separator+fileName);
+		        		asset.setDescription(a_desc.getString());
+		        		
+		        		asset.setProjectID(project_id);
+		        		
+		        		asset.setCreatedBy(user_id);
+		        		asset.setUpdatedBy(user_id);
+		        		
+		        		AssetDB.insert(asset);
+			        }
 
-        		    if (item.isFormField()) {
-        		        processFormField(item);
-        		    } else {
-        		        processUploadedFile(item);
-        		        
-        		        // Process a file upload  
-        		        String fileName = item.getName();  
-        		           
-        		        File uploadedFile = 
-        		        new File(servletContext.getAttribute("javax.servlet.context.tempdir")+
-        		        		File.separator+"projectassets"+File.separator+fileName);  
-        		        item.write(uploadedFile);   
-        		        
-        		    }
-        		}
-        		*/
-        		
-        	} 
-        	
-        	response.sendRedirect(request.getContextPath() + "/asset/assets?project_id="+project_id);
+	            	response.sendRedirect(request.getContextPath() + "/asset/assets?project_id="+project_id);
+	        		
+	        	} 
+        	}
         	
 		} catch(FileUploadException fue) {  
 			fue.printStackTrace();  
@@ -172,30 +194,13 @@ public class AssetUpload extends HttpServlet {
 			throw new ServletException(e.getMessage());  
 		}  
 	}  
-        	
-            
-    private void processFormField(FileItem item) {
-    	System.out.println("This is a form field:");
-    	System.out.println(item.getFieldName());
-    	System.out.println(item.getString());
-    	
-    }
-    
-    private void processUploadedFile(FileItem item) {
-    	System.out.println("This is a file:");
-    	System.out.println(item.getFieldName());
-    	System.out.println(item.getName());
-    	System.out.println(item.getSize());
-    	System.out.println(item.getContentType());
-    	
-    	
-    }
-
+     
     
     
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+    @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
@@ -206,6 +211,7 @@ public class AssetUpload extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+    @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		

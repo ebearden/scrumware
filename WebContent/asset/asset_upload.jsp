@@ -16,21 +16,43 @@
 	  <div id="main" class="container theme-showcase" role="main">
 	  
 	  <h1>Add an Asset</h1>
+		<c:if test="${errmsg != null}">
+			<p class="alert alert-danger">${errmsg}</p>
+		</c:if>
 	  
-		<form method="POST" action="upload?project_id=${param.project_id}" enctype="multipart/form-data" >
+		
+		<c:choose>
+	        <c:when test="${exists != null}">
+	        	<form method="POST" action="upload?update=true&project_id=${project_id}" enctype="multipart/form-data" >
+	        </c:when>
+	        <c:otherwise>
+	        	<form method="POST" action="upload?project_id=${param.project_id}" enctype="multipart/form-data" >
+	        </c:otherwise>
+        </c:choose>
+		
 		<!-- User Name -->
         <div class="form-group">
           <label for="file">File</label>
-           <input type="file" name="file" id="file" />
+           <input type="file" name="file" id="file" "/>
         </div>
         <div class="form-group">
           <label for="description">
            Description
           </label>
-           <input type="text" name="description"class="form-control" rows="3" />
+           <input type="text" name="description"class="form-control" rows="3" value="${a_desc}"/>
         </div>
         <!-- Submit -->
-        <button type="submit" class="btn btn-primary" name="upload" id="upload">Upload</button>
+        <c:choose>
+	        <c:when test="${exists != null}">
+	        	<button type="submit" class="btn btn-success" name="confirm" id="confirm">Confirm</button>
+	        	<a href="../asset/assets?project_id=${project_id}">
+	        		<button class="btn btn-danger" name="cancel">Cancel</button>
+	        	</a>
+	        </c:when>
+	        <c:otherwise>
+	        <button type="submit" class="btn btn-primary" name="upload" id="upload">Upload</button>
+	        </c:otherwise>
+        </c:choose>
        </form>
 	</div>
 <%@ include file="../partials/include_bootstrap_javascript.jsp"%>

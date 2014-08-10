@@ -32,7 +32,7 @@
 	        	</div>
 	        	<div class="col-md-2">
 	            	<a href="../asset/asset_upload.jsp?project_id=${project_id}">
-	            	<h3>New Asset</h3>
+	            	<h3>Upload Asset</h3>
 	            	</a>
 	            	
 	            </div>
@@ -63,12 +63,15 @@
                         	</c:if>
                         </c:forEach>
                         <td>
-                        	<button class="btn btn-danger">Delete</button>
+                        	<a href="../asset/delete?id=${a.assetID}">
+                        		<button class="btn btn-danger">Delete</button>
+                        	</a>
                         </td>	
                     </tr>
                 </c:forEach>
             </table>
 		</div>
+	
 </div>
 <%@ include file="../partials/include_bootstrap_javascript.jsp"%>
 </body>
