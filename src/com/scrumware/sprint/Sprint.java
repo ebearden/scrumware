@@ -6,6 +6,7 @@ import java.text.DateFormat;
 import org.json.JSONObject;
 
 import com.scrumware.config.Constants;
+import com.scrumware.config.Status;
 import com.scrumware.interfaces.IJsonObject;
 
 public class Sprint implements IJsonObject{
@@ -110,6 +111,10 @@ public class Sprint implements IJsonObject{
 	
 	public String getUpdatedOnDateAsString() {
 		return DateFormat.getDateTimeInstance().format(updatedOn);
+	}
+	
+	public String getStatusAsString() {
+		return Status.values()[statusId - 1].getDescription();
 	}
 	
 	public int getProjectId(){

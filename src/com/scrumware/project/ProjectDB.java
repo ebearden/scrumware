@@ -40,8 +40,8 @@ public class ProjectDB {
 		}
 		else {
 			projectSQL = "INSERT INTO Project(project_name, description, project_manager, planned_start_date, "
-					+ "planned_end_date, status_id, created_by, updated_by) "
-					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";	
+					+ "planned_end_date, status_id, created_by, updated_by, created, updated) "
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW());";	
 		}
 		
 		try {
