@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.scrumware.config.Constants;
+import com.scrumware.config.Status;
 import com.scrumware.login.SessionHelper;
 import com.scrumware.user.User;
 import com.scrumware.user.UserDB;
@@ -82,17 +83,22 @@ public class TaskDependencies extends HttpServlet {
 		
 		String taskId = request.getParameter(Constants.TASK_ID);
 		String dependencyId = request.getParameter("dependent_task_id");
+		Task dependentTask = TaskDB.getTask(Integer.parseInt(dependencyId));
 		
-		Task taskToSave = TaskDB.getTask(Integer.parseInt(taskId));
-		ArrayList<Integer> list = new ArrayList<Integer>();
-		list.addAll(Arrays.asList(Integer.parseInt(dependencyId), 1));
-		Map<Integer, ArrayList<Integer>> map = new HashMap<Integer, ArrayList<Integer>>();
-		map.put(null, list);
-		taskToSave.setDependentTaskMap(map);
-		
-		Task savedTask = TaskDB.saveTask(taskToSave);
-		
-		request.setAttribute("task", savedTask);
+		if (dependentTask.getStatusId() != Status.DONE.getCode()) {
+			Task taskToSave = TaskDB.getTask(Integer.parseInt(taskId));
+			ArrayList<Integer> list = new ArrayList<Integer>();
+			list.addAll(Arrays.asList(Integer.parseInt(dependencyId), 1));
+			Map<Integer, ArrayList<Integer>> map = new HashMap<Integer, ArrayList<Integer>>();
+			map.put(null, list);
+			taskToSave.setDependentTaskMap(map);
+			
+			Task savedTask = TaskDB.saveTask(taskToSave);
+			
+			request.setAttribute("task", savedTask);
+		} else {
+			request.setAttribute("err_msg", "The dependent task is already closed");			
+		}
 		request.getRequestDispatcher("/task/view").forward(request, response);
 	}
 

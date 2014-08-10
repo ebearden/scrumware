@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.print.attribute.Size2DSyntax;
 
 import com.scrumware.config.Status;
 import com.scrumware.jdbc.ConnectionPool;
@@ -119,10 +118,8 @@ public class TaskHelper {
 			stmt = con.prepareStatement(sql);
 			stmt.setInt(1, taskId);
 			stmt.setInt(2, dependsOnId);
-			int result = stmt.executeUpdate();
-			if (result == 1) {
-				success = true;
-			}
+			stmt.executeUpdate();
+			success = true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -133,24 +130,23 @@ public class TaskHelper {
 		return success;
 	}
 	
-	private static boolean changeStatus(int taskId, Status status) {
-		String sql = "UPDATE Task SET status_id=? WHERE task_id=?;";
-		
+	public static boolean reApplyDependencies(int taskId) {
+		String sql = "UPDATE Task_Dependencies SET active=1 WHERE depends_on=?;";
+
 		Connection con = ConnectionPool.getInstance().getConnection();
+		PreparedStatement stmt = null;
 		boolean success = false;
+		
 		try {
-			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setInt(1, status.getCode());
-			stmt.setInt(2, taskId);
-			int result = stmt.executeUpdate();
-			if (result == 1) {
-				success = true;
-				System.out.println("Status" + success);
-			}
+			stmt = con.prepareStatement(sql);
+			stmt.setInt(1, taskId);
+			stmt.executeUpdate();
+			success = true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			ConnectionPool.getInstance().freeConnection(con);
+			DButil.closePreparedStatement(stmt);
 		}
 
 		return success;

@@ -219,7 +219,7 @@ public class TaskDB {
 		try {
 			taskStatement = connection.prepareStatement(sql);
 			dependencyStatement = connection.prepareStatement(
-					"SELECT dependency_id, depends_on, active FROM Task_Dependencies WHERE task_id=? AND active=1;"
+					"SELECT DISTINCT depends_on, active FROM Task_Dependencies WHERE task_id=? AND active=1;"
 					);
 			
 			if (id != null) {
@@ -246,10 +246,10 @@ public class TaskDB {
 				dependencyResultSet = dependencyStatement.executeQuery();
 				while (dependencyResultSet.next()) {
 					dependencyMap.put(
-							dependencyResultSet.getInt(1), 
+							1, 
 							new ArrayList<Integer>(Arrays.asList(
-									dependencyResultSet.getInt(2), 
-									dependencyResultSet.getInt(3))
+									dependencyResultSet.getInt(1), 
+									dependencyResultSet.getInt(2))
 									)
 							);
 				}
