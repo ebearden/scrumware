@@ -259,13 +259,13 @@ values ("Implement Sprint Servlet", "Need to be able to create, retrieve, update
 insert into Task (task_name, description, status_id, work_notes, story_id, created_by, updated_by, assigned_to)
 values ("Implement Mobile App", "Need working tasks in the mobile app.", 1, "Some notes", 1, 6, 5, 2);
 insert into Task (task_name, description, status_id, work_notes, story_id, created_by, updated_by, assigned_to)
-values ("Fix Bugs", "Look for bugs and fix them", 2, "Blah", 1, 4, 4, 5);
+values ("Fix Bugs", "Look for bugs and fix them", 2, "Work notes", 1, 4, 4, 5);
 insert into Task (task_name, description, status_id, work_notes, story_id, created_by, updated_by, assigned_to)
 values ("Test Use Cases", "We need to run through the use cases and make sure they match up.", 3, "Some notes", 1, 3, 2, 6);
 insert into Task (task_name, description, status_id, work_notes, story_id, created_by, updated_by, assigned_to)
-values ("Implement Login", "Need secure login.", 3, "Some notes", 1, 3, 2, 5);
+values ("Implement Login", "Need secure login.", 3, "Some notes", 1, 3, 2, 6);
 insert into Task (task_name, description, status_id, work_notes, story_id, created_by, updated_by, assigned_to)
-values ("Implement Task Board", "Need a board with swimlanes for task handling.", 4, "Some notes", 1, 4, 5, 4);
+values ("Implement Task Board", "Need a board with swimlanes for task handling.", 4, "Some notes", 1, 4, 5, 6);
 insert into Task (task_name, description, status_id, work_notes, story_id, created_by, updated_by, assigned_to)
 values ("Double Check", "Double check stuff", 4, "Some notes", 1, 5, 6, 3);
 insert into Task (task_name, description, status_id, work_notes, story_id, created_by, updated_by, assigned_to)
@@ -280,6 +280,8 @@ insert into Task_Dependencies (task_id, depends_on) values (3, 1);
 insert into Task_Dependencies (task_id, depends_on) values (4, 3);
 insert into Task_Dependencies (task_id, depends_on) values (4, 2);
 insert into Task_Dependencies (task_id, depends_on) values (5, 4);
+insert into Task_Dependencies (task_id, depends_on) values (13, 12);
+insert into Task_Dependencies (task_id, depends_on) values (14, 13);
 # Project Users
 insert into Project_Users (project_id, user_id) values (1, 1);
 insert into Project_Users (project_id, user_id) values (1, 2);
