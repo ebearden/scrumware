@@ -201,7 +201,7 @@ public class StoryDB {
 	
 	public static boolean hasOpenTasks(int storyId) {
 		Connection connection = ConnectionPool.getInstance().getConnection();
-		String sqlString = "SELECT COUNT(*) FROM Task WHERE story_id=?;";
+		String sqlString = "SELECT COUNT(*) FROM Task WHERE story_id=? AND status_id <> 4;";
 		
 		PreparedStatement statement = null;
 		int count = 0;
@@ -211,7 +211,6 @@ public class StoryDB {
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
 				count = rs.getInt(1);
-				System.out.println(count);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
