@@ -1,6 +1,7 @@
 package com.scrumware.sprint;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.scrumware.config.Constants;
+import com.scrumware.story.Story;
+import com.scrumware.story.StoryDB;
 import com.scrumware.user.User;
 import com.scrumware.user.UserDB;
 
@@ -38,21 +41,17 @@ public class ViewSprintServlet extends HttpServlet {
 		}
 		
 		String sprintID = request.getParameter(Constants.SPRINT_ID);
-		System.out.println(sprintID);
 		Sprint sprint = SprintDB.getSprint(Integer.parseInt(sprintID));
 		User createdBy = UserDB.getUser(sprint.getCreatedBy());
 		User updatedBy = UserDB.getUser(sprint.getUpdatedBy());
+		ArrayList<Story> storyList = StoryDB.getAllStoriesForSprint(Integer.parseInt(sprintID));
 		
+		request.setAttribute("story_list", storyList);
 		request.setAttribute("sprint", sprint);
 		request.setAttribute("created_by", createdBy);
 		request.setAttribute("updated_by", updatedBy);
 
 		request.getRequestDispatcher("/sprint/view_sprint.jsp").forward(request, response);
-		
-		
-		
-		
-		
 	}
 	
 	
