@@ -66,7 +66,14 @@ function addDependency() {
           <label for="story_name">Story</label> 
           <select class="form-control" name="story_id">
             <c:forEach var="s" items="${stories}">
-                <option value="${s.storyID}">${s.storyName}</option>            
+            	<c:choose>
+	            	<c:when test="${task.storyId == s.storyID}">
+	                	<option value="${s.storyID}" selected>${s.storyName}</option>
+	                </c:when>
+	                <c:otherwise>
+	                	<option value="${s.storyID}">${s.storyName}</option>
+	                </c:otherwise>  
+                </c:choose>          
             </c:forEach> 
           </select>
         </div>
