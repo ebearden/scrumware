@@ -145,9 +145,7 @@ private static ArrayList<Asset> assets = null;
                 a.setName(rs.getString("asset_name"));
                 a.setDescription(rs.getString("description"));
                 a.setLocation(rs.getString("location"));
-                a.setUpdatedBy(rs.getInt("updated_by"));
                 a.setProjectID(rs.getInt("project_id"));
-                //System.out.println("user added");
             }
             return a;
         }
@@ -195,9 +193,9 @@ private static ArrayList<Asset> assets = null;
 */
     
     /**
-     * This method checks to see if a product is present in ArrayList products
+     * This method checks to see if an Asset is present in ArrayList assets
      *
-     * @param productCode String input from servlet
+     * @param id int from servlet
      * @return true or false
      */
     
@@ -219,10 +217,10 @@ private static ArrayList<Asset> assets = null;
  */   
     
     /**
-     *This method inserts the data from a Product object into the db that
-     * holds product data
+     *This method inserts the data from an Asset object into the db that
+     * holds asset data
      * 
-     * @param product Product object from servlet
+     * @param a Asset object from servlet
      * @return 1 for success or 0 for failure
      */
     public static int insert(Asset a)
@@ -280,9 +278,9 @@ private static ArrayList<Asset> assets = null;
     }
 
 /**
- *This method updates an entry in the db using data from a Product object
+ *This method updates an entry in the db using data from an Asset object
  * 
- * @param product Product object from servlet
+ * @param a Asset object from servlet
  * @return 1 for success or 0 for failure
  */
     
@@ -329,14 +327,18 @@ private static ArrayList<Asset> assets = null;
         finally
         {
             DButil.closePreparedStatement(ps);
-            //JDBCHelper.freeConnection(connection);
             pool.freeConnection(connection);
         }
     }
 
+    /**
+     *This method deletes an entry in the db using data from an Asset object
+     * 
+     * @param id an Asset object id from servlet
+     * @return 1 for success or 0 for failure
+     */ 
     
-    
-    public static int delete(Asset a)
+    public static int delete(int id)
     {
 /*
  * get an instance of a pool connection, then instantiate PreparedStatement ps
@@ -361,7 +363,7 @@ private static ArrayList<Asset> assets = null;
         try
         {
             ps = connection.prepareStatement(query);
-            ps.setInt(1, a.getAssetID());
+            ps.setInt(1, id);
 
             return ps.executeUpdate();
         }
@@ -379,7 +381,6 @@ private static ArrayList<Asset> assets = null;
         finally
         {
             DButil.closePreparedStatement(ps);
-            //JDBCHelper.freeConnection(connection);
             pool.freeConnection(connection);
         }
     }

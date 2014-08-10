@@ -26,11 +26,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
   <div id="main" class="container theme-showcase" role="main">
-  
-            <div class="pull-left"><h3>User List</h3></div>
-            <c:if test="${sessionScope.role==1}">
-            	<div class="pull-right"><h3><a href="../user/adduser">Add a user</a></h3></div>
-            </c:if>
+  			<div class="row">
+	            <div class="col-md-10">
+	            	<h3>User List</h3>
+	            </div>
+	            <c:if test="${sessionScope.role==1}">
+	            	<div class="col-md-2">
+		            	<h3>
+		            		<a href="../user/adduser">New User</a>
+		            	</h3>
+	            	</div>
+	            </c:if>
+            </div>
             <div id="user-table" class="span12">
             <table id="user-table" class="table table-condensed table-hover">
             <thead>
@@ -59,10 +66,14 @@
                         </c:choose>
                         <c:if test="${sessionScope.role==1}">
 	                        <td>
-	                            <a href="<c:url value='../user/reset_pass.jsp?id=${u.id}'/>">Reset</a>
+								<a href="<c:url value='../user/reset_pass.jsp?id=${u.id}'/>">
+	                            	<button class="btn btn-primary">Reset</button>
+								</a>
 	                        </td>
 	                        <td>
-	                            <a href="<c:url value='../user/edituser?id=${u.id}'/>">Edit Profile</a>
+	                            <a href="<c:url value='../user/edituser?id=${u.id}'/>">
+	                            	<button class="btn btn-primary">Edit Profile</button>
+								</a>
 	                        </td>
                         </c:if>
                     </tr>

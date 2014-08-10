@@ -27,9 +27,19 @@
 
   <div id="main" class="container theme-showcase" role="main">
   
-            <div class="pull-left"><h3>User Profile</h3></div>
-            <div id="user-profile-table" class="span1">
-            <table id="user-profile-table" class="span2 table table-condensed table-hover">       
+  			
+  			<div class = "row">
+	            <div class="col-md-4 col-md-offset-4">
+	            	<h3 class="text-center">User Profile</h3>
+	            </div>
+            </div>
+            <div class = "row">
+            <c:if test="${msg != null}">
+      			<h3 class="alert alert-success text-center">${msg}</h3>
+    		</c:if>
+            </div>
+            <div id="user-profile-table" class="col-md-4 col-md-offset-4">
+            <table id="user-profile-table" class="table">       
                 <tr><th>User Name</th><td>${requestScope.user.username}</td></tr>
 	            <tr><th>First Name</th><td>${requestScope.user.firstname}</td></tr>
 	            <tr><th>Last Name</th><td>${requestScope.user.lastname}</td></tr>

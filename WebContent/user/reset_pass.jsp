@@ -17,7 +17,7 @@
 	<c:if test="${errmsg != null}">
       	<p class="alert alert-danger">${errmsg}</p>
 	</c:if>
-  
+  	<div class="col-md-8 col-md-offset-2">
     <form role="form" id="userForm" name="reser_user_pass" method="POST" action="resetuserpass?id=${param.id}" class="form-horizontal">
         
         
@@ -48,6 +48,7 @@
         <!-- Submit -->
         <button type="submit" class="btn btn-primary">Change Password</button>
     </form>
+    </div>
 </div>
 <%@ include file="../partials/include_bootstrap_javascript.jsp"%>
 <script type="text/javascript" src="../js/formValidation.js"></script>

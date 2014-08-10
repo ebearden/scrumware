@@ -400,7 +400,6 @@ private static ArrayList<User> users = null;
         finally
         {
             DButil.closePreparedStatement(ps);
-            //JDBCHelper.freeConnection(connection);
             pool.freeConnection(connection);
         }
     }

@@ -26,15 +26,23 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
   <div id="main" class="container theme-showcase" role="main">
-  
-            <div class="pull-left"><h3>Project ${project_id} Assets</h3></div>
-            <div class="pull-right"><h3><a href="../asset/asset_upload.jsp?project_id=${project_id}">Add an Asset</a></h3></div>
+  			<div class="row">
+  				<div class="col-md-10">
+	            	<h3>Project ${project_id} Assets</h3>
+	        	</div>
+	        	<div class="col-md-2">
+	            	<a href="../asset/asset_upload.jsp?project_id=${project_id}">
+	            	<h3>New Asset</h3>
+	            	</a>
+	            	
+	            </div>
+            </div>
             <div id="asset-table" class="span12">
             <table id="asset-table" class="table table-condensed table-hover">
             <thead>
                 <tr>
 	                <th>File Name</th><th>File Description</th><th>Created On</th>
-	                <th>Created By</th><th>Updated On</th><th>Updated By</th>
+	                <th>Created By</th><th>Updated</th><th>Updated By</th><th></th>
                 </tr>
             </thead>
                 <c:forEach var="a" items="${assets}">
@@ -53,7 +61,10 @@
                         	<c:if test="${a.updatedBy == u.id}">
                         		<td>${u.username}</td>
                         	</c:if>
-                        </c:forEach>	
+                        </c:forEach>
+                        <td>
+                        	<button class="btn btn-danger">Delete</button>
+                        </td>	
                     </tr>
                 </c:forEach>
             </table>
