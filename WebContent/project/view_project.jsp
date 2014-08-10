@@ -18,6 +18,9 @@
     <p><h4><small>Created on: ${project.createdOnDateAsString} by ${created_by.firstname} ${created_by.lastname}<br/>
     Last Updated: ${project.updatedOnDateAsString} by ${updated_by.firstname} ${updated_by.lastname} </small></h4></p>
     <h3>${project.statusAsString}</h3>
+    <c:if test="${err_msg != null}">
+      <p class="alert alert-danger">${err_msg}</p>
+    </c:if>
     <div class="span12 "><hr /></div>
     <div class="lead"><p>${project.description}</p></div>
     <div class="span12 "><hr /></div>

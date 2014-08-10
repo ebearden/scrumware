@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.scrumware.config.Constants;
 import com.scrumware.jdbc.ConnectionPool;
+import com.scrumware.jdbc.DButil;
 
 public class ProjectDB {
 	public static Project getProject(int projectId) {
@@ -173,5 +174,27 @@ public class ProjectDB {
 			ConnectionPool.getInstance().freeConnection(connection);
 		}
 		return success;
+	}
+	
+	public static boolean hasOpenStories(int projectId) {
+		Connection connection = ConnectionPool.getInstance().getConnection();
+		String sqlString = "SELECT COUNT(*) FROM Story WHERE project_id=?;";
+		
+		PreparedStatement statement = null;
+		int count = 0;
+		try {
+			statement = connection.prepareStatement(sqlString);
+			statement.setInt(1, projectId);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				count = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DButil.closePreparedStatement(statement);
+			ConnectionPool.getInstance().freeConnection(connection);
+		}
+		return count > 0;
 	}
 }

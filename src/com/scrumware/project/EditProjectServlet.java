@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import com.scrumware.config.Constants;
 import com.scrumware.login.SessionHelper;
+import com.scrumware.story.StoryDB;
 import com.scrumware.task.Task;
 import com.scrumware.task.TaskDB;
 import com.scrumware.user.User;
@@ -69,11 +70,20 @@ public class EditProjectServlet extends HttpServlet {
 		String projectMgr = request.getParameter(Constants.PROJECT_MANAGER);
 		
 		Project project = new Project();
-		if(projectId != null) {
-			project.setProjectId(Integer.parseInt(projectId));
-			System.out.println(projectId);
+		
+		if (statusId != null && Integer.parseInt(statusId) == Status.DONE.getCode()) {
+			if (ProjectDB.hasOpenStories(Integer.parseInt(projectId))) {
+				int oldStatusId = ProjectDB.getProject(Integer.parseInt(projectId)).getStatusId();
+				project.setStatusId(oldStatusId);
+				request.setAttribute("err_msg", "Can't close a project with open stories.");				
+			} else {
+				project.setStatusId(statusId != null ? Integer.parseInt(statusId) : 1);
+			}
+		} else {
+			project.setStatusId(statusId != null ? Integer.parseInt(statusId) : 1);
 		}
-		project.setStatusId(statusId != null ? Integer.parseInt(statusId) : 1);
+		
+		project.setProjectId(projectId != null ? Integer.parseInt(projectId) : null);
 		project.setProjectManagerId(projectMgr != null ? Integer.parseInt(projectMgr) : null);
 		
 		project.setName(request.getParameter(Constants.PROJECT_NAME));
