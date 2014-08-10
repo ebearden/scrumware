@@ -18,6 +18,8 @@ import com.scrumware.config.Status;
 import com.scrumware.login.SessionHelper;
 import com.scrumware.sprint.Sprint;
 import com.scrumware.sprint.SprintDB;
+import com.scrumware.task.TaskDB;
+import com.scrumware.task.TaskHelper;
 import com.scrumware.user.User;
 import com.scrumware.user.UserDB;
 
@@ -73,10 +75,21 @@ public class EditStoryServlet extends HttpServlet {
 		
 		
 		Story story = new Story();
-		story.setStoryID(storyId != null ? Integer.parseInt(storyId) : null);
-		story.setStatusId(statusId != null ? Integer.parseInt(statusId) : 1);
-		story.setSprintID(sprintId != null ? Integer.parseInt(sprintId) : null);
 		
+		if (statusId != null && Integer.parseInt(statusId) == Status.DONE.getCode()) {
+			if (StoryDB.hasOpenTasks(Integer.parseInt(storyId))) {
+				int oldStatusId = StoryDB.getStory(Integer.parseInt(storyId)).getStatusID();
+				story.setStatusId(oldStatusId);
+				request.setAttribute("err_msg", "Can't close a story with open tasks.");				
+			} else {
+				story.setStatusId(statusId != null ? Integer.parseInt(statusId) : 1);
+			}
+		} else {
+			story.setStatusId(statusId != null ? Integer.parseInt(statusId) : 1);
+		}
+		
+		story.setStoryID(storyId != null ? Integer.parseInt(storyId) : null);
+		story.setSprintID(sprintId != null ? Integer.parseInt(sprintId) : null);
 		story.setStoryName(request.getParameter(Constants.STORY_NAME));
 		story.setDescription(request.getParameter(Constants.DESCRIPTION));
 		story.setAcceptanceCriteria(request.getParameter(Constants.ACCEPTENCE_CRITERIA));

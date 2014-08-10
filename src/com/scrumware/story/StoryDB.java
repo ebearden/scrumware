@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import com.scrumware.config.Constants;
 import com.scrumware.jdbc.ConnectionPool;
+import com.scrumware.jdbc.DButil;
 import com.scrumware.project.Project;
 import com.scrumware.task.Task;
 
@@ -196,5 +197,29 @@ public class StoryDB {
 			ConnectionPool.getInstance().freeConnection(connection);
 		}
 		return success;
+	}
+	
+	public static boolean hasOpenTasks(int storyId) {
+		Connection connection = ConnectionPool.getInstance().getConnection();
+		String sqlString = "SELECT COUNT(*) FROM Task WHERE story_id=?;";
+		
+		PreparedStatement statement = null;
+		int count = 0;
+		try {
+			statement = connection.prepareStatement(sqlString);
+			statement.setInt(1, storyId);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				count = rs.getInt(1);
+				System.out.println(count);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DButil.closePreparedStatement(statement);
+			ConnectionPool.getInstance().freeConnection(connection);
+		}
+		
+		return count > 0;
 	}
 }

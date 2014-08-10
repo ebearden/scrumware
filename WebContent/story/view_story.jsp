@@ -17,6 +17,9 @@
     <p><h4><small>Created on: ${story.createdDateAsString} by ${created_by.username} <br/>
     Last Updated: ${story.updatedDateAsString} by ${updated_by.username}</small></h4></p>
     <h3>${story.statusAsString}</h3>
+    <c:if test="${err_msg != null}">
+      <p class="alert alert-danger">${err_msg}</p>
+    </c:if>
     <div class="span12"><hr /></div>
     <div class="lead"><p>${story.description}</p></div>
     <div class="span12 "><hr /></div>    
