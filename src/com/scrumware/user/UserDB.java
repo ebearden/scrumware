@@ -113,6 +113,27 @@ private static ArrayList<User> users = null;
         }        
         return null;
     }
+    
+    /**
+    *
+    * This method returns all users from the ArrayList
+    * users by role
+    * 
+    */
+    public static ArrayList<User> getUsersByRole(int role_id)
+    {
+        ArrayList<User> alu = new ArrayList<User>();
+    	users = getUsers();       
+        for (User u : users)
+        {            
+            if (u.getRole() == role_id)
+            {
+                alu.add(u);
+            }
+        }        
+        return alu;
+    }
+    
 
     /**
      * This method checks to see if a product is present in ArrayList products
