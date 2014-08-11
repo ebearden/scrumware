@@ -25,8 +25,8 @@
     <div class="lead"><p>${project.description}</p></div>
     <div class="span12 "><hr /></div>
     <p class="lead">Project Manager: ${projectManager.firstname} ${projectManager.lastname}</p>
-    <p class="lead">Planned Start Date: ${project.startDate}</p>
-    <p class="lead">Planned End Date: ${project.endDate}</p>
+    <p class="lead">Planned Start Date: ${project.getStartDateAsString()}</p>
+    <p class="lead">Planned End Date: ${project.getEndDateAsString()}</p>
     <p class="lead"></p>
     <div id="story-table" class="span12">
     <table id="story-table" class="table table-condensed table-hover">
