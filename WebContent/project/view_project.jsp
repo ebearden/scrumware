@@ -25,9 +25,35 @@
     <div class="lead"><p>${project.description}</p></div>
     <div class="span12 "><hr /></div>
     <p class="lead">Project Manager: ${projectManager.firstname} ${projectManager.lastname}</p>
-    <p class="lead">Planned Start Date: ${project.startDate}</p>
-    <p class="lead">Planned End Date: ${project.endDate}</p>
+    <p class="lead">Planned Start Date: ${project.getStartDateAsString()}</p>
+    <p class="lead">Planned End Date: ${project.getEndDateAsString()}</p>
     <p class="lead"></p>
+    <div id="story-table" class="span12">
+    <table id="story-table" class="table table-condensed table-hover">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th><!-- Button column --></th>
+      <tr>
+      </thead>
+      <c:forEach var="s" items="${story_list}">
+        <tr>
+          <td>${s.storyID}</td>          
+          <td>${s.storyName}</td>          
+          <td>${s.description}</td>          
+          <td>${s.getStatusAsString()}</td>
+          <td>
+            <a href="../story/view?story_id=${s.storyID}">
+                <button class="btn btn-primary">View</button>
+            </a>
+          </td>
+        </tr>
+      </c:forEach>
+    </table>
+    </div>
   </div>   
   <%@ include file="../partials/include_bootstrap_javascript.jsp"%>
 </body>

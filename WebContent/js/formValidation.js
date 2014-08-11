@@ -145,7 +145,7 @@ function projectFormValidation() {
 					stringLength: {
 						min: 10,
 						max: 1000,
-						message: 'The task description should be descriptive.'
+						message: 'The project description should be descriptive.'
 					}
 				}
 			},
@@ -153,6 +153,7 @@ function projectFormValidation() {
 		}
 	});	
 }
+
 function sprintFormValidation() {
 	$('#sprintForm').bootstrapValidator({
 		message: 'This value is not valid',
@@ -205,6 +206,7 @@ function sprintFormValidation() {
 		}
 	});
 }
+
 function storyFormValidation() {
 	$('#storyForm').bootstrapValidator({
 		message: 'This value is not valid',
@@ -234,7 +236,7 @@ function storyFormValidation() {
 					stringLength: {
 						min: 10,
 						max: 1000,
-						message: 'The task description should be descriptive.'
+						message: 'The story description should be descriptive.'
 					}
 				}
 			},
@@ -254,3 +256,41 @@ function storyFormValidation() {
 	});	
 }
 
+function uploadFormValidation() {
+	$('#uploadForm').bootstrapValidator({
+		message: 'This value is not valid',
+		feedbackIcons: {
+			valid: 'glyphicon glyphicon-ok',
+			validating: 'glyphicon glyphicon-refresh'
+		},
+		fields: {
+			selected_file: {
+				message: 'Please select a file.',
+				validators: {
+					notEmpty: {
+						message: 'A file must be selected.'
+					},
+					file: {
+                        extension: 'jpeg,png,txt,pdf,doc,rtf,xls,ppt,zip,gif',
+                        type: 'image/jpeg,image/png,text/plain,application/pdf,application/msword,application/rtf'+
+                        'application/vnd.ms-excel,application/vnd.ms-powerpoint,pplication/x-rar-compressed,image/gif',
+                        maxSize: 1048576*10,   // 25 MB
+                        message: 'The selected file is not valid'
+                    }
+				}
+			},
+			description: {
+				validators: {
+					notEmpty: {
+						message: 'Please enter a description for the file.'
+					},
+					stringLength: {
+						min: 10,
+						max: 1000,
+						message: 'The file description should be descriptive.'
+					}
+				}
+			}
+		}
+	});	
+}

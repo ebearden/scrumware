@@ -12,6 +12,8 @@ import javax.servlet.http.HttpSession;
 
 import com.scrumware.config.Constants;
 import com.scrumware.login.SessionHelper;
+import com.scrumware.story.Story;
+import com.scrumware.story.StoryDB;
 import com.scrumware.user.User;
 import com.scrumware.user.UserDB;
 
@@ -44,7 +46,9 @@ public class ViewProjectServlet extends HttpServlet {
 		User project_manager = UserDB.getUser(project.getProjectManagerId());
 		User createdBy = UserDB.getUser(project.getCreatedBy());
 		User updatedBy = UserDB.getUser(project.getUpdatedBy());
+		ArrayList<Story> storyList = StoryDB.getAllStoriesForProject(Integer.parseInt(projectId));
 		
+		request.setAttribute("story_list", storyList);
 		request.setAttribute("project", project);
 		request.setAttribute("projectManager", project_manager);
 		request.setAttribute("created_by", createdBy);

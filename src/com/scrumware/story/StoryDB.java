@@ -38,7 +38,7 @@ public class StoryDB {
 	 * @param projectId - The project Id.
 	 * @return a list of new story objects for the project.
 	 */
-	public ArrayList<Story> getAllStoriesForProject(int projectId) {
+	public static ArrayList<Story> getAllStoriesForProject(int projectId) {
 		return getStoryListForIdType(Constants.STORY_ID, projectId);
 	}
 	

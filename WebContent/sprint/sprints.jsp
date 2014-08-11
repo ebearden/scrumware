@@ -35,6 +35,7 @@
           <td>${s.name}</td>              
           <td>${s.startDate}</td>
           <td>${s.endDate}</td>
+          <td>${s.statusAsString }</td>
           <td>
             <a href="view?sprint_id=${s.sprintId}">
                 <button class="btn btn-primary">View</button>
