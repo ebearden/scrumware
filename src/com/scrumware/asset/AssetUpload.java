@@ -92,16 +92,16 @@ public class AssetUpload extends HttpServlet {
         		boolean exists = false;
         		
 
-    			System.out.println("Starting Logic");
+    			//System.out.println("Starting Logic");
         		
         		if (request.getParameter("update") != null) {
         			update = Boolean.parseBoolean(request.getParameter("update"));
-        			System.out.println("update = " + update);
+        			//System.out.println("update = " + update);
         		}
         		
         		if (a_file.getSize() >= upload.getFileSizeMax()) {
-        			System.out.println("file size: " + a_file.getSize());
-        			System.out.println("upload size: " + upload.getSizeMax());
+        			//System.out.println("file size: " + a_file.getSize());
+        			//System.out.println("upload size: " + upload.getSizeMax());
         			errmsg = "Max file size exceeded.";
         		}
         		
@@ -115,14 +115,14 @@ public class AssetUpload extends HttpServlet {
         		}
         		
         		if (exists == true && update == false) {
-        			System.out.println("already exists");
+        			//System.out.println("already exists");
         			errmsg="This file already exists.  "+
         					"Do you want to overwrite it with a new version?<br/>"+
         					"If so, please select the file again and click \"Confirm\"";
         		}
         		
         		if (errmsg != null && update == false) {
-        			System.out.println("setting params");
+        			//System.out.println("setting params");
         			request.setAttribute("exists", exists);
         			request.setAttribute("errmsg", errmsg);
         			request.setAttribute("project_id", project_id);
@@ -132,8 +132,8 @@ public class AssetUpload extends HttpServlet {
         		} else {
         		
 			        
-	        		System.out.println(servletContext+File.separator+folderLocation+File.separator+project_id+
-	        				File.separator+fileName);
+	        		//System.out.println(servletContext+File.separator+folderLocation+File.separator+project_id+
+	        		//		File.separator+fileName);
 	        		
 	        		String uploadPath = getServletContext().getRealPath("")
 	        			    + File.separator + folderLocation;
@@ -143,7 +143,7 @@ public class AssetUpload extends HttpServlet {
 	        		File uploadDir = new File(uploadPath);
 	        		if (!uploadDir.exists()) {
 	        		    uploadDir.mkdir();
-	        		    System.out.println("projectassets does not exist.");
+	        		    //System.out.println("projectassets does not exist.");
 	        		}
 	        		
 	        		uploadPath = uploadPath+ File.separator + project_id;
@@ -151,7 +151,7 @@ public class AssetUpload extends HttpServlet {
 	        		uploadDir = new File(uploadPath);
 	        		if (!uploadDir.exists()) {
 	        		    uploadDir.mkdir();
-	        		    System.out.println("project folder does not exist.");
+	        		    //System.out.println("project folder does not exist.");
 	        		}
 	        		
 			        File uploadedFile = 
@@ -161,11 +161,11 @@ public class AssetUpload extends HttpServlet {
 			        
 			        if (update) {
 			        	
-			        	System.out.println(a_desc.getString());
+			        	//System.out.println(a_desc.getString());
 		        		asset.setDescription(a_desc.getString());
 			        	asset.setUpdatedBy(user_id);
 			        	AssetDB.update(asset);
-			        	System.out.println("Updated file info.");
+			        	//System.out.println("Updated file info.");
 			        
 			        } else {
 		        		asset.setName(fileName);
