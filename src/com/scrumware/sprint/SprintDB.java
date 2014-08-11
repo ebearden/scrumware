@@ -81,8 +81,8 @@ public class SprintDB {
 				sprintStatement.setInt(4, sprint.getCreatedBy());
 				sprintStatement.setInt(5, sprint.getCreatedBy());
 				sprintStatement.setInt(6, sprint.getProjectId());
-				sprintStatement.setTimestamp(7, sprint.getStartDate());
-				sprintStatement.setTimestamp(8, sprint.getEndDate());
+				sprintStatement.setDate(7, sprint.getStartDate());
+				sprintStatement.setDate(8, sprint.getEndDate());
 			}
 			
 			System.out.println(sprintStatement.toString());
@@ -151,8 +151,8 @@ public class SprintDB {
 				sprint.setUpdatedBy(sprintResultSet.getInt(5));
 				sprint.setName(sprintResultSet.getString(6));
 				sprint.setDescription(sprintResultSet.getString(7));
-				sprint.setStartDate(sprintResultSet.getTimestamp(8));
-				sprint.setEndDate(sprintResultSet.getTimestamp(9));
+				sprint.setStartDate(sprintResultSet.getDate(8));
+				sprint.setEndDate(sprintResultSet.getDate(9));
 				sprint.setStatus(sprintResultSet.getInt(10));
 				sprint.setProjectId(sprintResultSet.getInt(11));
 				

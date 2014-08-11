@@ -3,6 +3,7 @@ package com.scrumware.project;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import org.json.JSONObject;
 
@@ -16,8 +17,8 @@ public class Project implements IJsonObject {
 	private String name;
 	private String description;
 	private int projectManagerId;
-	private Timestamp startDate;
-	private Timestamp endDate;
+	private Date startDate;
+	private Date endDate;
 	private int statusId;
 	private Timestamp createdOn;
 	private Timestamp updatedOn;
@@ -49,8 +50,8 @@ public class Project implements IJsonObject {
 		name = json.getString(Constants.PROJECT_NAME);
 		description = json.getString(Constants.DESCRIPTION);
 		projectManagerId = json.getInt(Constants.PROJECT_MANAGER);
-		startDate = Timestamp.valueOf(json.getString(Constants.PLANNED_START_DATE));
-		endDate = Timestamp.valueOf(json.getString(Constants.PLANNED_END_DATE));
+		startDate = Date.valueOf(json.getString(Constants.PLANNED_START_DATE));
+		endDate = Date.valueOf(json.getString(Constants.PLANNED_END_DATE));
 		statusId = json.getInt(Constants.STATUS);
 		createdBy = json.getInt(Constants.CREATED_BY);
 		updatedBy = json.getInt(Constants.UPDATED_BY);
@@ -89,11 +90,11 @@ public class Project implements IJsonObject {
 		return this.projectManagerId;
 	}
 	
-	public Timestamp getStartDate() {
+	public Date getStartDate() {
 		return this.startDate;
 	}
 	
-	public Timestamp getEndDate() {
+	public Date getEndDate() {
 		return this.endDate;
 	}
 	
@@ -112,6 +113,16 @@ public class Project implements IJsonObject {
 	
 	public String getUpdatedOnDateAsString() {
 		return DateFormat.getDateTimeInstance().format(updatedOn);
+	}
+	
+	public String getStartDateAsString() {
+		DateFormat outputFormatter = new SimpleDateFormat("MM/dd/yyyy");
+		return outputFormatter.format(startDate);
+	}
+	
+	public String getEndDateAsString() {
+		DateFormat outputFormatter = new SimpleDateFormat("MM/dd/yyyy");
+		return outputFormatter.format(endDate);
 	}
 	
 	//Set Values
@@ -147,11 +158,11 @@ public class Project implements IJsonObject {
 		this.projectManagerId = projMgr;
 	}
 	
-	public void setStartDate(Timestamp start) {
+	public void setStartDate(Date start) {
 		this.startDate = start;
 	}
 	
-	public void setEndDate(Timestamp end) {
+	public void setEndDate(Date end) {
 		this.endDate = end;
 	}
 	

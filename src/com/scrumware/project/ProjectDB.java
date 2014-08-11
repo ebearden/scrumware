@@ -49,8 +49,8 @@ public class ProjectDB {
 			projectStatement.setString(1, project.getName());
 			projectStatement.setString(2, project.getDescription());
 			projectStatement.setInt(3, project.getProjectManagerId());
-			projectStatement.setTimestamp(4, project.getStartDate());
-			projectStatement.setTimestamp(5, project.getEndDate());
+			projectStatement.setDate(4, project.getStartDate());
+			projectStatement.setDate(5, project.getEndDate());
 			projectStatement.setInt(6, project.getStatusId());
 			if (isUpdate) {
 				projectStatement.setInt(7, project.getUpdatedBy());
@@ -123,8 +123,8 @@ public class ProjectDB {
 				project.setName(projectResultSet.getString(6));
 				project.setDescription(projectResultSet.getString(7));
 				project.setProjectManagerId(projectResultSet.getInt(8));
-				project.setStartDate(projectResultSet.getTimestamp(9));
-				project.setEndDate(projectResultSet.getTimestamp(10));
+				project.setStartDate(projectResultSet.getDate(9));
+				project.setEndDate(projectResultSet.getDate(10));
 				project.setStatusId(projectResultSet.getInt(11));
 				projectList.add(project);
 			}

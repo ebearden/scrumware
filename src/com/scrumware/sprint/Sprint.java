@@ -3,6 +3,7 @@ package com.scrumware.sprint;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import org.json.JSONObject;
 
@@ -16,8 +17,8 @@ public class Sprint implements IJsonObject{
 	private Integer sprintId;
 	private String name;
 	private String description;
-	private Timestamp startDate;
-	private Timestamp endDate;
+	private Date startDate;
+	private Date endDate;
 	private int statusId;
 	private Timestamp createdOn;
 	private Timestamp updatedOn;
@@ -56,8 +57,8 @@ public class Sprint implements IJsonObject{
 		sprintId = json.getInt(Constants.SPRINT_ID);
 		name = json.getString(Constants.SPRINT_NAME);
 		description = json.getString(Constants.DESCRIPTION);
-		startDate = Timestamp.valueOf(json.getString(Constants.START_DATE));
-		endDate = Timestamp.valueOf(json.getString(Constants.END_DATE));
+		startDate = Date.valueOf(json.getString(Constants.START_DATE));
+		endDate = Date.valueOf(json.getString(Constants.END_DATE));
 		statusId = json.getInt(Constants.STATUS);
 		createdBy = json.getInt(Constants.CREATED_BY);
 		updatedBy = json.getInt(Constants.UPDATED_BY);
@@ -74,11 +75,11 @@ public class Sprint implements IJsonObject{
 		return description;
 	}
 	
-	public Timestamp getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
 	
-	public Timestamp getEndDate() {
+	public Date getEndDate() {
 		return endDate;
 	}
 	
@@ -118,6 +119,16 @@ public class Sprint implements IJsonObject{
 		return Status.values()[statusId - 1].getDescription();
 	}
 	
+	public String getStartDateAsString() {
+		DateFormat outputFormatter = new SimpleDateFormat("MM/dd/yyyy");
+		return outputFormatter.format(startDate);
+	}
+	
+	public String getEndDateAsString() {
+		DateFormat outputFormatter = new SimpleDateFormat("MM/dd/yyyy");
+		return outputFormatter.format(endDate);
+	}
+	
 	public int getProjectId(){
 		return this.projectId;
 	}
@@ -131,11 +142,11 @@ public class Sprint implements IJsonObject{
 		this.description = Description;
 	}
 	
-	public void setStartDate(Timestamp StartDate) {
+	public void setStartDate(Date StartDate) {
 		this.startDate = StartDate;
 	}
 	
-	public void setEndDate(Timestamp EndDate) {
+	public void setEndDate(Date EndDate) {
 		this.endDate = EndDate;
 	}
 	
