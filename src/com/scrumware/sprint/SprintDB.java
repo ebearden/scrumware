@@ -145,9 +145,9 @@ public class SprintDB {
 			while (sprintResultSet.next()) {
 				sprint = new Sprint();
 				sprint.setSprintId(sprintResultSet.getInt(1));
-				sprint.setCreated(sprintResultSet.getDate(2));
+				sprint.setCreated(sprintResultSet.getTimestamp(2));
 				sprint.setCreatedBy(sprintResultSet.getInt(3));
-				sprint.setUpdated(sprintResultSet.getDate(4));
+				sprint.setUpdated(sprintResultSet.getTimestamp(4));
 				sprint.setUpdatedBy(sprintResultSet.getInt(5));
 				sprint.setName(sprintResultSet.getString(6));
 				sprint.setDescription(sprintResultSet.getString(7));

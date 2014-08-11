@@ -116,9 +116,9 @@ public class ProjectDB {
 			while (projectResultSet.next()) {
 				project = new Project();
 				project.setProjectId(projectResultSet.getInt(1));
-				project.setCreated(projectResultSet.getDate(2));
+				project.setCreated(projectResultSet.getTimestamp(2));
 				project.setCreatedBy(projectResultSet.getInt(3));
-				project.setUpdated(projectResultSet.getDate(4));
+				project.setUpdated(projectResultSet.getTimestamp(4));
 				project.setUpdatedBy(projectResultSet.getInt(5));
 				project.setName(projectResultSet.getString(6));
 				project.setDescription(projectResultSet.getString(7));

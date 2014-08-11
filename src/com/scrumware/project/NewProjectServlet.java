@@ -40,7 +40,7 @@ public class NewProjectServlet extends HttpServlet {
 			return;
 		}
 		
-		ArrayList<User> userList = UserDB.getUsers();
+		ArrayList<User> userList = UserDB.getUsersByRole(2);
 		ArrayList<Project> projectList = ProjectDB.getAllProjects();
 		
 		request.setAttribute(Constants.STATUS, Status.values());

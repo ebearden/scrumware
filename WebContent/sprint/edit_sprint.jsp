@@ -21,7 +21,7 @@
   <div id="main" class="container theme-showcase" role="main">
   <script>
   </script>
-    <form role="form" name="edit_sprint" method="POST" action="edit">
+    <form role="form" id="sprintForm" name="edit_sprint" method="POST" action="edit">
     <!-- Hidden sprint ID -->
         <input type="text" class="hidden" name="sprint_id" value="${sprint.sprintId}">
     	<table width="100%">
@@ -125,7 +125,7 @@
   
   <script>
   $(document).ready(function() {
-    projectFormValidation();
+    sprintFormValidation();
   });
   </script>
 <!-- Below Added for Datepicker Fields -->
