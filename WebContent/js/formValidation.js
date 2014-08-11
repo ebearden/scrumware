@@ -145,7 +145,7 @@ function projectFormValidation() {
 					stringLength: {
 						min: 10,
 						max: 1000,
-						message: 'The task description should be descriptive.'
+						message: 'The project description should be descriptive.'
 					}
 				}
 			},
@@ -236,7 +236,7 @@ function storyFormValidation() {
 					stringLength: {
 						min: 10,
 						max: 1000,
-						message: 'The task description should be descriptive.'
+						message: 'The story description should be descriptive.'
 					}
 				}
 			},
@@ -287,7 +287,7 @@ function uploadFormValidation() {
 					stringLength: {
 						min: 10,
 						max: 1000,
-						message: 'The task description should be descriptive.'
+						message: 'The file description should be descriptive.'
 					}
 				}
 			}
