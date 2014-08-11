@@ -43,24 +43,37 @@
           </label>
            <input type="text" name="description" id="description" class="form-control" rows="3" value="${a_desc}"/>
         </div>
+        
         <!-- Submit -->
+        <div class="col-md-1">
         <c:choose>
 	        <c:when test="${exists != null}">
 	        	<button type="submit" class="btn btn-success" name="confirm" id="confirm">Confirm</button>
-	        	<a href="../asset/assets?project_id=${project_id}">
-	        		<button class="btn btn-danger" name="cancel">Cancel</button>
-	        	</a>
 	        </c:when>
 	        <c:otherwise>
 	        <button type="submit" class="btn btn-primary" name="upload" id="upload">Upload</button>
 	        </c:otherwise>
         </c:choose>
        </form>
+       </div>
+       <div class="col-md-1">
+      	<c:if test="${exists != null}">
+      		<a href="../asset/assets?project_id=${project_id}">
+        		<button class="btn btn-danger" name="cancel">Cancel</button>
+        	</a>
+        </c:if>
+        </div>
+       
 	</div>
 <%@ include file="../partials/include_bootstrap_javascript.jsp"%>
 <script type="text/javascript" src="../js/formValidation.js"></script>
 <script type="text/javascript">
-	 $(document).ready(function() {
+	 $('#upload').click(function() {
+		 uploadFormValidation();
+	 });
+</script>
+<script type="text/javascript">
+	 $('#confirm').click(function() {
 		 uploadFormValidation();
 	 });
 </script>
