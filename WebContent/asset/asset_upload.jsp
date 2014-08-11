@@ -23,23 +23,25 @@
 		
 		<c:choose>
 	        <c:when test="${exists != null}">
-	        	<form method="POST" action="upload?update=true&project_id=${project_id}" enctype="multipart/form-data" >
+	        	<form method="POST" action="upload?update=true&project_id=${project_id}" 
+	        	enctype="multipart/form-data" name="uploadForm" id="uploadForm">
 	        </c:when>
 	        <c:otherwise>
-	        	<form method="POST" action="upload?project_id=${param.project_id}" enctype="multipart/form-data" >
+	        	<form method="POST" action="upload?project_id=${param.project_id}" 
+	        	enctype="multipart/form-data" name="uploadForm" id="uploadForm">
 	        </c:otherwise>
         </c:choose>
 		
 		<!-- User Name -->
         <div class="form-group">
           <label for="file">File</label>
-           <input type="file" name="file" id="file" "/>
+           <input type="file" name="selected_file" id="selected_file"/>
         </div>
         <div class="form-group">
           <label for="description">
            Description
           </label>
-           <input type="text" name="description"class="form-control" rows="3" value="${a_desc}"/>
+           <input type="text" name="description" id="description" class="form-control" rows="3" value="${a_desc}"/>
         </div>
         <!-- Submit -->
         <c:choose>
@@ -56,5 +58,11 @@
        </form>
 	</div>
 <%@ include file="../partials/include_bootstrap_javascript.jsp"%>
+<script type="text/javascript" src="../js/formValidation.js"></script>
+<script type="text/javascript">
+	 $(document).ready(function() {
+		 uploadFormValidation();
+	 });
+</script>
 </body>
 </html>
