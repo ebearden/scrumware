@@ -173,13 +173,13 @@ public class StoryDB {
 		PreparedStatement statement = null;
 		String[] sql = new String[4];
 		//Delete Dependent On Task Dependencies in Story
-		sql[0] = "DELETE Task_Dependencies AS td FROM Task_Dependencies td RIGHT JOIN Task t ON t.task_id=td.depends_on RIGHT JOIN Story s ON s.story_id=t.story_id WHERE s.story_id=?;";
+		sql[0] = "DELETE Task_Dependencies FROM Task_Dependencies RIGHT JOIN Task ON Task.task_id=Task_Dependencies.depends_on RIGHT JOIN Story ON Story.story_id=Task.story_id WHERE Story.story_id=?;";
 		//Delete Dependent of Task Dependencies in Story
-		sql[1] = "DELETE Task_Dependencies AS td FROM Task_Dependencies td RIGHT JOIN Task t ON t.task_id=td.task_id RIGHT JOIN Story s ON s.story_id=t.story_id WHERE s.story_id=?;";
+		sql[1] = "DELETE Task_Dependencies FROM Task_Dependencies RIGHT JOIN Task ON Task.task_id=Task_Dependencies.task_id RIGHT JOIN Story ON Story.story_id=Task.story_id WHERE Story.story_id=?;";
 		//Delete Tasks in Story
-		sql[2] = "DELETE Task AS t FROM Task t RIGHT JOIN Story s ON s.story_id=t.story_id WHERE s.story_id=?;";
+		sql[2] = "DELETE Task FROM Task RIGHT JOIN Story ON Story.story_id=Task.story_id WHERE Story.story_id=?;";
 		//Delete Story
-		sql[3] = "DELETE Story AS s FROM Story s WHERE s.story_id=?;";
+		sql[3] = "DELETE Story FROM Story WHERE Story.story_id=?;";
 
 		boolean success = false;
 
