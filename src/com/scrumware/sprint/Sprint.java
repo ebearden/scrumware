@@ -1,6 +1,7 @@
 package com.scrumware.sprint;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 
 import org.json.JSONObject;
@@ -15,11 +16,11 @@ public class Sprint implements IJsonObject{
 	private Integer sprintId;
 	private String name;
 	private String description;
-	private Date startDate;
-	private Date endDate;
+	private Timestamp startDate;
+	private Timestamp endDate;
 	private int statusId;
-	private Date createdOn;
-	private Date updatedOn;
+	private Timestamp createdOn;
+	private Timestamp updatedOn;
 	private int createdBy;
 	private int updatedBy;
 	private int projectId;
@@ -55,8 +56,8 @@ public class Sprint implements IJsonObject{
 		sprintId = json.getInt(Constants.SPRINT_ID);
 		name = json.getString(Constants.SPRINT_NAME);
 		description = json.getString(Constants.DESCRIPTION);
-		startDate = Date.valueOf(json.getString(Constants.START_DATE));
-		endDate = Date.valueOf(json.getString(Constants.END_DATE));
+		startDate = Timestamp.valueOf(json.getString(Constants.START_DATE));
+		endDate = Timestamp.valueOf(json.getString(Constants.END_DATE));
 		statusId = json.getInt(Constants.STATUS);
 		createdBy = json.getInt(Constants.CREATED_BY);
 		updatedBy = json.getInt(Constants.UPDATED_BY);
@@ -73,11 +74,11 @@ public class Sprint implements IJsonObject{
 		return description;
 	}
 	
-	public Date getStartDate() {
+	public Timestamp getStartDate() {
 		return startDate;
 	}
 	
-	public Date getEndDate() {
+	public Timestamp getEndDate() {
 		return endDate;
 	}
 	
@@ -89,7 +90,7 @@ public class Sprint implements IJsonObject{
 		return sprintId;
 	}
 	
-	public Date getCreated() {
+	public Timestamp getCreated() {
 		return this.createdOn;
 	}
 	
@@ -97,7 +98,7 @@ public class Sprint implements IJsonObject{
 		return this.createdBy;
 	}
 	
-	public Date getUpdated() {
+	public Timestamp getUpdated() {
 		return this.updatedOn;
 	}
 	
@@ -130,11 +131,11 @@ public class Sprint implements IJsonObject{
 		this.description = Description;
 	}
 	
-	public void setStartDate(Date StartDate) {
+	public void setStartDate(Timestamp StartDate) {
 		this.startDate = StartDate;
 	}
 	
-	public void setEndDate(Date EndDate) {
+	public void setEndDate(Timestamp EndDate) {
 		this.endDate = EndDate;
 	}
 	
@@ -150,7 +151,7 @@ public class Sprint implements IJsonObject{
 		this.createdBy = createdBY;
 	}
 	
-	public void setCreated(Date created){
+	public void setCreated(Timestamp created){
 		this.createdOn = created;
 	}
 	
@@ -158,7 +159,7 @@ public class Sprint implements IJsonObject{
 		this.updatedBy = updatedBY;
 	}
 	
-	public void setUpdated(Date updated){
+	public void setUpdated(Timestamp updated){
 		this.updatedOn = updated;
 	}
 	

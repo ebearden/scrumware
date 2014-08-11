@@ -1,6 +1,7 @@
 package com.scrumware.project;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 
 import org.json.JSONObject;
@@ -15,11 +16,11 @@ public class Project implements IJsonObject {
 	private String name;
 	private String description;
 	private int projectManagerId;
-	private Date startDate;
-	private Date endDate;
+	private Timestamp startDate;
+	private Timestamp endDate;
 	private int statusId;
-	private Date createdOn;
-	private Date updatedOn;
+	private Timestamp createdOn;
+	private Timestamp updatedOn;
 	private int createdBy;
 	private int updatedBy;
 	
@@ -48,8 +49,8 @@ public class Project implements IJsonObject {
 		name = json.getString(Constants.PROJECT_NAME);
 		description = json.getString(Constants.DESCRIPTION);
 		projectManagerId = json.getInt(Constants.PROJECT_MANAGER);
-		startDate = Date.valueOf(json.getString(Constants.PLANNED_START_DATE));
-		endDate = Date.valueOf(json.getString(Constants.PLANNED_END_DATE));
+		startDate = Timestamp.valueOf(json.getString(Constants.PLANNED_START_DATE));
+		endDate = Timestamp.valueOf(json.getString(Constants.PLANNED_END_DATE));
 		statusId = json.getInt(Constants.STATUS);
 		createdBy = json.getInt(Constants.CREATED_BY);
 		updatedBy = json.getInt(Constants.UPDATED_BY);
@@ -60,7 +61,7 @@ public class Project implements IJsonObject {
 		return this.projectId;
 	}
 	
-	public Date getCreated() {
+	public Timestamp getCreated() {
 		return this.createdOn;
 	}
 	
@@ -68,7 +69,7 @@ public class Project implements IJsonObject {
 		return this.createdBy;
 	}
 	
-	public Date getUpdated() {
+	public Timestamp getUpdated() {
 		return this.updatedOn;
 	}
 	
@@ -88,11 +89,11 @@ public class Project implements IJsonObject {
 		return this.projectManagerId;
 	}
 	
-	public Date getStartDate() {
+	public Timestamp getStartDate() {
 		return this.startDate;
 	}
 	
-	public Date getEndDate() {
+	public Timestamp getEndDate() {
 		return this.endDate;
 	}
 	
@@ -118,7 +119,7 @@ public class Project implements IJsonObject {
 		this.projectId = project;
 	}
 	
-	public void setCreated(Date create) {
+	public void setCreated(Timestamp create) {
 		this.createdOn = create;
 	}
 	
@@ -126,7 +127,7 @@ public class Project implements IJsonObject {
 		this.createdBy = createdby;
 	}
 	
-	public void setUpdated(Date update) {
+	public void setUpdated(Timestamp update) {
 		this.updatedOn = update;
 	}
 	
@@ -146,11 +147,11 @@ public class Project implements IJsonObject {
 		this.projectManagerId = projMgr;
 	}
 	
-	public void setStartDate(Date start) {
+	public void setStartDate(Timestamp start) {
 		this.startDate = start;
 	}
 	
-	public void setEndDate(Date end) {
+	public void setEndDate(Timestamp end) {
 		this.endDate = end;
 	}
 	

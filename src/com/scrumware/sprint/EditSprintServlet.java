@@ -2,6 +2,7 @@ package com.scrumware.sprint;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -84,8 +85,8 @@ public class EditSprintServlet extends HttpServlet {
 		sprint.setName(request.getParameter(Constants.SPRINT_NAME));
 		sprint.setDescription(request.getParameter(Constants.DESCRIPTION));
 		sprint.setProjectId(Integer.parseInt(projectId));
-		sprint.setStartDate(Date.valueOf(request.getParameter(Constants.START_DATE)));
-		sprint.setEndDate(Date.valueOf(request.getParameter(Constants.END_DATE)));
+		sprint.setStartDate(Timestamp.valueOf(request.getParameter(Constants.START_DATE)));
+		sprint.setEndDate(Timestamp.valueOf(request.getParameter(Constants.END_DATE)));
 		
 		HttpSession session = request.getSession(false);
 		Integer userId = null;

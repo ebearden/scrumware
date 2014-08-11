@@ -21,7 +21,7 @@
   <div id="main" class="container theme-showcase" role="main">
   <script>
   </script>
-    <form role="form" name="new_sprint" method="POST" action="new">
+    <form role="form" id="sprintForm" name="new_sprint" method="POST" action="new">
     	<table width="100%">
     		<tr>
     			<td style="padding-right:20px!important;">
@@ -93,7 +93,7 @@
   <script type="text/javascript" src="../js/formValidation.js"></script>
   <script>
   $(document).ready(function() {
-    projectFormValidation();
+    sprintFormValidation();
   });
   </script>
 <!-- Below Added for Datepicker Fields -->

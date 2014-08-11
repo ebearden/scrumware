@@ -2,6 +2,7 @@ package com.scrumware.project;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -88,8 +89,8 @@ public class EditProjectServlet extends HttpServlet {
 		
 		project.setName(request.getParameter(Constants.PROJECT_NAME));
 		project.setDescription(request.getParameter(Constants.DESCRIPTION));
-		project.setStartDate(Date.valueOf(request.getParameter(Constants.PLANNED_START_DATE)));
-		project.setEndDate(Date.valueOf(request.getParameter(Constants.PLANNED_END_DATE)));
+		project.setStartDate(Timestamp.valueOf(request.getParameter(Constants.PLANNED_START_DATE)));
+		project.setEndDate(Timestamp.valueOf(request.getParameter(Constants.PLANNED_END_DATE)));
 		
 		HttpSession session = request.getSession(false);
 		Integer userId = null;
