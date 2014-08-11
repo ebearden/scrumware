@@ -251,7 +251,7 @@ values ("Implement Sprint CRUD", "Need to be able to create, retrieve, update an
 insert into Task (task_name, description, status_id, work_notes, story_id, created_by, updated_by, assigned_to)
 values ("Implement Task Servlet", "Need to be able to create, retrieve, update and delete tasks using servlets.", 2, "Some notes", 1, 5, 5, 2);
 insert into Task (task_name, description, status_id, work_notes, story_id, created_by, updated_by, assigned_to)
-values ("Implement Project Servlet", "Need to be able to create, retrieve, update and delete projects using servlets.", 4, "Some notes", 1, 5, 5, 2);
+values ("Implement Project Servlet", "Need to be able to create, retrieve, update and delete projects using servlets.", 3, "Some notes", 1, 5, 5, 2);
 insert into Task (task_name, description, status_id, work_notes, story_id, created_by, updated_by, assigned_to)
 values ("Implement Story Servlet", "Need to be able to create, retrieve, update and delete stories using servlets.", 2, "Some notes", 1, 6, 6, 2);
 insert into Task (task_name, description, status_id, work_notes, story_id, created_by, updated_by, assigned_to)
@@ -265,9 +265,9 @@ values ("Test Use Cases", "We need to run through the use cases and make sure th
 insert into Task (task_name, description, status_id, work_notes, story_id, created_by, updated_by, assigned_to)
 values ("Implement Login", "Need secure login.", 3, "Some notes", 1, 3, 2, 6);
 insert into Task (task_name, description, status_id, work_notes, story_id, created_by, updated_by, assigned_to)
-values ("Implement Task Board", "Need a board with swimlanes for task handling.", 4, "Some notes", 1, 4, 5, 6);
+values ("Implement Task Board", "Need a board with swimlanes for task handling.", 3, "Some notes", 1, 4, 5, 6);
 insert into Task (task_name, description, status_id, work_notes, story_id, created_by, updated_by, assigned_to)
-values ("Double Check", "Double check stuff", 4, "Some notes", 1, 5, 6, 3);
+values ("Double Check", "Double check stuff", 3, "Some notes", 1, 5, 6, 3);
 insert into Task (task_name, description, status_id, work_notes, story_id, created_by, updated_by, assigned_to)
 values ("Task5", "Task Description", 1, "Some work was done", 1, 5, 5, 6);
 insert into Task (task_name, description, status_id, work_notes, story_id, created_by, updated_by, assigned_to)
