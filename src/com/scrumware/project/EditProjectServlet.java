@@ -47,7 +47,7 @@ public class EditProjectServlet extends HttpServlet {
 		
 		String projectId = request.getParameter(Constants.PROJECT_ID);
 		Project project = ProjectDB.getProject(Integer.parseInt(projectId));
-		ArrayList<User> userList = UserDB.getUsers();
+		ArrayList<User> userList = UserDB.getUsersByRole(2);
 		
 
 		request.setAttribute(Constants.STATUS, Status.values());
